@@ -1,8 +1,34 @@
 const sequelize = require('../../sequelizeconnection')
-const { DataTypes } = require('sequelize')
-const bcrypt = require('bcrypt')
+const { Sequelize, DataTypes } = require('sequelize')
 
 
-const Post = sequelize.define('Post', {})
+const Post = sequelize.define('Post', {
+    id: {
+        type: DataTypes.INTERGER,
+        allowNull: false,
+        primaryKey: true,
+        autoIncrement: true,
+    },
+    userId: {
+        type: DataTypes.INTERGER,
+        allowNull: false,
+        references: {
+            model: 'users',
+            key: 'id',
+        },
+    },
+    text: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+    },
+    createdAt: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: Sequelize.NOW,
+    },
+}, {
+    tableName: 'posts',
+    timestamps: false,
+})
 
 module.exports = Post
