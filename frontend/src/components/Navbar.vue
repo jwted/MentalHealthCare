@@ -8,19 +8,19 @@
         <router-link to="/">Home</router-link>
       </li>
       <li>
-        <router-link to="/about">Callendar</router-link>
+        <router-link to="/">Callendar</router-link>
       </li>
       <li>
-        <router-link to="/about">Objectives</router-link>
+        <router-link to="/">Objectives</router-link>
       </li>
       <li>
-        <router-link to="/about">Community</router-link>
+        <router-link to="/">Community</router-link>
       </li>
       <li>
-        <router-link to="/about">Diary</router-link>
+        <router-link to="/">Diary</router-link>
       </li>
       <li>
-        <router-link to="/about">Profile</router-link>
+        <router-link to="/">Profile</router-link>
       </li>
     </ul>
   </nav>
