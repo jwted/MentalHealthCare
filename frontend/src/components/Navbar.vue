@@ -31,7 +31,7 @@
     </div>
     <ul>
       <li>
-        <router-link to="/"><Button :text="'Login'"></Button></router-link>
+        <router-link :to='{name:"login"}'><Button :text="'Login'"></Button></router-link>
       </li>
       <li>
         <router-link to="/"><Button :text="'Register'"></Button></router-link>

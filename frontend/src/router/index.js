@@ -1,6 +1,7 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import LandingPage from '@/views/LandingPage.vue'
+import LoginView from '@/views/LoginView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,12 +16,12 @@ const router = createRouter({
       name: 'home',
       component: HomeView
     },
-    // {
-    //   path: '/login',
-    //   name: 'login',
-    //   component: loginView,
-    //   meta: { requiresAuth: true},
-    // },
+    {
+      path: '/login',
+      name: 'login',
+      component: LoginView,
+      //meta: { requiresAuth: true},
+    },
     {
       path: '/users',
       name: '/users/{userId}',
