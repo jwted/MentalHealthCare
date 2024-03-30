@@ -11,7 +11,7 @@
           Whether you're looking to enhance your skills, build confidence, or
           achieve your goals, we're here to support you every step of the way.
         </p>
-        <button class="button">Start</button>
+        <Button :text="'Start'"></Button>
       </div>
       <div>
         <img src="../assets/stairs.svg" alt="Stairs Image" class="image" />
@@ -165,7 +165,7 @@
       </div>
       <div class="noImage">
         <h1 class="title">Start your road to hapiness today</h1>
-        <button class="button">Start</button>
+        <Button :text="'Start'"></Button>
       </div>
     </div>
   </main>
@@ -175,9 +175,12 @@
 <script>
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
+import Button from "@/components/Button.vue";
 export default {
   components: {
-    Navbar,Footer
+    Navbar,
+    Footer,
+    Button
   },
 };
 </script>
@@ -207,23 +210,6 @@ export default {
   width: 70%;
 }
 
-.container-1 button {
-  background-color: #addfad;
-  color: #2e4242;
-  padding: 0.5rem 1rem;
-  border: none;
-  border-radius: 12px;
-  border: 2px solid #2e4242;
-  font-size: 16pt;
-  cursor: pointer;
-  height: 50px;
-  width: 100px;
-}
-
-.container-1 button:hover {
-  background-color: #2e4242;
-  color: #addfad;
-}
 
 .container-2 {
   display: flex;
