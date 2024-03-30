@@ -1,5 +1,5 @@
 <template>
-  <nav>
+  <nav v-if="isLogged">
     <div>
       <img src="@/assets/logo.svg" alt="">
     </div>
@@ -24,11 +24,28 @@
       </li>
     </ul>
   </nav>
+
+  <nav v-else>
+    <div>
+      <img src="@/assets/logo.svg" alt="">
+    </div>
+    <ul>
+      <li>
+        <router-link to="/"><Button :text="'Login'"></Button></router-link>
+      </li>
+      <li>
+        <router-link to="/"><Button :text="'Register'"></Button></router-link>
+      </li>
+    </ul>
+  </nav>
 </template>
 
 <script>
+import Button from './Button.vue';
 export default {
-
+  components: {
+    Button,
+  },
 }
 </script>
 
