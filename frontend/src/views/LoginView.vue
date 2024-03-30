@@ -1,38 +1,88 @@
 <template>
-  <v-form>
-    <v-card>
-      <v-card-title>Login</v-card-title>
-      <v-card-text>
-        <v-text-field
-          label="Username"
-          outlined
-          v-model="username"
-        ></v-text-field>
-        <v-text-field
-          label="Password"
-          outlined
-          v-model="password"
-          type="password"
-        ></v-text-field>
-      </v-card-text>
-      <v-card-actions>
-        <v-btn color="primary">Login</v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-form>
+  <div class="container">
+    <form>
+      <h2>Login</h2>
+      <div>
+        <label for="username">Username:</label>
+        <input type="text" id="username" v-model="username" />
+      </div>
+      <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" v-model="password" />
+      </div>
+      <div>
+        <Button :text="'Login'" class="button"></Button>
+      </div>
+      <div>
+        <p>
+          Don't have an account? <router-link to="/register">Register</router-link>
+        </p>
+      </div>
+    </form>
+  </div>
 </template>
 
 <script>
+import Button from "@/components/Button.vue";
 export default {
-    data() {
-        return {
-        username: "",
-        password: "",
-        };
-    },
-}
+  data() {
+    return {
+      username: "",
+      password: "",
+    };
+  },
+
+  components: {
+    Button
+  },
+};
 </script>
 
 <style>
+.container,
+form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #f6fff8;
+}
 
+.container {
+  height: 100vh;
+}
+form {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+  border-radius: 12px ;
+  border: 2px solid #2e4242;
+}
+
+h2 {
+  color: #2e4242;
+  font-size: 28pt;
+  margin-bottom: 2rem;
+}
+
+label {
+  font-size: 16pt;
+  margin-bottom: 0.5rem;
+}
+
+input {
+  width: 100%;
+  padding: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+div {
+  width: 100%;
+}
+
+p{
+  margin-top: 1rem;
+  text-decoration: none;
+}
 </style>
