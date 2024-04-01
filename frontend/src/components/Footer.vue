@@ -18,7 +18,7 @@
     <hr />
   </v-container>
 </template>
-<style>
+<style scoped>
 .col {
   background-color: #6b9080;
 }

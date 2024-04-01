@@ -38,7 +38,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .container,
 form {
   display: flex;
@@ -52,6 +52,7 @@ form {
 .container {
   height: 100vh;
 }
+
 form {
   width: 100%;
   max-width: 400px;

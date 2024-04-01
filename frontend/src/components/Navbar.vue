@@ -1,5 +1,5 @@
 <template>
-  <nav v-if="isLogged">
+  <nav>
     <div>
       <img src="@/assets/logo.svg" alt="">
     </div>
@@ -23,21 +23,21 @@
         <router-link to="/">Profile</router-link>
       </li>
     </ul>
-  </nav>
-
-  <nav v-else>
+  </nav> 
+  
+  <!-- <nav>
     <div>
       <img src="@/assets/logo.svg" alt="">
     </div>
     <ul>
       <li>
-        <router-link :to='{name:"login"}'><Button :text="'Login'"></Button></router-link>
+        <router-link to="/login"><Button :text="'Login'"></Button></router-link>
       </li>
       <li>
-        <router-link to="/"><Button :text="'Register'"></Button></router-link>
+        <router-link to="/login"><Button :text="'Register'"></Button></router-link>
       </li>
     </ul>
-  </nav>
+  </nav> -->
 </template>
 
 <script>
@@ -49,35 +49,21 @@ export default {
 }
 </script>
 
-<style>
-nav{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem 2rem;
-  background-color: #F6FFF8;
-  height: 10vh;
-}
+<style scoped>
+  nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: #f6fff8;
+  }
 
-nav img{
-  width: 150px;
-  height: 150px;
-}
+  ul {
+    display: flex;
+    list-style: none;
+  }
 
-nav ul{
-  display: flex;
-  list-style: none;
-}
-
-nav ul li{
-  margin-right: 1rem;
-  align-self: center;
-  font-family:Dosis;
-  font-size: larger;
-}
-
-nav ul li a{
-  text-decoration: none;
-  color: #333;
-}
+  li {
+    margin-left: 1rem;
+  }
 </style>

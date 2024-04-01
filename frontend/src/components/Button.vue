@@ -18,7 +18,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 button {
  background-color: #addfad;
  color: #2e4242;
@@ -28,7 +28,6 @@ button {
  font-size: 16pt;
  cursor: pointer;
  height: 50px;
- width: 100%;
  transition: background-color 0.5s ease-in-out, color 0.5s ease-in-out;
 }
 
