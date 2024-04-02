@@ -1,5 +1,5 @@
 <template>
-  <nav>
+  <!-- <nav>
     <div>
       <img src="@/assets/logo.svg" alt="">
     </div>
@@ -23,9 +23,9 @@
         <router-link to="/">Profile</router-link>
       </li>
     </ul>
-  </nav> 
+  </nav>  -->
   
-  <!-- <nav>
+  <nav>
     <div>
       <img src="@/assets/logo.svg" alt="">
     </div>
@@ -37,7 +37,7 @@
         <router-link to="/login"><Button :text="'Register'"></Button></router-link>
       </li>
     </ul>
-  </nav> -->
+  </nav> 
 </template>
 
 <script>
@@ -65,5 +65,10 @@ export default {
 
   li {
     margin-left: 1rem;
+  }
+
+  a {
+    text-decoration: none;
+    color: #2E4242;
   }
 </style>

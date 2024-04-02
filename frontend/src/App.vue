@@ -13,7 +13,12 @@
 
 h1{
   color:#2E4242;
-  font-size: 32pt;
+  font-size: 30pt;;
+}
+
+h2{
+  color:#2E4242;
+  font-size: 24pt;
 }
 
 p{
