@@ -1,24 +1,24 @@
 <template>
   <div class="container">
     <form>
-      <h2>Login</h2>
-      <div>
-        <label for="username">Username:</label>
-        <input type="text" id="username" v-model="username" />
-      </div>
-      <div>
-        <label for="password">Password:</label>
-        <input type="password" id="password" v-model="password" />
-      </div>
-      <div>
-        <Button :text="'Login'" class="button"></Button>
-      </div>
-      <div>
-        <p>
-          Don't have an account? <router-link to="/register">Register</router-link>
-        </p>
-      </div>
-    </form>
+    <h2>Login</h2>
+    <div>
+      <label for="username">Username:</label>
+      <input type="text" id="username" v-model="username" />
+    </div>
+    <div>
+      <label for="password">Password:</label>
+      <input type="password" id="password" v-model="password" />
+    </div>
+    <div>
+      <Button :text="'Login'" class="button"></Button>
+    </div>
+    <div>
+      <p>
+        Don't have an account? <router-link to="/register">Register</router-link>
+      </p>
+    </div>
+  </form>
   </div>
 </template>
 
@@ -28,6 +28,7 @@ export default {
   data() {
     return {
       username: "",
+      email: "",
       password: "",
     };
   },
@@ -41,49 +42,49 @@ export default {
 <style scoped>
 .container,
 form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  padding: 1rem 2rem;
-  background-color: #f6fff8;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+padding: 1rem 2rem;
+background-color: #f6fff8;
 }
 
 .container {
-  height: 100vh;
+height: 100vh;
 }
 
 form {
-  width: 100%;
-  max-width: 400px;
-  margin: 0 auto;
-  border-radius: 12px ;
-  border: 2px solid #2e4242;
-}
-
-h2 {
-  color: #2e4242;
-  font-size: 28pt;
-  margin-bottom: 2rem;
+width: 100%;
+max-width: 400px;
+margin: 0 auto;
+border-radius: 12px ;
+border: 2px solid #2e4242;
 }
 
 label {
-  font-size: 16pt;
-  margin-bottom: 0.5rem;
+font-size: 16pt;
+margin-bottom: 0.5rem;
 }
 
 input {
-  width: 100%;
-  padding: 0.5rem;
-  margin-bottom: 1rem;
+width: 100%;
+padding: 0.5rem;
+margin-bottom: 1rem;
+border-radius: 12px;
+border: 1px solid #2e4242;
 }
 
 div {
-  width: 100%;
+width: 100%;
 }
 
 p{
-  margin-top: 1rem;
-  text-decoration: none;
+margin-top: 1rem;
+text-decoration: none;
+}
+
+Button{
+width:100%;
 }
 </style>

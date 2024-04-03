@@ -83,31 +83,34 @@
         </v-col>
       </v-row>
       <v-row class="col-10 d-flex justify-space-between align-center">
-        <v-col cols="6" class="text-left col d-flex align-center mt-4">
+        <v-col cols="5" class="text-left col d-flex align-center mt-4">
           <img src="../assets/target.svg" alt="Activities Schedule" class="pa-1"/>
           <p>Define Objectives</p>
         </v-col>
-        <v-col cols="6" class="text-left col d-flex align-center mt-4">
+        <v-col> </v-col>
+        <v-col cols="5" class="text-left col d-flex align-center mt-4">
           <img src="../assets/schedule.svg" alt="Activities Schedule" class="pa-1"/>
           <p>Activities Schedule</p>
         </v-col>
       </v-row>
       <v-row class="col-10 d-flex justify-space-between align-center mt-4">
-        <v-col cols="6" class="text-left col d-flex align-center mt-4">
+        <v-col cols="5" class="text-left col d-flex align-center mt-4">
           <img src="../assets/book.svg" alt="Activities Schedule" class="pa-1" />
           <p>Write daily feelings</p>
         </v-col>
-        <v-col cols="6" class="text-left col d-flex align-center mt-4">
+        <v-col> </v-col>
+        <v-col cols="5" class="text-left col d-flex align-center mt-4">
           <img src="../assets/activities.svg" alt="Activities Schedule" class="pa-1"/>
           <p>Do activities</p>
         </v-col>
       </v-row>
-      <v-row class="col-10 d-flex justify-space-between align-center mt-4">
-        <v-col cols="6" class="text-left col d-flex align-center mt-4">
+      <v-row class="d-flex justify-space-between align-center mt-4">
+        <v-col cols="5" class="text-left col d-flex align-center mt-4">
           <img src="../assets/community.svg" alt="Activities Schedule" class="pa-1"/>
           <p>Community Section</p>
         </v-col>
-        <v-col cols="6" class="text-left col d-flex align-center mt-4">
+        <v-col> </v-col>
+        <v-col cols="5" class="text-left col d-flex align-center mt-4">
           <img src="../assets/badges.svg" alt="Activities Schedule" class="pa-1"/>
           <p>Win badges</p>
         </v-col>
