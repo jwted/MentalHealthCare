@@ -1,5 +1,5 @@
 <template>
-  <v-container class="d-flex flex-column container" fluid>
+  <v-container class="d-flex flex-column" fluid>
     <v-row class="row">
       <v-col class="col">
         <img src="../assets/logo-white.svg" alt="" />

@@ -4,6 +4,7 @@ import LandingPage from '@/views/LandingPage.vue'
 import LoginView from '@/views/LoginView.vue'
 import RegisterView from '@/views/RegisterView.vue'
 import CallendarView from '@/views/CallendarView.vue'
+import ObjectivesView from '@/views/ObjectivesView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -127,7 +128,7 @@ const router = createRouter({
     {
       path: '/objectives',
       name: '',
-      component: '',
+      component: ObjectivesView,
       meta: { requiresAuth: true},
     },
     {
