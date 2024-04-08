@@ -129,7 +129,7 @@ const router = createRouter({
       path: '/objectives',
       name: '',
       component: ObjectivesView,
-      meta: { requiresAuth: true},
+      //meta: { requiresAuth: true},
     },
     {
       path: '/objectives/{objectiveId}',

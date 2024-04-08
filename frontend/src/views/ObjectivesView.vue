@@ -19,7 +19,6 @@
         <v-select
           label="Filter by"
           :items="['Date', 'Name', 'Category']"
-          v-model="focus"
         ></v-select>
       </v-col>
     </v-row>
