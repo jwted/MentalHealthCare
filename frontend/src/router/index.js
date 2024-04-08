@@ -5,6 +5,7 @@ import LoginView from '@/views/LoginView.vue'
 import RegisterView from '@/views/RegisterView.vue'
 import CallendarView from '@/views/CallendarView.vue'
 import ObjectivesView from '@/views/ObjectivesView.vue'
+import ProfileView from '@/views/ProfileView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -156,10 +157,10 @@ const router = createRouter({
       //meta: { requiresAuth: true},
     },
     {
-      path: '',
-      name: '',
-      component: '',
-      meta: { requiresAuth: true},
+      path: '/profile',
+      name: 'profile',
+      component: ProfileView,
+      //meta: { requiresAuth: true},
     },
   ]
 })
