@@ -25,7 +25,7 @@ export const userStore = defineStore("user", {
       this.users.push(data);
     },
 
-    async login() {
+    async login(user) {
       const response = await fetch(`${url}/login`, {
         method: "POST",
         body: JSON.stringify(user),

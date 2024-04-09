@@ -14,7 +14,7 @@
         <input type="password" id="password" v-model="password" />
       </div>
       <div>
-        <Button :text="'Login'" class="button"></Button>
+        <Button :text="'Login'" class="button" @click="login"></Button>
       </div>
       <div>
         <p>
@@ -28,17 +28,29 @@
 
 <script>
 import Button from "@/components/Button.vue";
+import { userStore } from "@/store/userStore";
 export default {
+  components: {
+    Button,
+  },
+
   data() {
     return {
       username: "",
       email: "",
       password: "",
+      userStore: userStore(),
     };
   },
 
-  components: {
-    Button,
+  methods: {
+    login() {
+      try {      
+        this.userStore.login({name:this.username, password: this.password});
+      } catch (error) {
+        throw new Error(error);
+      }
+    }
   },
 };
 </script>

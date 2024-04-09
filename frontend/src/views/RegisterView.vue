@@ -31,13 +31,25 @@
 
 <script>
 import Button from "@/components/Button.vue";
+import { userStore } from "@/store/userStore";
 export default {
   data() {
     return {
       username: "",
       email: "",
       password: "",
+      userStore: userStore(),
     };
+  },
+
+  methods: {
+    register() {
+      try {
+        this.userStore.register({name:this.username, email: this.email, password: this.password});
+      } catch (error) {
+        throw new Error(error);
+      }
+    }
   },
 
   components: {

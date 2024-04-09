@@ -241,4 +241,8 @@ export default {
 .col,.col img,.col p{
   background-color: #ADDFAD;
 }
+
+Button{
+  width:20%
+}
 </style>
