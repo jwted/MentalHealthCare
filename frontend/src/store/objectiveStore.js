@@ -1,7 +1,7 @@
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 
-const url = "https//innerpeace.com";
+const url = "https://innerpeace.com";
 export const objectiveStore = defineStore("objective", {
   state: () => ({ objectives: [], objective: {}}),
   getters: {
@@ -57,6 +57,4 @@ export const objectiveStore = defineStore("objective", {
       this.objective = data;
     }
   },
-
-  async 
 });
