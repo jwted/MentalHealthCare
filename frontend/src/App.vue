@@ -24,4 +24,13 @@ p {
   color: #2e4242;
   font-size: 16pt;
 }
+
+.container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: #2e4242 solid 2px;
+  border-radius: 12px;
+  height: 90vh;
+}
 </style>

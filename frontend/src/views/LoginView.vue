@@ -58,16 +58,8 @@ export default {
 <style>
 .container,
 form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
   padding: 1rem 2rem;
-  background-color: #f6fff8;
-}
-
-.container {
-  height: 100vh;
+  border:none
 }
 
 form {
@@ -87,8 +79,6 @@ input {
   width: 100%;
   padding: 0.5rem;
   margin-bottom: 1rem;
-  border-radius: 12px;
-  border: 1px solid #2e4242;
 }
 
 div {
