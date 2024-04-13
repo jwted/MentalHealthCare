@@ -1,22 +1,4 @@
 <template>
-  <!-- <v-container class="d-flex flex-column" fluid>
-    <v-row class="row" >
-      <v-col class="col">
-        <img src="../assets/logo-white.svg" alt="White" />
-      </v-col>
-    </v-row>
-    <v-row class="d-flex justify-space-between">
-      <v-col class="col">
-        <p>Copyright &copy; 2024</p>
-      </v-col>
-      <v-col class="col d-flex flex-row m-4">
-        <p>Privacy Policy</p>
-        <p>Terms of Service</p>
-        <p>About us</p>
-      </v-col>
-    </v-row>
-    <hr />
-  </v-container> -->
   <v-container class="d-flex flex-column align-center col" fluid>
     <v-row cols="12" class="d-flex flex-start">
       <v-col class="col">
