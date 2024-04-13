@@ -9,7 +9,7 @@
     </v-container>
     <v-container class="d-flex align-center">
       <v-col cols="8">
-        
+       
       </v-col>
       <v-col cols="4">
         <Button text="View Requests" icon="mdi-eye" color="secondary"/>
@@ -27,7 +27,7 @@ export default {
   components: {
     Navbar,
     Footer,
-    Button
-  }
+    Button,
+  },
 }
 </script>
