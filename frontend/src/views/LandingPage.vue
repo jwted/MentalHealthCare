@@ -143,7 +143,7 @@
           </v-card>
         </v-col>
         <v-col cols="4" md="4">
-          <v-card class="mx-auto card" width="400">
+          <v-card class="mx-auto card bg-black" width="400">
             <div class="d-flex align-center justify-space-between">
               <img src="../assets/depression.svg" alt="" />
               <v-card-title
@@ -244,5 +244,11 @@ export default {
 
 Button{
   width:20%
+}
+
+.card{
+  background-color: #ADDFAD;
+  color: #f6fff8;
+  border: #2E4242 solid 2px;
 }
 </style>
