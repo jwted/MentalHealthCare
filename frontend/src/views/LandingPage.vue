@@ -26,52 +26,13 @@
       </v-row>
       <v-row>
         <v-col cols="4" md="4" class="pa-3">
-          <v-card class="mx-auto card" width="400" fill-height>
-            <v-card-title class="d-flex align-center">
-              <v-icon left>mdi-book-open-page-variant</v-icon>
-              <span>Depression Course</span>
-            </v-card-title>
-
-            <v-card-text class="text-justify">
-              Welcome to a journey of self-improvement. Our platform is designed
-              to guide you through the process of personal growth, step by step.
-              Whether you're looking to enhance your skills, build confidence,
-              or achieve your goals, we're here to support you every step of the
-              way.
-            </v-card-text>
-          </v-card>
+          <CourseContainer />
         </v-col>
         <v-col cols="4" md="4" class="pa-3">
-          <v-card class="mx-auto card" width="400" fill-height>
-            <v-card-title class="d-flex align-center">
-              <v-icon left>mdi-book-open-page-variant</v-icon>
-              <span>Depression Course</span>
-            </v-card-title>
-
-            <v-card-text class="text-justify">
-              Welcome to a journey of self-improvement. Our platform is designed
-              to guide you through the process of personal growth, step by step.
-              Whether you're looking to enhance your skills, build confidence,
-              or achieve your goals, we're here to support you every step of the
-              way.
-            </v-card-text>
-          </v-card>
+          <CourseContainer />
         </v-col>
         <v-col cols="4" md="4" class="pa-3">
-          <v-card class="mx-auto card" width="400" fill-height>
-            <v-card-title class="d-flex align-center">
-              <v-icon left>mdi-book-open-page-variant</v-icon>
-              <span>Depression Course</span>
-            </v-card-title>
-
-            <v-card-text class="text-justify">
-              Welcome to a journey of self-improvement. Our platform is designed
-              to guide you through the process of personal growth, step by step.
-              Whether you're looking to enhance your skills, build confidence,
-              or achieve your goals, we're here to support you every step of the
-              way.
-            </v-card-text>
-          </v-card>
+          <CourseContainer />
         </v-col>
       </v-row>
     </v-container>
@@ -84,34 +45,58 @@
       </v-row>
       <v-row class="col-10 d-flex justify-space-between align-center">
         <v-col cols="5" class="text-left col d-flex align-center mt-4">
-          <img src="../assets/target.svg" alt="Activities Schedule" class="pa-1"/>
+          <img
+            src="../assets/target.svg"
+            alt="Activities Schedule"
+            class="pa-1"
+          />
           <p>Define Objectives</p>
         </v-col>
         <v-col> </v-col>
         <v-col cols="5" class="text-left col d-flex align-center mt-4">
-          <img src="../assets/schedule.svg" alt="Activities Schedule" class="pa-1"/>
+          <img
+            src="../assets/schedule.svg"
+            alt="Activities Schedule"
+            class="pa-1"
+          />
           <p>Activities Schedule</p>
         </v-col>
       </v-row>
       <v-row class="col-10 d-flex justify-space-between align-center mt-4">
         <v-col cols="5" class="text-left col d-flex align-center mt-4">
-          <img src="../assets/book.svg" alt="Activities Schedule" class="pa-1" />
+          <img
+            src="../assets/book.svg"
+            alt="Activities Schedule"
+            class="pa-1"
+          />
           <p>Write daily feelings</p>
         </v-col>
         <v-col> </v-col>
         <v-col cols="5" class="text-left col d-flex align-center mt-4">
-          <img src="../assets/activities.svg" alt="Activities Schedule" class="pa-1"/>
+          <img
+            src="../assets/activities.svg"
+            alt="Activities Schedule"
+            class="pa-1"
+          />
           <p>Do activities</p>
         </v-col>
       </v-row>
       <v-row class="d-flex justify-space-between align-center mt-4">
         <v-col cols="5" class="text-left col d-flex align-center mt-4">
-          <img src="../assets/community.svg" alt="Activities Schedule" class="pa-1"/>
+          <img
+            src="../assets/community.svg"
+            alt="Activities Schedule"
+            class="pa-1"
+          />
           <p>Community Section</p>
         </v-col>
         <v-col> </v-col>
         <v-col cols="5" class="text-left col d-flex align-center mt-4">
-          <img src="../assets/badges.svg" alt="Activities Schedule" class="pa-1"/>
+          <img
+            src="../assets/badges.svg"
+            alt="Activities Schedule"
+            class="pa-1"
+          />
           <p>Win badges</p>
         </v-col>
       </v-row>
@@ -125,78 +110,18 @@
       </v-row>
       <v-row class="d-flex justify-space-around align-center mt-4">
         <v-col cols="4" md="4">
-          <v-card class="mx-auto card" width="400">
-            <div class="d-flex align-center justify-space-between">
-              <img src="../assets/depression.svg" alt="" />
-              <v-card-title
-                class="text-center flex-grow-1 d-flex justify-center align-center"
-                >Depression</v-card-title
-              >
-            </div>
-
-            <v-card-text class="text-justify">
-              Welcome to a journey of self-improvement. Our platform is designed
-              to guide you through the process of personal growth, step by step.
-              Whether you're looking to enhance your skills, build confidence, or
-              achieve your goals, we're here to support you every step of the way.
-            </v-card-text>
-          </v-card>
+          <CourseContainer />
         </v-col>
         <v-col cols="4" md="4">
-          <v-card class="mx-auto card bg-black" width="400">
-            <div class="d-flex align-center justify-space-between">
-              <img src="../assets/depression.svg" alt="" />
-              <v-card-title
-                class="text-center flex-grow-1 d-flex justify-center align-center"
-                >Depression</v-card-title
-              >
-            </div>
-
-            <v-card-text class="text-justify">
-              Welcome to a journey of self-improvement. Our platform is designed
-              to guide you through the process of personal growth, step by step.
-              Whether you're looking to enhance your skills, build confidence, or
-              achieve your goals, we're here to support you every step of the way.
-            </v-card-text>
-          </v-card>
+            <CourseContainer />
         </v-col>
       </v-row>
       <v-row class="d-flex justify-space-around align-center mt-4">
         <v-col cols="4" md="4" class="mt-4">
-          <v-card class="mx-auto card" width="400">
-            <div class="d-flex align-center justify-space-between">
-              <img src="../assets/depression.svg" alt="" />
-              <v-card-title
-                class="text-center flex-grow-1 d-flex justify-center align-center"
-                >Depression</v-card-title
-              >
-            </div>
-
-            <v-card-text class="text-justify">
-              Welcome to a journey of self-improvement. Our platform is designed
-              to guide you through the process of personal growth, step by step.
-              Whether you're looking to enhance your skills, build confidence, or
-              achieve your goals, we're here to support you every step of the way.
-            </v-card-text>
-          </v-card>
+          <CourseContainer />
         </v-col>
         <v-col cols="4" md="4">
-          <v-card class="mx-auto card" width="400">
-            <div class="d-flex align-center justify-space-between">
-              <img src="../assets/depression.svg" alt="" />
-              <v-card-title
-                class="text-center flex-grow-1 d-flex justify-center align-center"
-                >Depression</v-card-title
-              >
-            </div>
-
-            <v-card-text class="text-justify">
-              Welcome to a journey of self-improvement. Our platform is designed
-              to guide you through the process of personal growth, step by step.
-              Whether you're looking to enhance your skills, build confidence, or
-              achieve your goals, we're here to support you every step of the way.
-            </v-card-text>
-          </v-card>
+          <CourseContainer />
         </v-col>
       </v-row>
     </v-container>
@@ -224,31 +149,35 @@
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
 import Button from "@/components/Button.vue";
+import CourseContainer from "@/components/CourseContainer.vue";
 export default {
   components: {
     Navbar,
     Footer,
     Button,
+    CourseContainer,
   },
 };
 </script>
 <style scoped>
-.col{
-  border:2px solid #2E4242;
+.col {
+  border: 2px solid #2e4242;
   border-radius: 12px;
 }
 
-.col,.col img,.col p{
-  background-color: #ADDFAD;
+.col,
+.col img,
+.col p {
+  background-color: #addfad;
 }
 
-Button{
-  width:20%
+Button {
+  width: 20%;
 }
 
-.card{
-  background-color: #ADDFAD;
+.card {
+  background-color: #addfad;
   color: #f6fff8;
-  border: #2E4242 solid 2px;
+  border: #2e4242 solid 2px;
 }
 </style>

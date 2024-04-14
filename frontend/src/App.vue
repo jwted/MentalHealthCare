@@ -31,6 +31,5 @@ p {
   align-items: center;
   border: #2e4242 solid 2px;
   border-radius: 12px;
-  height: 90vh;
 }
 </style>
