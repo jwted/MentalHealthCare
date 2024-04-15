@@ -11,97 +11,30 @@
     </v-row>
   </v-container>
   <v-container>
-    <v-row class="fill-height">
+    <v-row class="fill-height cont">
       <v-col>
         <Callendar></Callendar>
       </v-col>
     </v-row>
   </v-container>
-  <v-container class="container">
-    <v-row>
+
+  <v-container class="d-flex flex-column cont">
+    <v-row class="d-flex justify-space-between align-center">
       <v-col>
         <h2>Upcoming Activities</h2>
       </v-col>
       <v-col>
-        <v-select
-          label="Filter by"
-          :items="['Date', 'Name', 'Category']"
-          v-model="focus"
-        ></v-select>
+        <select>
+          <option disabled value="">Please select one</option>
+          <option>A</option>
+          <option>B</option>
+          <option>C</option>
+        </select>
       </v-col>
     </v-row>
-    <v-row class="d-flex flex-column">
+    <v-row>
       <v-col>
-        <v-card class="rounded-12 d-flex flex-column justify-space-between">
-          <v-card-title>
-            <v-row>
-              <v-col>
-                <h3>Meeting</h3>
-              </v-col>
-              <v-col>
-                Today
-              </v-col>
-            </v-row>
-          </v-card-title>
-          <v-card-text>
-            <v-row>
-              <v-col>
-                <p>Fitness</p>
-              </v-col>
-              <v-col>
-                <p>10:00 - 11:00</p>
-              </v-col>
-            </v-row>
-          </v-card-text>
-        </v-card>
-      </v-col>
-      <v-col>
-        <v-card class="rounded-12 d-flex flex-column justify-space-between">
-          <v-card-title>
-            <v-row>
-              <v-col>
-                <h3>Meeting</h3>
-              </v-col>
-              <v-col>
-                Today
-              </v-col>
-            </v-row>
-          </v-card-title>
-          <v-card-text>
-            <v-row>
-              <v-col>
-                <p>Fitness</p>
-              </v-col>
-              <v-col>
-                <p>10:00 - 11:00</p>
-              </v-col>
-            </v-row>
-          </v-card-text>
-        </v-card>
-      </v-col>
-      <v-col>
-        <v-card class="rounded-12 d-flex flex-column justify-space-between">
-          <v-card-title>
-            <v-row>
-              <v-col>
-                <h3>Meeting</h3>
-              </v-col>
-              <v-col>
-                Today
-              </v-col>
-            </v-row>
-          </v-card-title>
-          <v-card-text>
-            <v-row>
-              <v-col>
-                <p>Fitness</p>
-              </v-col>
-              <v-col>
-                <p>10:00 - 11:00</p>
-              </v-col>
-            </v-row>
-          </v-card-text>
-        </v-card>
+        <UpcomingContainer></UpcomingContainer>
       </v-col>
     </v-row>
   </v-container>
@@ -112,14 +45,16 @@ import Navbar from "@/components/Navbar.vue";
 import Button from "@/components/Button.vue";
 import Footer from "@/components/Footer.vue";
 import Callendar from "@/components/Callendar.vue";
+import UpcomingContainer from "@/components/UpcomingContainer.vue";
 export default {
   components: {
     Button,
     Navbar,
     Footer,
     Callendar,
+    UpcomingContainer,
   },
-}
+};
 </script>
 
 <style></style>
