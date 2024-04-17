@@ -52,7 +52,7 @@
           cols="12"
           sm="6"
           md="4"
-          class="text-left d-flex align-center mt-4"
+          class="text-left d-flex align-center mt-4 col-1"
         >
           <img
             src="../assets/target.svg"
@@ -65,7 +65,7 @@
           cols="12"
           sm="6"
           md="4"
-          class="text-left d-flex align-center mt-4"
+          class="text-left d-flex align-center mt-4 col-1"
         >
           <img
             src="../assets/schedule.svg"
@@ -80,7 +80,7 @@
           cols="12"
           sm="6"
           md="4"
-          class="text-left d-flex align-center mt-4"
+          class="text-left d-flex align-center mt-4 col-1"
         >
           <img
             src="../assets/book.svg"
@@ -93,7 +93,7 @@
           cols="12"
           sm="6"
           md="4"
-          class="text-left d-flex align-center mt-4"
+          class="text-left d-flex align-center mt-4 col-1"
         >
           <img
             src="../assets/activities.svg"
@@ -108,7 +108,7 @@
           cols="12"
           sm="6"
           md="4"
-          class="text-left d-flex align-center mt-4"
+          class="text-left d-flex align-center mt-4 col-1"
         >
           <img
             src="../assets/community.svg"
@@ -121,7 +121,7 @@
           cols="12"
           sm="6"
           md="4"
-          class="text-left d-flex align-center mt-4"
+          class="text-left d-flex align-center mt-4 col-1"
         >
           <img
             src="../assets/badges.svg"

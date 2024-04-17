@@ -6,7 +6,7 @@
         <h2>Callendar</h2>
       </v-col>
       <v-col cols="5" class="d-flex justify-end">
-        <Button :text="'Back'" @click="router.go(-1)"></Button>
+        <Button :text="'Back'" @click="router.go(-1)" class="w-25"></Button>
       </v-col>
     </v-row>
   </v-container>
@@ -24,12 +24,7 @@
         <h2>Upcoming Activities</h2>
       </v-col>
       <v-col>
-        <select>
-          <option disabled value="">Please select one</option>
-          <option>A</option>
-          <option>B</option>
-          <option>C</option>
-        </select>
+        <Select></Select>
       </v-col>
     </v-row>
     <v-row>
@@ -46,6 +41,7 @@ import Button from "@/components/Button.vue";
 import Footer from "@/components/Footer.vue";
 import Callendar from "@/components/Callendar.vue";
 import UpcomingContainer from "@/components/UpcomingContainer.vue";
+import Select from "@/components/Select.vue";
 export default {
   components: {
     Button,
@@ -53,8 +49,13 @@ export default {
     Footer,
     Callendar,
     UpcomingContainer,
+    Select
   },
 };
 </script>
 
-<style></style>
+<style>
+Button {
+  width: 10%;
+}
+</style>
