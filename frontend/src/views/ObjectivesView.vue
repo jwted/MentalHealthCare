@@ -10,111 +10,26 @@
       </v-col>
     </v-row>
   </v-container>
-  <v-container class="container">
+  <v-container class="cont">
     <v-row>
       <v-col>
         <h2>Current Objectives</h2>
       </v-col>
       <v-col>
-        <v-select
-          label="Filter by"
-          :items="['Date', 'Name', 'Category']"
-        ></v-select>
+        <Select></Select>
       </v-col>
     </v-row>
-    <v-row class="d-flex flex-column">
-      <v-col>
-        <v-card class="rounded-12 d-flex flex-column justify-space-between">
-          <v-card-title>
-            <v-row>
-              <v-col>
-                <h3>Meeting</h3>
-              </v-col>
-              <v-col>
-                <h3>State:</h3>
-              </v-col>
-              <v-col>
-                <img src="../assets/detail.svg" alt="">
-              </v-col>
-            </v-row>
-          </v-card-title>
-          <v-card-text>
-            <v-row>
-              <v-col>
-                <p>Fitness</p>
-              </v-col>
-              <v-col>
-                <p>3 of 4 completed</p>
-              </v-col>
-              <v-col>
-                <img src="../assets/cancel.svg" alt="">
-              </v-col>
-            </v-row>
-          </v-card-text>
-        </v-card>
-      </v-col>
-      <v-col>
-        <v-card class="rounded-12 d-flex flex-column justify-space-between">
-          <v-card-title>
-            <v-row>
-              <v-col>
-                <h3>Meeting</h3>
-              </v-col>
-              <v-col>
-                <h3>State:</h3>
-              </v-col>
-              <v-col>
-                <img src="../assets/detail.svg" alt="">
-              </v-col>
-            </v-row>
-          </v-card-title>
-          <v-card-text>
-            <v-row>
-              <v-col>
-                <p>Fitness</p>
-              </v-col>
-              <v-col>
-                <p>3 of 4 completed</p>
-              </v-col>
-              <v-col>
-                <img src="../assets/cancel.svg" alt="">
-              </v-col>
-            </v-row>
-          </v-card-text>
-        </v-card>
-      </v-col>
-      <v-col>
-        <v-card class="rounded-12 d-flex flex-column justify-space-between">
-          <v-card-title>
-            <v-row>
-              <v-col>
-                <h3>Meeting</h3>
-              </v-col>
-              <v-col>
-                <h3>State:</h3>
-              </v-col>
-              <v-col>
-                <img src="../assets/detail.svg" alt="">
-              </v-col>
-            </v-row>
-          </v-card-title>
-          <v-card-text>
-            <v-row>
-              <v-col>
-                <p>Fitness</p>
-              </v-col>
-              <v-col>
-                <p>3 of 4 completed</p>
-              </v-col>
-              <v-col>
-                <img src="../assets/cancel.svg" alt="">
-              </v-col>
-            </v-row>
-          </v-card-text>
-        </v-card>
-      </v-col>
-     
-           
+    <v-row class="d-flex flex-column cont">
+      <ObjectiveContainer></ObjectiveContainer>        
+    </v-row>
+    <v-row class="d-flex flex-column cont">
+      <ObjectiveContainer></ObjectiveContainer>        
+    </v-row>
+    <v-row class="d-flex flex-column cont">
+      <ObjectiveContainer></ObjectiveContainer>        
+    </v-row>
+    <v-row class="d-flex flex-column cont">
+      <ObjectiveContainer></ObjectiveContainer>        
     </v-row>
   </v-container>
   <Footer></Footer>
@@ -124,8 +39,10 @@
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
 import Button from "@/components/Button.vue";
+import Select from "@/components/Select.vue";
+import ObjectiveContainer from "@/components/ObjectiveContainer.vue";
 export default {
-  components: { Navbar, Footer, Button },
+  components: { Navbar, Footer, Button, Select, ObjectiveContainer},
 };
 </script>
 
