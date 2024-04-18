@@ -16,7 +16,7 @@
     "Sequelize",
     "MySql"
   ],
-  "author": "Alfredo Silva, João Pais and Nuno Mendonça",
+  "author": "Alfredo Silva, João Pais",
   "license": "ISC",
   "dependencies": {
     "axios": "^1.6.7",

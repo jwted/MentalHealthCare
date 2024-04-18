@@ -2,25 +2,15 @@ const sequelize = require("../../sequelizeconnection");
 const { Sequelize, DataTypes } = require("sequelize");
 
 const Diario = sequelize.define(
-  "Diario",
+  "Diary",
   {
-    id: {
-      type: DataTypes.INTERGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    utilizadorId: {
+    userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
-            model: "utilizador",
+            model: "User",
             key: "id",
         },
-    },
-    data: {
-        type: DataTypes.DATE,
-        allowNull: true,
     },
     pensamentos: {
         type: DataTypes.TEXT,
@@ -40,9 +30,8 @@ const Diario = sequelize.define(
     },
   },
   {
-    tableName: "registrodiario",
-    timestamps: false,
-  }
+    tableName: "Diary",
+  } 
 );
-
+Diario.sync({"logging":false})
 module.exports = Diario;

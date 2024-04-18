@@ -2,21 +2,21 @@ const sequelize = require("../../sequelizeconnection");
 const { Sequelize, DataTypes } = require("sequelize");
 
 const UtilizadorAtividade = sequelize.define(
-  "UtilizadorAtividade",
+  "User_Activity",
   {
-    utilizadorId: {
+    userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "utilizador",
+        model: "User",
         key: "id",
       },
     },
-    atividadeId: {
+    activityId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "atividade",
+        model: "Activity",
         key: "id",
       },
     },
@@ -42,9 +42,8 @@ const UtilizadorAtividade = sequelize.define(
     },
   },
   {
-    tableName: "utilizadoratividade",
-    timestamps: false,
-  }
+    tableName: "User_Activity",
+  } 
 );
 
 module.exports = UtilizadorAtividade;

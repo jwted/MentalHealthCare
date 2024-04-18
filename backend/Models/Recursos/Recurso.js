@@ -2,31 +2,24 @@ const sequelize = require("../../sequelizeconnection");
 const { Sequelize, DataTypes } = require("sequelize");
 
 const Recurso = sequelize.define(
-  "Recurso",
+  "Resource",
   {
-    id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    objetivoId: {
+    objectiveId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "objetivo",
+        model: "Objective",
         key: "id",
       },
     },
-    descrição: {
+    description: {
       type: DataTypes.STRING,
       allowNull: false,
     },
   },
   {
-    tableName: "recurso",
-    timestamps: false,
-  }
+    tableName: "Resource",
+  } 
 );
-
+Recurso.sync({"logging":false})
 module.exports = Recurso;

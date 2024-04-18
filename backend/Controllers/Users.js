@@ -1,10 +1,8 @@
 const {
 	User,
-	User_Allergies,
 	User_Badges,
 	Post,
-	Allergen,
-} = require("../Model/index");
+} = require("../Models/index");
 module.exports = {
 	getProfile: async (req, res) => {
 		// ! DONE
@@ -15,13 +13,13 @@ module.exports = {
 		})
 			.then((result) => {
 				if (result != null) {
-					if (Object.entries(result.dataValues).length != 8) {
+					if (res.body.id && res.body.name && res.body.email && res.body.admin && res.body.points) {
+						res.status(200).json(result);
+					} else {
 						res.status(206).send({
 							message: "Successfull request (Partial Data)",
 							details: result,
 						});
-					} else {
-						res.status(200).json(result);
 					}
 				} else {
 					res.status(404).send({ message: "User not found." });
@@ -29,22 +27,30 @@ module.exports = {
 			})
 			.catch((err) => res.status(500).send({ error: err.message }));
 	},
-	getOwnProfile: async (req, res) => {
-		try {
-			const user = await User.findByPk(res.locals.userId, {
-				attributes: {
-					exclude: ["password"],
-				},
-				include: Allergen,
-			});
-
-			res.status(200).send({ message: "Perfil foi encontrado", result: user });
-		} catch (error) {
-			res
-				.status(400)
-				.send({ message: "Something went wrong...", details: error });
-		}
+	getAllUsers: async (req, res) => {
+		// ! DONE
+		const users = await User.findAll({
+			attributes: {
+				exclude: ["password"],
+			},
+		})
+			.then((result) => {
+				if (result != null) {
+					if (res.body.id && res.body.name && res.body.email && res.body.admin && res.body.points) {
+						res.status(200).json(result);
+					} else {
+						res.status(206).send({
+							message: "Successfull request (Partial Data)",
+							details: result,
+						});	
+					}
+				} else {
+					res.status(404).send({ message: "User not found." });
+				}
+			})
+			.catch((err) => res.status(500).send({ error: err.message }));
 	},
+	
 	editProfile: async (req, res) => {
 		/*
          * Get user id from middleware
@@ -94,116 +100,8 @@ module.exports = {
 			res.status(401).send({ message: "User ID doesn't match" });
 		}
 	},
-	editUserAllergenLevel: async (req, res) => {
-		/*
-         * Change Allergen Level to  
-            TODO MUDAR CASOS ERROs   
-        */
-
-		try {
-			const UserId = res.locals.userId;
-			const AllergenId = req.body.AllergenId;
-
-			const allergyLevel = req.body.allergyLevel;
-
-			const allergen = await User_Allergies.findOne({
-				where: { AllergenId, UserId },
-			});
-
-			if (!allergen) {
-				res.status(404).send({ message: "Allergen not found..." });
-				return;
-			}
-
-			allergen.allergyLevel = allergyLevel;
-
-			if (!allergen.changed()) {
-				res.status(400).send({ message: "Allergen level was not changed..." });
-				return;
-			}
-
-			allergen.save();
-
-			res
-				.status(200)
-				.send({ message: "Allergen Changed...", content: allergen });
-		} catch (error) {
-			res
-				.status(400)
-				.send({ message: "Something went wrong...", details: error });
-		}
-	},
-	removeUserAllergen: async (req, res) => {
-		/*
-		 * Remove allergen
-		 */
-
-		const UserId = res.locals.userId;
-		const AllergenId = req.body.AllergenId;
-
-		const allergen = await User_Allergies.findOne({
-			where: { AllergenId, UserId },
-		});
-
-		if (allergen) {
-			await allergen
-				.destroy()
-				.then((result) => {
-					if (result) {
-						res.status(204).send();
-					} else {
-						res.status(400).send({ message: "User Allergen not deleted" });
-					}
-				})
-				.catch((err) => {
-					res.status(500).send({ error: err.message });
-				});
-		} else {
-			res.status(404).send({ message: "User Allergen not found" });
-		}
-	},
-	addAllergensToUser: async (req, res) => {
-		/*
-		 * Create allergens in bulk each one with a level "attached"
-		 * Recebe AllergenId , AllergyLevel e adiciona userId atraves do locals
-		 */
-
-		try {
-			const userId = res.locals.userId;
-
-			const allergensArray = req.body;
-
-			allergensArray.forEach((allergen) => {
-				allergen.UserId = userId;
-			});
-
-			const userAllergies = await User_Allergies.bulkCreate(
-				allergensArray,
-				{ fields: ["AllergenId", "allergyLevel", "UserId"] },
-				{ validate: true },
-				{ returning: false }
-			);
-			if (userAllergies) {
-				res.status(201).send({
-					message: "Allergens successfully added to user",
-					details: userAllergies,
-				});
-				return;
-			} else {
-				res.status(400).send({
-					message:
-						"Allergens were not added to user, probably they are already added",
-					details: userAllergies,
-				});
-				return;
-			}
-		} catch (error) {
-			console.log(error);
-			res
-				.status(400)
-				.send({ message: "Something went wrong...", details: error });
-		}
-	},
+	
+	
 	addBadgeToUser: async (req, res) => {
 		//TODO CODIGO E VERIFICAR ERROS
 

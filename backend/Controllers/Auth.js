@@ -5,40 +5,49 @@ const { SignToken } = require("../Middleware/jwt");
 module.exports = {
 	login: async (req, res) => {
 		try {
+			
 			const user = await User.findOne({ where: { email: req.body.email } });
+			if(req.body.password && req.body.email){
 
-			const passwordIsValid = await compareHash(
-				user.password,
-				req.body.password
-			);
-
-			if (passwordIsValid) {
-				const token = await SignToken(user.id);
-
-				res.status(200).send({ message: "successuful login", token: token });
-			} else {
-				res.status(400).send({ message: "Password is not correct" });
+				const passwordIsValid = await compareHash(
+					user.password,
+					req.body.password
+					);
+					
+					if (passwordIsValid) {
+						const token = await SignToken(user.id);
+						
+						res.status(201).send({ message: "Success", token: token });
+					} else {
+						res.status(401).send({ message: "Invalid Credentials" });
+					}
+			}else{
+				res.status(400).send({message:'Missing fields, Email and Password are Obligatory.'})
 			}
 		} catch (error) {
-			console.log("🚀 ~ file: Auth.js:28 ~ login: ~ error:", error);
-
-			res.status(400).send({ message: "Email não existe...", details: error });
+			res.status(500).send({ message: "Something went wrong. Plese try again later", details: error });
 		}
 	},
 	register: async (req, res) => {
 		try {
-			const user = await User.build({
-				username: req.body.username,
-				email: req.body.email,
-				password: req.body.password,
-			});
-
-			await user.save();
-
-			const token = await SignToken(user.id);		
-			res.send({ message: "successuful Register", token: token }).status(200);
+			if(req.body.password && req.body.name && req.body.email){
+				if (User.findOne({where:{email:req.body.email}})){
+					res.status(409).send({message:"Account already exists"})
+				}else{
+					const user = await User.build({
+						name: req.body.name,
+						email: req.body.email,
+						password: req.body.password,
+					});
+					await user.save();
+					const token = await SignToken(user.id);		
+					res.send({ message: "successuful Register", token: token }).status(201);
+				}
+			}else{
+				res.status(400).send({messsage:'Missing Fields, Email, Password and Name are obligatory'})
+			}
 		} catch (error) {
-			res.status(400).send({ message: "Something went wrong", details: error });
+			res.status(500).send({ message: "Something went wrong", details: error });
 		}
 	},
 };

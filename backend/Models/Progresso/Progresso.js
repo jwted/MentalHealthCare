@@ -1,48 +1,41 @@
 const sequelize = require("../../sequelizeconnection");
 const { Sequelize, DataTypes } = require("sequelize");
 
-const Progresso = sequelize.define(
-  "Progresso",
-  {
-    objetivoId: {
+const Progress = sequelize.define(
+  "Progress",
+   {
+    objetiveId: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        primaryKey: true,
         references: {
-            model: "objetivo",
+            model: "Objective",
             key: "id",
         },
     },
-    utilizadorId: {
+    userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        primaryKey: true,
         references: {
-            model: "utilizador",
+            model: "User",
             key: "id",
         },
-    },
-    dataInicio: {
-        type: DataTypes.DATE,
-        allowNull: false,
     },
     dataFim: {
         type: DataTypes.DATE,
         allowNull: false,
     },
-    estado: {
+    /* estado: {
         type: DataTypes.STRING,
         allowNull: false,
-    },
+    }, */
     pontos: {
         type: DataTypes.INTEGER,
         allowNull: false,
     },
   },
   {
-    tableName: "progresso",
-    timestamps: false,
-  }
+    tableName: "Progress",
+  } 
 );
-
-module.exports = Atividade;
+Progress.sync({"logging":false})
+module.exports = Progress;

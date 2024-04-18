@@ -1,32 +1,22 @@
 const sequelize = require("../../sequelizeconnection");
-const { Sequelize, DataTypes } = require("sequelize");
+const { DataTypes } = require("sequelize");
 
-const Atividade = sequelize.define(
-  "Atividade",
+const Activity = sequelize.define(
+  "Activity",
   {
-    id: {
-      type: DataTypes.INTERGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    text: {
-      type: DataTypes.TEXT,
+    name: {
+      type: DataTypes.STRING,
       allowNull: false,
     },
-    objetivoId: {
-      type: DataTypes.INTERGER,
+    description: {
+      type: DataTypes.STRING,
       allowNull: false,
-      references: {
-        model: "objetivo",
-        key: "id",
-      },
-    },
+    }
   },
   {
-    tableName: "atividade",
-    timestamps: false,
+    tableName:'Activity'
   }
 );
 
-module.exports = Atividade;
+Activity.sync({"logging":false})
+module.exports = Activity;

@@ -9,7 +9,7 @@ const User = sequelize.define('User', {
         defaultValue:1,
 
     }, */
-    username:{
+    name:{
         type:DataTypes.STRING,
         allowNull:false
     },
@@ -42,7 +42,10 @@ const User = sequelize.define('User', {
         allowNull:false,
         defaultValue:0
     }
-},)
+},
+{
+    tableName:'User'
+})
 
 User.sync({"logging":false})
 

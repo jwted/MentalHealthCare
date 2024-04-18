@@ -1,36 +1,31 @@
 const sequelize = require("../../sequelizeconnection");
 const { Sequelize, DataTypes } = require("sequelize");
 
-const GostoAtividade = sequelize.define(
-  "GostoAtividade",
+const Like_Activity = sequelize.define(
+  "Like_Activity",
   {
-    id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true,
-    },
-    postId: {
+    activityId: {
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        model: "atividade",
+        model: "Activity",
         key: "id",
       },
+      primaryKey:true
     },
-    utilizadorId: {
+    userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      primaryKey:true,
       references: {
-        model: "utilizador",
+        model: "User",
         key: "id",
       },
     },
-  },
+  },  
   {
-    tableName: "gostoatividade",
-    timestamps: false,
-  }
+    tableName: "Like_Activity",
+  } 
 );
-
-module.exports = GostoAtividade;
+Like_Activity.sync({"logging":false})
+module.exports = Like_Activity;

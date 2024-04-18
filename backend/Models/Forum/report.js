@@ -4,58 +4,44 @@ const { Sequelize, DataTypes } = require("sequelize");
 const Report = sequelize.define(
   "Report",
   {
-    id: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true,
-    },
+
     postId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: "post",
-        key: "id",
-      },
-    },
-    utilizadorId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: "utilizador",
-        key: "id",
-      },
-    },
-    comentarioId: {
       type: DataTypes.INTEGER,
       allowNull: true,
       references: {
-        model: "comentario",
+        model: "Post",
+        key: "id",
+      },
+    },
+    creatorId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: "User",
+        key: "id",
+      },
+    },
+    commentId: {
+      type: DataTypes.INTEGER,
+      allowNull: true,
+      references: {
+        model: "Comment",
         key: "id",
       },
     },
 
-    utilizadorReportadoId: {
+    userReportedId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: "utilizador",
-        key: "id",
-      },
+      allowNull: true,
     },
-    motivo: {
+    reason: {
       type: DataTypes.STRING,
-      allowNull: false,
-    },
-    data: {
-      type: DataTypes.DATE,
       allowNull: false,
     },
   },
   {
-    tableName: "reports",
-    timestamps: false,
-  }
+    tableName: "Report",
+  } 
 );
 
 module.exports = Report;

@@ -1,32 +1,45 @@
 const sequelize = require("../../sequelizeconnection");
-const { Sequelize, DataTypes } = require("sequelize");
+const { DataTypes } = require("sequelize");
 
 const Badge = sequelize.define(
   "Badge",
   {
-    id: {
-      type: DataTypes.INTERGER,
-      allowNull: false,
-      primaryKey: true,
-      autoIncrement: true,
+
+    /* icon:{
+      type:DataTypes.INTEGER,
+      allowNull:false,
+      defaultValue:1
     },
-    Nome: {
+    */
+    name: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    Descricao: {
+    description: {
       type: DataTypes.STRING,
       allowNull: false,
     },
-    Imagem: {
-      type: DataTypes.STRING,
-      allowNull: false,
+    points:{
+      type:DataTypes.INTEGER,
+      allowNull:false
     },
+    type:{
+      type:DataTypes.STRING,
+      allowNull:false,
+      validate:{
+          isIn:[['objective','posts','comments','points']]
+      }
+    },
+    requirement:{
+      type:DataTypes.INTEGER,
+      allowNull:false
+    } 
   },
   {
-    tableName: "badge",
-    timestamps: false,
+    tableName:'Badge'
   }
 );
+
+Badge.sync({"logging":false})
 
 module.exports = Badge;

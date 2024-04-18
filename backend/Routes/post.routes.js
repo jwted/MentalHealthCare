@@ -1,4 +1,4 @@
-const express = require('express');
+/* const express = require('express');
 const router = express.Router();
 const postController = require("../Controllers/Posts");
 
@@ -25,3 +25,4 @@ router.route("/likes").post(postController.addLike)
                     .delete(postController.removeLike);
 
 module.exports = router;
+ */
