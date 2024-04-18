@@ -3,10 +3,11 @@ import { defineStore } from "pinia";
 
 const url = "https//innerpeace.com";
 export const userStore = defineStore("user", {
-  state: () => ({ users: [], loggedInUser: null }),
+  state: () => ({ users: [], loggedInUser: null, userProgress: null }),
   getters: {
     getLoggedInUser: (state) => state.loggedInUser,
     getUsers: (state) => state.users,
+    getUserProgress: (state) => state.userProgress,
   },
   actions: {
     async fetchUsers() {
@@ -62,6 +63,16 @@ export const userStore = defineStore("user", {
         this.users = this.users.filter((us) => us.id !== user.id);
       } catch (error) {
         console.error("Error deleting user:", error);
+      }
+    },
+
+    async getObjectiveProgress(user) {
+      try {
+        const response = await fetch(`${url}/users/${user.id}/progress`);
+        const data = await response.json();
+        this.userProgress = data;
+      } catch (error) {
+        console.error("Error getting user progress:", error);
       }
     },
   },
