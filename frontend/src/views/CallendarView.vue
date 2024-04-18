@@ -6,193 +6,56 @@
         <h2>Callendar</h2>
       </v-col>
       <v-col cols="5" class="d-flex justify-end">
-        <Button :text="'Back'" @click="router.go(-1)"></Button>
+        <Button :text="'Back'" @click="router.go(-1)" class="w-25"></Button>
       </v-col>
     </v-row>
   </v-container>
   <v-container>
-    <v-row class="fill-height">
+    <v-row class="fill-height cont">
       <v-col>
-        <v-calendar
-          ref="calendar"
-          v-model="today"
-          :events="events"
-          color="primary"
-          type="month"
-          @update:modelValue="today = $event"
-        ></v-calendar>
+        <Callendar></Callendar>
       </v-col>
     </v-row>
   </v-container>
-  <v-container class="container">
-    <v-row>
+
+  <v-container class="d-flex flex-column cont">
+    <v-row class="d-flex justify-space-between align-center">
       <v-col>
         <h2>Upcoming Activities</h2>
       </v-col>
       <v-col>
-        <v-select
-          label="Filter by"
-          :items="['Date', 'Name', 'Category']"
-          v-model="focus"
-        ></v-select>
+        <Select></Select>
       </v-col>
     </v-row>
-    <v-row class="d-flex flex-column">
+    <v-row>
       <v-col>
-        <v-card class="rounded-12 d-flex flex-column justify-space-between">
-          <v-card-title>
-            <v-row>
-              <v-col>
-                <h3>Meeting</h3>
-              </v-col>
-              <v-col>
-                Today
-              </v-col>
-            </v-row>
-          </v-card-title>
-          <v-card-text>
-            <v-row>
-              <v-col>
-                <p>Fitness</p>
-              </v-col>
-              <v-col>
-                <p>10:00 - 11:00</p>
-              </v-col>
-            </v-row>
-          </v-card-text>
-        </v-card>
-      </v-col>
-      <v-col>
-        <v-card class="rounded-12 d-flex flex-column justify-space-between">
-          <v-card-title>
-            <v-row>
-              <v-col>
-                <h3>Meeting</h3>
-              </v-col>
-              <v-col>
-                Today
-              </v-col>
-            </v-row>
-          </v-card-title>
-          <v-card-text>
-            <v-row>
-              <v-col>
-                <p>Fitness</p>
-              </v-col>
-              <v-col>
-                <p>10:00 - 11:00</p>
-              </v-col>
-            </v-row>
-          </v-card-text>
-        </v-card>
-      </v-col>
-      <v-col>
-        <v-card class="rounded-12 d-flex flex-column justify-space-between">
-          <v-card-title>
-            <v-row>
-              <v-col>
-                <h3>Meeting</h3>
-              </v-col>
-              <v-col>
-                Today
-              </v-col>
-            </v-row>
-          </v-card-title>
-          <v-card-text>
-            <v-row>
-              <v-col>
-                <p>Fitness</p>
-              </v-col>
-              <v-col>
-                <p>10:00 - 11:00</p>
-              </v-col>
-            </v-row>
-          </v-card-text>
-        </v-card>
+        <UpcomingContainer></UpcomingContainer>
       </v-col>
     </v-row>
   </v-container>
   <Footer></Footer>
 </template>
 <script>
-import { VCalendar } from "vuetify/labs/VCalendar";
 import Navbar from "@/components/Navbar.vue";
 import Button from "@/components/Button.vue";
 import Footer from "@/components/Footer.vue";
-import { useDate } from "vuetify";
+import Callendar from "@/components/Callendar.vue";
+import UpcomingContainer from "@/components/UpcomingContainer.vue";
+import Select from "@/components/Select.vue";
 export default {
   components: {
     Button,
     Navbar,
-    VCalendar,
     Footer,
-  },
-  data: () => ({
-    focus: "Date",
-    events: [],
-    colors: [
-      "blue",
-      "indigo",
-      "deep-purple",
-      "cyan",
-      "green",
-      "orange",
-      "grey darken-1",
-    ],
-    names: [
-      "Meeting",
-      "Holiday",
-      "PTO",
-      "Travel",
-      "Event",
-      "Birthday",
-      "Conference",
-      "Party",
-    ],
-    today: [new Date()]
-  }),
-  mounted() {
-    const adapter = useDate();
-    this.fetchEvents({
-      start: adapter.startOfDay(adapter.startOfMonth(new Date())),
-      end: adapter.endOfDay(adapter.endOfMonth(new Date())),
-    });
-  },
-  methods: {
-    getEventColor(event) {
-      return event.color;
-    },
-    fetchEvents({ start, end }) {
-      const events = [];
-
-      const min = start;
-      const max = end;
-      const days = (max.getTime() - min.getTime()) / 86400000;
-      const eventCount = this.rnd(days, days + 20);
-
-      for (let i = 0; i < eventCount; i++) {
-        const allDay = this.rnd(0, 3) === 0;
-        const firstTimestamp = this.rnd(min.getTime(), max.getTime());
-        const first = new Date(firstTimestamp - (firstTimestamp % 900000));
-        const secondTimestamp = this.rnd(2, allDay ? 288 : 8) * 900000;
-        const second = new Date(first.getTime() + secondTimestamp);
-
-        events.push({
-          title: this.names[this.rnd(0, this.names.length - 1)],
-          start: first,
-          end: second,
-          color: this.colors[this.rnd(0, this.colors.length - 1)],
-          allDay: !allDay,
-        });
-      }
-
-      this.events = events;
-    },
-    rnd(a, b) {
-      return Math.floor((b - a + 1) * Math.random()) + a;
-    },
+    Callendar,
+    UpcomingContainer,
+    Select
   },
 };
 </script>
 
-<style></style>
+<style>
+Button {
+  width: 10%;
+}
+</style>

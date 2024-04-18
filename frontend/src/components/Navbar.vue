@@ -1,17 +1,17 @@
 <template>
-  <!-- <nav>
+  <nav>
     <div>
       <img src="@/assets/logo.svg" alt="">
     </div>
     <ul>
       <li>
-        <router-link to="/">Home</router-link>
+        <router-link to="/home">Home</router-link>
       </li>
       <li>
-        <router-link to="/">Callendar</router-link>
+        <router-link to="/callendar">Callendar</router-link>
       </li>
       <li>
-        <router-link to="/">Objectives</router-link>
+        <router-link to="/objectives">Objectives</router-link>
       </li>
       <li>
         <router-link to="/">Community</router-link>
@@ -20,12 +20,12 @@
         <router-link to="/">Diary</router-link>
       </li>
       <li>
-        <router-link to="/">Profile</router-link>
+        <router-link to="/profile">Profile</router-link>
       </li>
     </ul>
-  </nav>  -->
+  </nav>
   
-  <nav>
+  <!-- <nav>
     <div>
       <img src="@/assets/logo.svg" alt="">
     </div>
@@ -37,7 +37,7 @@
         <router-link to="/login"><Button :text="'Register'"></Button></router-link>
       </li>
     </ul>
-  </nav> 
+  </nav>  -->
 </template>
 
 <script>
@@ -69,6 +69,11 @@ export default {
 
   a {
     text-decoration: none;
+    color: #6B9080;
+    font-size: 16pt;
+  }
+
+  a:hover {
     color: #2E4242;
   }
 </style>
