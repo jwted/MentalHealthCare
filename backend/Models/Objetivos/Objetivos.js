@@ -8,7 +8,7 @@ const Objective = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    text: {
+    description: {
       type: DataTypes.TEXT,
       allowNull: false,
     },

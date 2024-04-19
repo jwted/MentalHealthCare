@@ -2,23 +2,14 @@ const { DataTypes } = require("sequelize");
 const sequelize = require("../../sequelizeconnection");
 
 const Category = sequelize.define("Category", {
-	 name: {
+	name: {
 		type: DataTypes.STRING,
 		allowNull:false
 	},
-    activityId:{
-        type:DataTypes.INTEGER,
-        references:{
-            model:'Activity',
-            key: "id"
-        }
-    },
-    objectiveId:{
-        type:DataTypes.INTEGER,
-        references:{
-            model:'Objective',
-            key: "id"
-        }
+    
+    description:{
+        type:DataTypes.STRING,
+        allowNull:false
     }
 	
 },{

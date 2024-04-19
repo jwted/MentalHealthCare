@@ -7,6 +7,7 @@ const UtilizadorAtividade = sequelize.define(
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
+      primaryKey:true,
       references: {
         model: "User",
         key: "id",
@@ -19,24 +20,18 @@ const UtilizadorAtividade = sequelize.define(
         model: "Activity",
         key: "id",
       },
+      primaryKey:true
     },
-    data: {
+    date: {
       type: DataTypes.DATE,
       allowNull: false,
     },
-    horaInicio: {
-      type: DataTypes.TIME,
-      allowNull: false,
-    },
-    horaFim: {
-      type: DataTypes.TIME,
-      allowNull: false,
-    },
-    estado: {
+    
+    state: {
       type: DataTypes.BOOLEAN,
       allowNull: false,
     },
-    pontos: {
+    points: {
       type: DataTypes.INTEGER,
       allowNull: false,
     },

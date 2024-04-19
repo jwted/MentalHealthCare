@@ -20,7 +20,7 @@ const Progress = sequelize.define(
             key: "id",
         },
     },
-    dataFim: {
+    endDate: {
         type: DataTypes.DATE,
         allowNull: false,
     },
@@ -28,7 +28,7 @@ const Progress = sequelize.define(
         type: DataTypes.STRING,
         allowNull: false,
     }, */
-    pontos: {
+    points: {
         type: DataTypes.INTEGER,
         allowNull: false,
     },

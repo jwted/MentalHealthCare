@@ -21,17 +21,19 @@ const User = sequelize.define('User', {
             isEmail:true
         }
     },
+    bio:{
+        type:DataTypes.STRING,
+        allowNull:true,
+    },
     password:{
         type:DataTypes.STRING,
         allowNull:false,
         set(value) {
-    
             const hashedPassword =  bcrypt.hashSync(value,10)
-        
             this.setDataValue('password', hashedPassword );
         }
     },
-    admin:{
+    type:{
         type:DataTypes.BOOLEAN,
         allowNull:false,
         defaultValue:false
@@ -41,7 +43,7 @@ const User = sequelize.define('User', {
         type:DataTypes.INTEGER,
         allowNull:false,
         defaultValue:0
-    }
+    },
 },
 {
     tableName:'User'

@@ -4,7 +4,6 @@ const { Sequelize, DataTypes } = require("sequelize");
 const Report = sequelize.define(
   "Report",
   {
-
     postId: {
       type: DataTypes.INTEGER,
       allowNull: true,
@@ -15,7 +14,7 @@ const Report = sequelize.define(
     },
     creatorId: {
       type: DataTypes.INTEGER,
-      allowNull: true,
+      allowNull: false,
       references: {
         model: "User",
         key: "id",
@@ -43,5 +42,5 @@ const Report = sequelize.define(
     tableName: "Report",
   } 
 );
-
+Report.sync({"logging":false})
 module.exports = Report;

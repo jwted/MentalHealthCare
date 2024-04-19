@@ -24,10 +24,10 @@ const Post = require("./Forum/Posts")
 const Like_Post = require("./Forum/GostosPost")
 const Like_Activity = require("./Gostos/GostosAtividade")
 const Report = require("./Forum/report")
-const Progress = require("./Progresso/Progresso")
 const Objective_Activity = require("./Atividades/Objective_Activity")
 const User_Activity = require('./Atividades/User_Activity')
 const Resource = require('./Recursos/Recurso')
+const Progress = require("./Progresso/Progresso")
 
 
 
