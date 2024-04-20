@@ -21,6 +21,7 @@ app.use("/Tips", require("./Routes/Tips"));
  */
 
 app.use("/", require("./Routes/Auth"));
+app.use("/posts", require("./Routes/post.routes"));
 app.listen(process.env.PORT, () =>
-	console.log(`Example app listening on port ${process.env.PORT}!`)
+	console.log(`Server running at http://${process.env.MySQL_DB_HOST}:${process.env.port}/`)
 );
