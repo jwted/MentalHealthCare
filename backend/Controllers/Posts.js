@@ -11,7 +11,7 @@ exports.getPosts = async (req, res, next) => {
     if (offset && length) {
       if (offset == NaN || length == NaN) {
         return res.status(400).json({
-          error: "Only numbers are not allowed",
+          error: "Only numbers are allowed",
         });
       } else if ((offset && !length) || (!offset && length)) {
         return res.status(400).json({

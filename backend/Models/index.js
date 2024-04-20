@@ -5,7 +5,7 @@ const Activity = require('./Atividades/Atividade')
 const Category = require('./Categorias/Categorias')
 const Post = require('./Forum/Posts')
 const Comments = require('./Forum/Comentario')
-const User_Objetives = require("./Objetivos/User_Objectives")
+const U ser_Objetives = require("./Objetivos/User_Objectives")
 const User_Badges = require("./Badges/BadgeUtilizador") */
 //
 /* const User_Badge = require("./Badges/BadgeUtilizador"); */ // Scans of the users

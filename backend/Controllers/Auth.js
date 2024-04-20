@@ -1,6 +1,6 @@
 const { User } = require("../Models/index");
-const { compareHash } = require("../Middleware/bcrypt");
-const { SignToken } = require("../Middleware/jwt");
+const { compareHash } = require("../Middlewares/bcrypt");
+const { SignToken } = require("../Middlewares/jwt");
 
 module.exports = {
 	login: async (req, res) => {
@@ -8,13 +8,13 @@ module.exports = {
 			
 			const user = await User.findOne({ where: { email: req.body.email } });
 			if(req.body.password && req.body.email){
-
 				const passwordIsValid = await compareHash(
 					user.password,
 					req.body.password
-					);
-					
-					if (passwordIsValid) {
+				);
+				
+				if (passwordIsValid) {
+						console.log('yyyy')
 						const token = await SignToken(user.id);
 						
 						res.status(201).send({ message: "Success", token: token });
@@ -31,7 +31,7 @@ module.exports = {
 	register: async (req, res) => {
 		try {
 			if(req.body.password && req.body.name && req.body.email){
-				if (User.findOne({where:{email:req.body.email}})){
+				if ( await User.findOne({where:{email:req.body.email}})){
 					res.status(409).send({message:"Account already exists"})
 				}else{
 					const user = await User.build({

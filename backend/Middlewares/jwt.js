@@ -55,7 +55,7 @@ module.exports = {
       const user = await User.findByPk(payload.id);
 
       if (user != null) {
-        if (user.admin == true) {
+        if (user.type == 'admin') {
           res.locals.userId = payload.id;
           next();
         } else {

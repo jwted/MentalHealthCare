@@ -4,16 +4,17 @@ const {
 	Post,
 } = require("../Models/index");
 module.exports = {
-	getProfile: async (req, res) => {
-		// ! DONE
+	getUser: async (req, res) => {
 		const user = await User.findByPk(req.params.userId, {
 			attributes: {
 				exclude: ["password"],
 			},
 		})
-			.then((result) => {
-				if (result != null) {
-					if (res.body.id && res.body.name && res.body.email && res.body.admin && res.body.points) {
+		.then((result) => {
+				//console.log(req.params.userId)
+				//console.log(result.dataValues)
+				if (result.dataValues != null) {	
+					if (result.dataValues.id && result.dataValues.name && result.dataValues.email && result.dataValues.type && result.dataValues.points && result.dataValues.bio) {
 						res.status(200).json(result);
 					} else {
 						res.status(206).send({
@@ -28,7 +29,6 @@ module.exports = {
 			.catch((err) => res.status(500).send({ error: err.message }));
 	},
 	getAllUsers: async (req, res) => {
-		// ! DONE
 		const users = await User.findAll({
 			attributes: {
 				exclude: ["password"],
@@ -55,7 +55,6 @@ module.exports = {
 		/*
          * Get user id from middleware
          * Pass changes like ProfileIcon, Name, Password
-         !DONE
         */
 
 		let userId = res.locals.userId;
@@ -103,7 +102,6 @@ module.exports = {
 	
 	
 	addBadgeToUser: async (req, res) => {
-		//TODO CODIGO E VERIFICAR ERROS
 
 		const userId = res.locals.userId;
 
@@ -134,7 +132,6 @@ module.exports = {
 	},
 
 	getUserPosts: async (req, res) => {
-		//* DONE AND TESTED
 		const userId = req.params.userId;
 		const userPosts = Post.findAll({
 			where: {
