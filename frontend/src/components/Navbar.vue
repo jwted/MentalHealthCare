@@ -14,7 +14,7 @@
         <router-link to="/objectives">Objectives</router-link>
       </li>
       <li>
-        <router-link to="/">Community</router-link>
+        <router-link to="/posts">Community</router-link>
       </li>
       <li>
         <router-link to="/">Diary</router-link>

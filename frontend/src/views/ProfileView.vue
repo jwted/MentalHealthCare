@@ -7,7 +7,7 @@
           <h2>Profile</h2>
         </v-col>
         <v-col cols="5" class="d-flex justify-end">
-          <Button :text="'Back'" @click="router.go(-1)"></Button>
+          <Button :text="'Back'" @click="router.go(-1)" class="btn"></Button>
         </v-col>
       </v-row>
     </v-container>
@@ -133,5 +133,9 @@ export default {
 }
 .bg {
   background-color: #addfad;
+}
+
+.btn{
+  width:30%
 }
 </style>
