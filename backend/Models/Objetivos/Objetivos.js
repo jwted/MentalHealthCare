@@ -1,10 +1,10 @@
 const sequelize = require("../../sequelizeconnection");
-const { Sequelize, DataTypes } = require("sequelize");
+const { DataTypes } = require("sequelize");
 
-const Objective = sequelize.define(
+const Objectives = sequelize.define(
   "Objective",
   {
-    name:{
+    name: {
       type: DataTypes.TEXT,
       allowNull: false,
     },
@@ -12,11 +12,20 @@ const Objective = sequelize.define(
       type: DataTypes.TEXT,
       allowNull: false,
     },
-    
+    createdAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+    },
+    updatedAt: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: DataTypes.NOW,
+    },
   },
   {
     tableName: "Objective",
-  } 
+  }
 );
-Objective.sync({"logging":false})
-module.exports = Objective;
+Objectives.sync({ logging: false });
+module.exports = Objectives;

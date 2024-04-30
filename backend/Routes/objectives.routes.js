@@ -1,15 +1,26 @@
 const express = require("express");
 const router = express.Router();
 const objectiveController = require("../Controllers/Objectives");
+const {
+  offsetLengthValidation,
+  idsValidation,
+  objectiveValidation,
+} = require("../Middlewares/objMid");
 const { verifyUser, verifyAdmin } = require("../Middlewares/jwt");
 // Get Objectives
 router
-  .get("/", objectiveController.getObjectives)
-  .post("/", verifyUser, objectiveController.createObjective);
+  .get(
+    "/",
+    offsetLengthValidation,
+    idsValidation,
+    objectiveController.getObjectives
+  )
+  .post("/", objectiveValidation, objectiveController.createObjective);
 
-// Patch / Delete - By Id
+//Get / Patch / Delete - By Id
 router
-  .patch("/:id", verifyUser, objectiveController.updateObjective)
-  .delete("/:id", verifyAdmin, objectiveController.deleteObjective);
+  .get("/:id", objectiveController.getObjective)
+  .patch("/:id", objectiveController.updateObjective)
+  .delete("/:id", objectiveController.deleteObjective);
 
 module.exports = router;

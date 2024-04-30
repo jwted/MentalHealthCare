@@ -2,8 +2,9 @@ const express = require('express');
 const router = express.Router();
 const postController = require("../Controllers/Posts");
 const { verifyUser,verifyAdmin } = require("../Middlewares/jwt");
+const offsetLength = require("../Middlewares/offsetLength");
 // Get All Posts
-router.route("/").get(verifyUser,postController.getPosts)
+router.route("/").get(postController.getPosts)
                 .post(verifyUser,postController.postPosts);
 
 // Get / Put / Delete - By Id

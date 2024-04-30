@@ -1,152 +1,123 @@
-const db = require("../Models/Objetivos/Objetivo.js");
-const Objective = db.Objective;
+const Objective = require("../Models/Objetivos/Objetivos");
+const { Op } = require("sequelize");
 
+//ONLY MISS OBJECTIVES FILTER(MORE THAN ONE)
 exports.getObjectives = async (req, res, next) => {
+  const { offset, length, objectives } = req.query;
   try {
-    const { id, offset, length } = req.query;
-
+    let query = {};
     if (offset && length) {
-      if (offset == NaN || length == NaN) {
-        return res.status(400).json({
-          error: "Only numbers are allowed",
-        });
-      } else if ((offset && !length) || (!offset && length)) {
-        return res.status(400).json({
-          error:
-            "Incorrect query use(you must use offset and length at the same time",
-        });
-      } else {
-        if (!id) {
-          const data = await Activity.findAll({
-            offset: parseInt(offset),
-            limit: parseInt(length),
-          });
-          res.status(200).json({
-            success: "Successful request",
-            Posts: data,
-          });
-        } else {
-          const data = await Activity.findAll({
-            where: { id },
-            offset: parseInt(offset),
-            limit: parseInt(length),
-          });
-          res.status(200).json({
-            success: "Successful request",
-            Activity: data,
-          });
-        }
-      }
-    } else {
-      if (id) {
-        const data = await Activity.findAll({
-          where: { id },
-        });
-        res.status(200).json({
-          success: "Successful request",
-          Activity: data,
-        });
-      }
+      query.offset = parseInt(offset);
+      query.limit = parseInt(length);
     }
+    if (objectives) {
+      const ids = objectives.split(",").map(Number);
+      query.where = { id: { [Op.in]: ids } }; 
+    }
+    const data = await Objective.findAll(query);
+    return res.status(200).json({
+      success: "Successful request",
+      Objectives: data,
+    });
   } catch {
-    res
-      .status(500)
-      .json({ error: "Something went wrong. Please try again later" });
+    return res.status(500).json({
+      error: "Something went wrong. Please try again later",
+    });
   }
 };
 
-exports.createActivity = async (req, res, next) => {
-  try {
-    const { name, description, objectiveId, categoryId } = req.body;
 
-    if (!name || !description || !objectiveId || !categoryId) {
-      const missingFields = [];
-      if (!name) missingFields.push("name");
-      if (!description) missingFields.push("description");
-      if (!objectiveId) missingFields.push("objectiveId");
-      if (!categoryId) missingFields.push("categoryId");
-
-      return res.status(400).json({
-        error: `Missing fields: ${missingFields.join(", ")}`,
+//DONE
+exports.createObjective = async (req, res, next) => {
+  const { name, description } = req.body;
+  try{
+      const data = await Objective.create({
+        name,
+        description,
+      });
+      return res.status(201).json({
+        success: "Objective created successfully",
+        Objective: data,
       });
     }
-
-    const data = await Activity.create({
-      name,
-      description,
-      objectiveId,
-      categoryId,
-    });
-
-    res.status(201).json({
-      success: "Activity created successfully",
-      Activity: data,
-    });
-  } catch {
-    res
-      .status(500)
-      .json({ error: "Something went wrong. Please try again later" });
-  }
+    catch (error) {
+      return res.status(500).json({
+        error: "Something went wrong. Please try again later",
+      });
+    }
 };
 
-// Patch Activity
-exports.updateActivity = async (req, res, next) => {
+// DONE
+exports.updateObjective = async (req, res, next) => {
+  const { id } = req.params;
+  const { name, description } = req.body;
   try {
-    const { id } = req.params;
-    const { name, description, objectiveId, categoryId } = req.body;
-    const activity= await Activity.findByPk(id);
-
-    if (!activity) {
+    const objective = await Objective.findByPk(id);
+    if (!objective) {
       return res.status(404).json({
-        error: "Activity not found",
+        error: "Objective not found",
       });
     } else {
-      const data = await Activity.update(
+      const data = await Objective.update(
         {
           name,
           description,
-          objectiveId,
-          categoryId,
         },
         {
           where: { id },
         }
       );
-
-      if (data[0] === 1) {
-        res.status(200).json({
-          success: "Activity updated successfully",
-        });
-      } else {
-        res.status(404).json({
-          error: "Activity not found",
-        });
-      }
+      return res.status(200).json({
+        success: "Objective updated successfully",
+      });
     }
-  } catch {
-    res
-      .status(500)
-      .json({ error: "Something went wrong. Please try again later" });
+  } catch (error) {
+    return res.status(500).json({
+      error: "Something went wrong. Please try again later",
+    });
   }
 };
 
-// Delete Activity
-exports.deleteActivity = async (req, res, next) => {
+//DONE
+exports.getObjective=async(req,res,next)=>{
+  const {id}=req.params
+
+  try {
+    const objective=await Objective.findByPk(id)
+    if(objective){
+      return res.status(201).json({
+        message:"Successful request",
+        Objective:objective
+      })
+    }else{
+      return res.status(404).json({
+        error:"Provided objective was not found"
+      })
+    }
+  } catch (error) {
+    return res.status(500).json({
+      error: "Something went wrong. Please try again later"
+    })
+  }
+}
+
+// DONE
+exports.deleteObjective = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const activity = await Activity.findByPk(id);
+    const objective = await Objective.findByPk(id);
 
-    if (!activity) {
+    if (!objective) {
       return res.status(404).json({
-        error: "Activity not found",
+        error: "Provided objective was not found",
       });
     } else {
-      const data=await Activity.destroy({
+      const data = await Objective.destroy({
         where: { id },
       });
 
-      res.status(200).json({
-        success: "Activity deleted successfully",
+      res.status(204).json({
+        success: "Objective deleted successfully",
       });
     }
   } catch {
