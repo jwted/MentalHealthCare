@@ -1,71 +1,106 @@
-const db = require("../Models/Forum/Posts");
-const Post = db.Post;
-const Comment = db.Comment;
-const like = db.Like_Post;
+const Post = require("../Models/Forum/Posts");
+const Comment = require("../Models/Forum/Comentario");
+const like = require("../Models/Forum/GostosPost");
+const { Op } = require("sequelize");
 
-// Posts - Get
+exports.bodyValidation = (req, res, next) => {
+  const { text, userId } = req.body;
+  if (!text || !userId) {
+    missingFields = [];
+    if (!text) {
+      missingFields.push("text");
+    }
+    if (!userId) {
+      missingFields.push("userId");
+    }
+    res.status(400).json({
+      error: "Missing fields, the fields are: " + missingFields.join(", "),
+    });
+  } else {
+    next();
+  }
+};
+
+exports.idValidation = (req, res, next) => {
+  const { id } = req.params;
+  if (!id) {
+    res.status(404).json({
+      error: "Provided post was not found",
+    });
+  } else {
+    const data = Post.findByPk(id);
+    if (data == null) {
+      res.status(404).json({
+        error: "Provided post was not found",
+      });
+    }
+    next();
+  }
+};
+
+// DONE
 exports.getPosts = async (req, res, next) => {
+  const { offset, length, posts } = req.query;
   try {
-    const { offset, length } = req.query;
-
     if (offset && length) {
-      if (offset == NaN || length == NaN) {
-        return res.status(400).json({
-          error: "Only numbers are allowed",
+      if (posts) {
+        const ids = posts.split(",").map(Number);
+        const data = await Post.findAll({
+          where: { id: { [Op.in]: ids } },
+          offset: parseInt(offset),
+          limit: parseInt(length),
         });
-      } else if ((offset && !length) || (!offset && length)) {
-        return res.status(400).json({
-          error:
-            "Incorrect query use(you must use offset and length at the same time",
+        return res.status(200).json({
+          success: "Successful request",
+          Posts: data,
         });
       } else {
         const data = await Post.findAll({
           offset: parseInt(offset),
           limit: parseInt(length),
         });
-        res.status(200).json({
+        return res.status(200).json({
           success: "Successful request",
           Posts: data,
         });
       }
+    }
+    if (posts) {
+      const ids = posts.split(",").map(Number);
+      const data = await Post.findAll({
+        where: { id: { [Op.in]: ids } },
+      });
+      return res.status(200).json({
+        success: "Successful request",
+        Posts: data,
+      });
     } else {
       const data = await Post.findAll();
-      res.status(200).json({
+      return res.status(200).json({
         success: "Successful request",
         Posts: data,
       });
     }
-  } catch {
-    res
-      .status(500)
-      .json({ error: "Something went wrong. Please try again later" });
+  } catch (error) {
+    return res.status(500).json({
+      error: "Something went wrong. Please try again later",
+    });
   }
 };
 
-//Posts - Post
+//DONE
 exports.postPosts = async (req, res, next) => {
+  const { userId, text } = req.body;
   try {
-    const { text } = req.body;
-    if (!text) {
-      res.status(401).json({
-        error: "Missing field text",
-      });
-    } else if (text == "" || typeof text !== "string") {
-      res.status(401).json({
-        error: "Invalid field text",
-      });
-    } else {
-      const data = await Post.create({
-        userId: req.user.id,
-        text: text,
-        date: new Date(),
-        likes: 0,
-      });
-      res.status(201).json({
-        success: "Post created successfully",
-        Post: data,
-      });
-    }
+    const data = await Post.create({
+      userId: userId,
+      text: text,
+      likes: 0,
+    });
+    res.status(201).json({
+      success: "Successfully created",
+      Post: data,
+    });
   } catch (error) {
     res.status(500).send({
       error: "Something went wrong. Please try again later",
@@ -73,32 +108,34 @@ exports.postPosts = async (req, res, next) => {
   }
 };
 
-// Posts/Id - Get
+// DONE
 exports.getPostById = async (req, res, next) => {
+  const { id } = req.params;
   try {
-    const data = await Post.findByPk(req.params.id);
-    if (!data) {
-      return res.status(404).json({
-        error: "Provider postId was not found",
-      });
+    const data = await Post.findByPk(id);
+    if (data == null) {
+      res.status(404).json({ message: "Provided post was not found" });
     } else {
-      res.status(200).json({
-        success: "Successful request",
-        Post: data,
-      });
-      next();
+      res.status(200).json({ message: "Successful request", Post: data });
     }
   } catch (error) {
-    res.status(500).json({ message: "An error occurred", error });
+    res
+      .status(500)
+      .json({ message: "Something went wrong. Please try again later" });
   }
 };
 
-// Posts/Id - Put
+// Done
 exports.updatePostById = async (req, res, next) => {
+  const { userId, text } = req.body;
+  const { id } = req.params;
   try {
-    const data = await Post.update(req.body, {
-      where: { id: req.params.id },
-    });
+    const data = await Post.update(
+      { userId: userId, text: text },
+      {
+        where: { id: id },
+      }
+    );
     if (data == 1) {
       res.status(200).json({
         success: "Post was updated successfully.",
@@ -110,13 +147,12 @@ exports.updatePostById = async (req, res, next) => {
     }
   } catch (error) {
     res.status(500).send({
-      message: "Error updating Post with id=" + req.params.id,
-      error: error.message,
+      error: "Something went wrong. Please try again later",
     });
   }
 };
 
-// Posts/Id - Delete
+//DONE
 exports.deletePostById = async (req, res, next) => {
   try {
     const data = await Post.destroy({
@@ -138,89 +174,77 @@ exports.deletePostById = async (req, res, next) => {
   }
 };
 
-// Posts/id/comments - Get
+// DONE
 exports.getComments = async (req, res, next) => {
   try {
-    const { offset, length } = req.query;
+    const { offset, length, comments } = req.query;
     const { id } = req.params;
 
-    if (Post.findByPk(id) == null) {
-      return res.status(404).json({
-        error: "Provided post was not found",
-      });
-    } else {
-      if (offset && length) {
-        if (offset == NaN || length == NaN || offset == "" || length == "") {
-          return res.status(400).json({
-            error: "Only numbers are allowed",
-          });
-        } else {
-          const data = await Comment.findAll({
-            where: { postId: id },
-            offset: parseInt(offset),
-            limit: parseInt(length),
-          });
-          res.status(200).json({
-            success: "Successful request",
-            Comments: data,
-          });
-        }
-      } else if ((offset && !length) || (!offset && length)) {
-        return res.status(400).json({
-          error:
-            "Incorrect query use(you must use offset and length at the same time",
+    if (offset && length) {
+      if (comments) {
+        const ids = comments.split(",").map(Number);
+        const data = await Comment.findAll({
+          where: { postId: id, id: { [Op.in]: ids } },
+          offset: parseInt(offset),
+          limit: parseInt(length),
+        });
+        return res.status(200).json({
+          success: "Successful request",
+          Comments: data,
         });
       } else {
         const data = await Comment.findAll({
           where: { postId: id },
+          offset: parseInt(offset),
+          limit: parseInt(length),
         });
-        res.status(200).json({
+        return res.status(200).json({
           success: "Successful request",
           Comments: data,
         });
       }
     }
-  } catch (error) {
-    res.status(500).json({
-      error: "Something went wrong. Please try again later",
-    });
-  }
-};
-
-// Posts/id/comments - Post
-exports.addComments = async (req, res, next) => {
-  try {
-    const { userId, text } = req.body;
-    const { postId } = req.params;
-    if (!postId) {
-      return res.status(404).json({
-        error: "Provided post was not found",
+    if (comments) {
+      const ids = comments.split(",").map(Number);
+      const data = await Comment.findAll({
+        where: { postId: id, id: { [Op.in]: ids } },
+      });
+      return res.status(200).json({
+        success: "Successful request",
+        Comments: data,
       });
     } else {
-      if (!text || !userId) {
-        missingFields = [];
-        if (!text) {
-          missingFields.push("text");
-        }
-        if (!userId) {
-          missingFields.push("userId");
-        }
-        res.status(400).json({
-          error: "Missing fields, the fields are: " + missingFields.join(", "),
-        });
-      } else {
-        const data = await Comment.create({
-          userId: req.user.id,
-          postId: id,
-          text: text,
-          date: new Date(),
-        });
-        res.status(201).json({
-          success: "Successfully created",
-          Comment: data,
-        });
-      }
+      const data = await Comment.findAll({
+        where: { postId: id },
+      });
+      return res.status(200).json({
+        success: "Successful request",
+        Comments: data,
+      });
     }
+  } catch (error) {
+    console.error(error); // Log the error for debugging
+    res.status(500).json({
+      error: "Something went wrong. Please try again later",
+    });
+  }
+};
+
+// NOT DONE,ERROR 500
+exports.addComments = async (req, res, next) => {
+  const { userId, text } = req.body;
+  const { id } = req.params;
+  try {
+    const data = await Comment.create({
+      userId: userId,
+      postId: id,
+      text: text,
+      likes: 0,
+    });
+    res.status(201).json({
+      success: "Successfully created",
+      Comment: data,
+    });
   } catch (error) {
     res.status(500).json({
       error: "Something went wrong. Please try again later",
@@ -228,7 +252,7 @@ exports.addComments = async (req, res, next) => {
   }
 };
 
-//Posts/id/comments/commentId - Get
+//NOT DONE
 exports.getCommentById = async (req, res, next) => {
   try {
     const { postId, commentId } = req.params;
@@ -257,7 +281,7 @@ exports.getCommentById = async (req, res, next) => {
   }
 };
 
-// Posts/id/comments/commentId - Delete
+// NOT DONE
 exports.deleteCommentById = async (req, res, next) => {
   try {
     const { postId, commentId } = req.params;
@@ -294,7 +318,7 @@ exports.deleteCommentById = async (req, res, next) => {
   }
 };
 
-// Posts/id/comments/commentId - Put
+// NOT DONE
 exports.updateCommentById = async (req, res, next) => {
   try {
     const { postId, commentId } = req.params;
@@ -332,26 +356,29 @@ exports.updateCommentById = async (req, res, next) => {
   }
 };
 
-// Posts/id/like - Post
+// NOT DONE
 exports.addLike = async (req, res, next) => {
   try {
-    const { postId } = req.params;
-    const post = await Post.findByPk(postId);
+    const { id } = req.params;
+    const post = await Post.findByPk(id);
     if (!post) {
       return res.status(404).json({
         error: "Provided post was not found",
       });
     } else {
       const data = await like.create({
-        userId: req.user.id,
-        postId: postId,
+        userId: 3,
+        postId: id,
       });
+
+      post.likes+=1;
+
       res.status(201).json({
         success: "Successfully created",
         like: data,
       });
     }
-    
+
   } catch (error) {
     res.status(500).json({
       error: "Something went wrong. Please try again later",
@@ -359,7 +386,7 @@ exports.addLike = async (req, res, next) => {
   }
 };
 
-// Posts/id/like - Delete
+// NOT DONE
 exports.removeLike = async (req, res, next) => {
   try {
     const { postId } = req.params;

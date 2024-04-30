@@ -187,12 +187,27 @@ import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
 import Button from "@/components/Button.vue";
 import CourseContainer from "@/components/CourseContainer.vue";
+import { objectiveStore } from "@/store/objectiveStore.js";
+
 export default {
   components: {
     Navbar,
     Footer,
     Button,
     CourseContainer,
+  },
+  data() {
+    return {
+      store: objectiveStore,
+      objectives: [],
+    }
+  },
+
+  mounted () {
+    this.store.fetchObjectives;
+    this.objectives = this.store.objectives;
+    console.log(this.objectives);
+
   },
 };
 </script>
