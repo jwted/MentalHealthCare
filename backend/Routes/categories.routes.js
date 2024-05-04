@@ -9,9 +9,9 @@ router
   .get("/", objMid.offsetLengthValidation,categoryController.getCategories)
   .post("/",categoryController.categoryValidation,categoryController.createCategory);
 
-// //Get / Put / Delete - By Id
-//  router
-//   .get("/:id", categoryController.getCategory)
-//   .put("/:id", categoryController.updateCategory)
-//   .delete("/:id", categoryController.deleteCategory);
+ //Get / Put / Delete - By Id
+ router
+   .get("/:id", categoryController.getCategory)
+   .put("/:id", categoryController.categoryValidation,categoryController.updateCategory)
+   .delete("/:id", categoryController.deleteCategory);
 module.exports = router;

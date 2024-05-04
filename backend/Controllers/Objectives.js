@@ -1,7 +1,8 @@
 const Objective = require("../Models/Objetivos/Objetivos");
+const categoria_objetivo = require("../Models/Categorias/Category_Objective.js");
 const { Op } = require("sequelize");
 
-//ONLY MISS OBJECTIVES FILTER(MORE THAN ONE)
+//DONE
 exports.getObjectives = async (req, res, next) => {
   const { offset, length, objectives } = req.query;
   try {
@@ -12,7 +13,8 @@ exports.getObjectives = async (req, res, next) => {
     }
     if (objectives) {
       const ids = objectives.split(",").map(Number);
-      query.where = { id: { [Op.in]: ids } }; 
+      query.where = query.where || {};
+      query.where.id = { [Op.in]: ids };
     }
     const data = await Objective.findAll(query);
     return res.status(200).json({
@@ -26,25 +28,23 @@ exports.getObjectives = async (req, res, next) => {
   }
 };
 
-
 //DONE
 exports.createObjective = async (req, res, next) => {
   const { name, description } = req.body;
-  try{
-      const data = await Objective.create({
-        name,
-        description,
-      });
-      return res.status(201).json({
-        success: "Objective created successfully",
-        Objective: data,
-      });
-    }
-    catch (error) {
-      return res.status(500).json({
-        error: "Something went wrong. Please try again later",
-      });
-    }
+  try {
+    const data = await Objective.create({
+      name,
+      description,
+    });
+    return res.status(201).json({
+      success: "Objective created successfully",
+      Objective: data,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: "Something went wrong. Please try again later",
+    });
+  }
 };
 
 // DONE
@@ -79,27 +79,27 @@ exports.updateObjective = async (req, res, next) => {
 };
 
 //DONE
-exports.getObjective=async(req,res,next)=>{
-  const {id}=req.params
+exports.getObjective = async (req, res, next) => {
+  const { id } = req.params;
 
   try {
-    const objective=await Objective.findByPk(id)
-    if(objective){
+    const objective = await Objective.findByPk(id);
+    if (objective) {
       return res.status(201).json({
-        message:"Successful request",
-        Objective:objective
-      })
-    }else{
+        message: "Successful request",
+        Objective: objective,
+      });
+    } else {
       return res.status(404).json({
-        error:"Provided objective was not found"
-      })
+        error: "Provided objective was not found",
+      });
     }
   } catch (error) {
     return res.status(500).json({
-      error: "Something went wrong. Please try again later"
-    })
+      error: "Something went wrong. Please try again later",
+    });
   }
-}
+};
 
 // DONE
 exports.deleteObjective = async (req, res, next) => {
@@ -126,3 +126,27 @@ exports.deleteObjective = async (req, res, next) => {
       .json({ error: "Something went wrong. Please try again later" });
   }
 };
+
+exports.addCategoryToObjective = async (req, res, next) => {
+  const { objectiveId, categoryId } = req.body;
+  try {
+    const objective = await Objective.findByPk(objectiveId);
+    if (!objective) {
+      return res.status(404).json({
+        error: "Objective not found",
+      });
+    }
+    const category = await categoria_objetivo.create({
+      objectiveId,
+      categoryId,
+    });
+    return res.status(201).json({
+      success: "Category added to objective successfully",
+      Category: category,
+    });
+  } catch {
+    return res.status(500).json({
+      error: "Something went wrong. Please try again later",
+    });
+  }
+}

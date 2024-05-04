@@ -17,22 +17,6 @@ exports.offsetLengthValidation = (req, res, next) => {
   next();
 };
 
-exports.idsValidation = (req, res, next) => {
-  const { objectives } = req.query;
-  if (objectives) {
-    const objectives = objectives.split(",");
-    objectives.forEach((objective) => {
-      if (isNaN(objective)) {
-        return res.status(400).json({
-          error: "Only numbers are allowed",
-        });
-      }
-    });
-    next();
-  }
-  next()
-};
-
 exports.objectiveValidation = (req, res, next) => {
   const { name, description } = req.body;
   if (!name || !description) {
