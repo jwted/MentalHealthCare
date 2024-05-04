@@ -54,7 +54,11 @@ export const objectiveStore = defineStore("objective", {
     async getObjective(id) {
       const response = await fetch(`${url}/objectives/${id}`);
       const data = await response.json();
-      this.objective = data;
+      if (Array.isArray(data)) {
+        this.objectives = data;
+      } else {
+        console.error('Unexpected data format:', data);
+      }
     }
   },
 });
