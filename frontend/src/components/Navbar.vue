@@ -17,7 +17,7 @@
         <router-link to="/posts">Community</router-link>
       </li>
       <li>
-        <router-link to="/">Diary</router-link>
+        <router-link to="/diary">Diary</router-link>
       </li>
       <li>
         <router-link to="/profile">Profile</router-link>

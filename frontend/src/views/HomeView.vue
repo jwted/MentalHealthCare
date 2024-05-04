@@ -11,11 +11,45 @@
       <v-col cols="8" class="cont"> CALENDAR </v-col>
       <v-col cols="4" class="cont">
         <v-col>
-          <h3>Upcoming Activities</h3>
+          <h2>Upcoming Activities</h2>
         </v-col>
         <v-col>
-          <UpcomingContainer class="w-50 sizes"/>
+          <UpcomingContainer class="w-100 sizes"/>
         </v-col>
+      </v-col>
+    </v-container>
+    <v-container class="d-flex align-center flex-column cont">
+      <v-col cols="12">
+          <h2>Ours Objectives</h2>
+      </v-col>
+      <v-col cols="12">
+        <v-row>
+          <UpcomingContainer/>
+        </v-row>
+      </v-col>
+    </v-container>
+    <v-container class="d-flex align-center">
+      <v-col cols="6" class="cont">
+        <h2>Our Team</h2>
+      </v-col>
+      <v-col cols="6" class="cont">
+        <v-row>
+          <v-col cols="4" class="cont">
+            <img src="../assets/face1.jpg" alt="Face1" />
+            <h3>John Doe</h3>
+            <h4>CEO</h4>
+          </v-col>
+          <v-col cols="4" class="cont">
+            <img src="../assets/face2.jpg" alt="Face2" />
+            <h3>Jane Doe</h3>
+            <h4>CTO</h4>
+          </v-col>
+          <v-col cols="4">
+            <img src="../assets/face3.jpg" alt="Face3" />
+            <h3>John Smith</h3>
+            <h4>COO</h4>
+          </v-col>
+        </v-row>
       </v-col>
     </v-container>
   </main>

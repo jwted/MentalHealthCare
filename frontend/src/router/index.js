@@ -7,6 +7,7 @@ import CallendarView from '@/views/CallendarView.vue'
 import ObjectivesView from '@/views/ObjectivesView.vue'
 import ProfileView from '@/views/ProfileView.vue'
 import CommunityView from '@/views/Community.vue'
+import DiaryView from '@/views/DiaryView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -95,8 +96,8 @@ const router = createRouter({
     {
       path: '/diary',
       name: '',
-      component: '',
-      meta: { requiresAuth: true},
+      component: DiaryView,
+      //meta: { requiresAuth: true},
     },
     {
       path: '/diary/{entryId}',

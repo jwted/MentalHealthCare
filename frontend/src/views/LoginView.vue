@@ -1,29 +1,29 @@
 <template>
-  <div class="container">
-    <form>
-      <div class="login">
-        <h2>Login</h2>
-        <Button :text="'Back'" @click="router.go(-1)"></Button>
-      </div>
-      <div>
-        <label for="username">Username:</label>
-        <input type="text" id="username" v-model="username" />
-      </div>
-      <div>
-        <label for="password">Password:</label>
-        <input type="password" id="password" v-model="password" />
-      </div>
-      <div>
-        <Button :text="'Login'" class="button" @click="login"></Button>
-      </div>
-      <div>
-        <p>
-          Don't have an account?
-          <router-link to="/register">Register</router-link>
-        </p>
-      </div>
-    </form>
-  </div>
+  <v-container class="fill-height d-flex align-items-center justify-content-center">
+        <form>
+          <div class="login">
+            <h2>Login</h2>
+            <Button :text="'Back'" class="ma-3">Back</Button>
+          </div>
+          <div>
+            <label for="username">Username:</label>
+            <input type="text" id="username" v-model="username" />
+          </div>
+          <div>
+            <label for="password">Password:</label>
+            <input type="password" id="password" v-model="password" />
+          </div>
+          <div class="login">
+            <Button :text="'Login'" class="ma-3"></Button>
+          </div>
+          <div>
+            <p>
+              Don't have an account?
+              <router-link to="/register">Register</router-link>
+            </p>
+          </div>
+        </form>
+  </v-container>
 </template>
 
 <script>
@@ -45,21 +45,20 @@ export default {
 
   methods: {
     login() {
-      try {      
-        this.userStore.login({name:this.username, password: this.password});
+      try {
+        this.userStore.login({ name: this.username, password: this.password });
       } catch (error) {
         throw new Error(error);
       }
-    }
+    },
   },
 };
 </script>
 
 <style>
-.container,
 form {
   padding: 1rem 2rem;
-  border:none
+  border: none;
 }
 
 form {
@@ -85,7 +84,7 @@ div {
   width: 100%;
 }
 
-p {
+p,p.router-link {
   margin-top: 1rem;
   text-decoration: none;
 }
@@ -102,7 +101,7 @@ Button {
   margin-bottom: 1rem;
 }
 
-.login Button{
-  width:30%
+.login Button {
+  width: 40%;
 }
 </style>

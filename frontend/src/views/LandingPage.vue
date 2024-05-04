@@ -11,7 +11,9 @@
             Whether you're looking to enhance your skills, build confidence, or
             achieve your goals, we're here to support you every step of the way.
           </p>
-          <Button :text="'Start'" class="ma-3"></Button>
+          <router-link :to="{ name: 'login' }"
+            ><Button :text="'Start'" class="ma-3"></Button
+          ></router-link>
         </v-col>
         <v-col
           cols="12"
@@ -47,7 +49,7 @@
           <h2>Your path to grow</h2>
         </v-col>
       </v-row>
-      <v-row class="d-flex justify-space-between align-center mt-4">
+      <v-row class="d-flex justify-space-around align-center mt-4">
         <v-col
           cols="12"
           sm="6"
@@ -75,7 +77,7 @@
           <p>Activities Schedule</p>
         </v-col>
       </v-row>
-      <v-row class="d-flex justify-space-between align-center mt-4">
+      <v-row class="d-flex justify-space-around align-center mt-4">
         <v-col
           cols="12"
           sm="6"
@@ -103,7 +105,7 @@
           <p>Do activities</p>
         </v-col>
       </v-row>
-      <v-row class="d-flex justify-space-between align-center mt-4">
+      <v-row class="d-flex justify-space-around align-center mt-4">
         <v-col
           cols="12"
           sm="6"
@@ -198,16 +200,14 @@ export default {
   },
   data() {
     return {
-      store: objectiveStore,
+      store: objectiveStore(),
       objectives: [],
-    }
+    };
   },
 
-  mounted () {
-    this.store.fetchObjectives;
-    this.objectives = this.store.objectives;
-    console.log(this.objectives);
-
+  mounted() {
+    this.store.fetchObjectives();
+    console.log(this.store.objectives);
   },
 };
 </script>

@@ -1,5 +1,7 @@
 <template>
-  <div class="container">
+  <v-container
+    class="fill-height d-flex align-items-center justify-content-center"
+  >
     <form>
       <div class="login">
         <h2>Register</h2>
@@ -17,7 +19,7 @@
         <label for="password">Password:</label>
         <input type="password" id="password" v-model="password" />
       </div>
-      <div>
+      <div class="login">
         <Button :text="'Register'" class="button"></Button>
       </div>
       <div>
@@ -26,7 +28,7 @@
         </p>
       </div>
     </form>
-  </div>
+  </v-container>
 </template>
 
 <script>
@@ -45,11 +47,15 @@ export default {
   methods: {
     register() {
       try {
-        this.userStore.register({name:this.username, email: this.email, password: this.password});
+        this.userStore.register({
+          name: this.username,
+          email: this.email,
+          password: this.password,
+        });
       } catch (error) {
         throw new Error(error);
       }
-    }
+    },
   },
 
   components: {

@@ -20,16 +20,17 @@ exports.offsetLengthValidation = (req, res, next) => {
 exports.idsValidation = (req, res, next) => {
   const { objectives } = req.query;
   if (objectives) {
-    if (isNaN(objectives)) {
-      return res.status(400).json({
-        error: "Only numbers are allowed",
-      });
-    } else {
-      next();
-    }
-  } else {
+    const objectives = objectives.split(",");
+    objectives.forEach((objective) => {
+      if (isNaN(objective)) {
+        return res.status(400).json({
+          error: "Only numbers are allowed",
+        });
+      }
+    });
     next();
   }
+  next()
 };
 
 exports.objectiveValidation = (req, res, next) => {
