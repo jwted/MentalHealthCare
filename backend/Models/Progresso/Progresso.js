@@ -4,7 +4,7 @@ const { Sequelize, DataTypes } = require("sequelize");
 const Progress = sequelize.define(
   "Progress",
    {
-    objetiveId: {
+    objectiveId: {
         type: DataTypes.INTEGER,
         allowNull: false,
         references: {
@@ -28,10 +28,7 @@ const Progress = sequelize.define(
         type: DataTypes.STRING,
         allowNull: false,
     }, */
-    points: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-    },
+    
   },
   {
     tableName: "Progress",

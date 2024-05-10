@@ -22,6 +22,7 @@ app.use("/Tips", require("./Routes/Tips"));
 app.use("/", require("./Routes/Auth"));
 app.use("/posts", require("./Routes/post.routes"));
 app.use("/objectives",require("./Routes/objectives.routes.js"));
+app.use("/activities",require("./Routes/activites.routes.js"));
 app.use("/categories", require("./Routes/categories.routes.js"));
 app.use("/badges", require("./Routes/badges.routes.js"));
 app.use("/users", require("./Routes/Users"));

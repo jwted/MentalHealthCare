@@ -1,12 +1,40 @@
-const db = require("../Models/Atividades/Atividade.js");
-const Activity = db.Activity;
+const {Activity} =require('../Models/index');
 
+module.exports = {
 
-exports.getActivities = async (req, res, next) => {
-  try {
-    const { id, offset, length } = req.query;
+  getActivities : async (req, res, next) => {
+    
+    try{
+      const { activity, offset, limit } = req.query;
+      
+      let query = {
+        where:{}
+      }
+      
+      if (offset && limit){
+        query.offset = parseInt(offset)
+        query.limit - parseInt(limit)
+        
+        
+      }
+      if(activity){
+        query.where.id = activity.split(',')
+      }
 
-    if (offset && length) {
+      const activities = await Activity.findAll(query)
+      
+      if (activities){
+        res.status(200).send({
+          message:'Sucessfully found activities',
+          content:activities
+        })
+      }
+    
+    }catch(error){
+      res.status(500).send({message:'Something went wrong.', error})
+    }
+
+    /* if (offset && length) {
       if (offset == NaN || length == NaN) {
         return res.status(400).json({
           error: "Only numbers are allowed",
@@ -51,26 +79,29 @@ exports.getActivities = async (req, res, next) => {
     }
   } catch {
     res
-      .status(500)
+    .status(500)
       .json({ error: "Something went wrong. Please try again later" });
-  }
-};
+    }
+    */
+},
 
-exports.createActivity = async (req, res, next) => {
+createActivity : async (req, res, next) => {
   try {
     const { name, description, objectiveId, categoryId } = req.body;
-
+    
     if (!name || !description || !objectiveId || !categoryId) {
       const missingFields = [];
       if (!name) missingFields.push("name");
       if (!description) missingFields.push("description");
       if (!objectiveId) missingFields.push("objectiveId");
       if (!categoryId) missingFields.push("categoryId");
-
+      
       return res.status(400).json({
         error: `Missing fields: ${missingFields.join(", ")}`,
       });
     }
+    
+    
 
     const data = await Activity.create({
       name,
@@ -85,18 +116,18 @@ exports.createActivity = async (req, res, next) => {
     });
   } catch {
     res
-      .status(500)
-      .json({ error: "Something went wrong. Please try again later" });
+    .status(500)
+    .json({ error: "Something went wrong. Please try again later" });
   }
-};
+},
 
 // Patch Activity
-exports.updateActivity = async (req, res, next) => {
+updateActivity : async (req, res, next) => {
   try {
     const { id } = req.params;
     const { name, description, objectiveId, categoryId } = req.body;
     const activity= await Activity.findByPk(id);
-
+    
     if (!activity) {
       return res.status(404).json({
         error: "Activity not found",
@@ -113,7 +144,7 @@ exports.updateActivity = async (req, res, next) => {
           where: { id },
         }
       );
-
+      
       if (data[0] === 1) {
         res.status(200).json({
           success: "Activity updated successfully",
@@ -126,17 +157,17 @@ exports.updateActivity = async (req, res, next) => {
     }
   } catch {
     res
-      .status(500)
-      .json({ error: "Something went wrong. Please try again later" });
+    .status(500)
+    .json({ error: "Something went wrong. Please try again later" });
   }
-};
+},
 
 // Delete Activity
-exports.deleteActivity = async (req, res, next) => {
+deleteActivity : async (req, res, next) => {
   try {
     const { id } = req.params;
     const activity = await Activity.findByPk(id);
-
+    
     if (!activity) {
       return res.status(404).json({
         error: "Activity not found",
@@ -145,19 +176,20 @@ exports.deleteActivity = async (req, res, next) => {
       const data=await Activity.destroy({
         where: { id },
       });
-
+      
       res.status(200).json({
         success: "Activity deleted successfully",
       });
     }
   } catch {
     res
-      .status(500)
-      .json({ error: "Something went wrong. Please try again later" });
+    .status(500)
+    .json({ error: "Something went wrong. Please try again later" });
   }
-};
+},
 
 //Get Categories
-exports.getCategories = async (req, res, next) => {
-
+getCategories : async (req, res, next) => {
+  
+}
 }

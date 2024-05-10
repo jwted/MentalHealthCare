@@ -17,6 +17,56 @@ exports.offsetLengthValidation = (req, res, next) => {
   next();
 };
 
+exports.idsValidation = (req, res, next) => {
+  
+  const type = Object.keys(req.query)[0];
+  if (type && type != 'offset' && type !='length'){
+
+    let content
+    switch (type) {
+      case 'user':
+        content = req.query.user
+        break;
+      case 'objective':
+        content = req.query.objective
+        break;
+          
+      case 'activity':
+        content = req.query.activity
+        break;
+          
+      default:
+        res.status(400).send({message:'Incorrect query use. Please consult the api documentation.'})
+        return  
+        
+            
+    }
+    let errorMessages = [];
+    
+    if (content.length === 0) {
+      errorMessages.push('No IDs were provided, but the user query was used');
+    }
+    
+    content = content.split(',')
+    
+    if (errorMessages.length === 0) {
+      content.forEach(element => {
+        if (isNaN(element)) {
+          errorMessages.push(`${element} is not a integer`);
+        }
+      });
+    }
+
+    if (errorMessages.length > 0) {
+      res.status(400).send({ message: errorMessages.join('. ') });
+      return;
+    }
+    }
+  
+
+  next()
+};
+
 exports.objectiveValidation = (req, res, next) => {
   const { name, description } = req.body;
   if (!name || !description) {
