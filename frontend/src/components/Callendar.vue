@@ -1,5 +1,5 @@
 <template>
-  <v-calendar ref="calendar" color="primary" type="month"></v-calendar>
+  <v-calendar color="primary" @click:date="handleDateClick"></v-calendar>
 </template>
 
 <script>
@@ -9,7 +9,13 @@ export default {
   components: {
     VCalendar,
   },
+  data() {
+    return {
+      selectedDate: null
+    }
+  },
 };
 </script>
 
-<style></style>
+<style>
+</style>
