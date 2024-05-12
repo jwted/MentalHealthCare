@@ -1,15 +1,16 @@
 const express = require("express");
 const router = express.Router();
-const activityController = require("../Controllers/Activities");
+const {getActivities,createActivity,updateActivity,deleteActivity} = require("../Controllers/Activities");
+const {idsValidation,offsetLengthValidation} = require('../Middlewares/objMid')
 const { verifyUser, verifyAdmin } = require("../Middlewares/jwt");
 // Get Activites
 router
-  .get("/", activityController.getActivites)
-  .post("/", verifyUser, activityController.createActivity);
+  .get("/", verifyUser,offsetLengthValidation,idsValidation,getActivities )
+  .post("/", createActivity);
 
 // Get / Put / Delete - By Id
 router
-  .patch("/:id", verifyUser, activityController.updateActivity)
-  .delete("/:id", verifyAdmin, activityController.deleteActivity);
+  .patch("/:id", updateActivity)
+  .delete("/:id",deleteActivity);
 
 module.exports = router;

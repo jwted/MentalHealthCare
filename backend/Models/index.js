@@ -73,9 +73,9 @@ Objective.belongsToMany(Activity, { through: Objective_Activity });
 Activity.belongsToMany(Objective, { through: Objective_Activity });
 
 
-User.belongsToMany(Objective, { through: Progress});
+/* User.belongsToMany(Objective, { through: Progress});
 Objective.belongsToMany(User, { through: Progress });
-
+ */
 // 1 Post : N Comments
 Post.hasMany(Comment, {
 	onDelete: "CASCADE", // This will automatically delete children when a father is deleted

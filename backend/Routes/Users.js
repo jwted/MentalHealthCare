@@ -1,10 +1,14 @@
 const express = require('express')
-const { User } = require('../Models/index')
-const {register } = require('../Controllers/Auth')
-const {getUser } = require('../Controllers/Users')
+const {getUser,getUsers,editProfile } = require('../Controllers/Users')
+const {addObjectiveToUser} = require('../Controllers/Objectives')
+const {verifyAdmin,verifyUser, verifySameUser}= require('../Middlewares/jwt')
+const {idsValidation,offsetLengthValidation}= require('../Middlewares/objMid')
 const router = express.Router()
 
-//router.get('/', getUsers)
-router.get('/:userId', getUser)
+router.get('/',verifyUser,offsetLengthValidation,idsValidation,getUsers)
+
+router.post('/:userId/objectives/:objectiveId',verifyUser, addObjectiveToUser)
+router.get('/:userId',verifyUser, getUser)
+router.put('/:userId',verifySameUser,editProfile)
 
 module.exports = router

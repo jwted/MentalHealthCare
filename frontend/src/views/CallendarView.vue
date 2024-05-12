@@ -13,7 +13,7 @@
   <v-container>
     <v-row class="fill-height cont">
       <v-col>
-        <Callendar></Callendar>
+        <Callendar @date-clicked="logClickedDate"></Callendar>
       </v-col>
     </v-row>
   </v-container>
@@ -21,7 +21,7 @@
   <v-container class="d-flex flex-column cont">
     <v-row class="d-flex justify-space-between align-center">
       <v-col>
-        <h2>Upcoming Activities</h2>
+        <h2>Upcoming Activities {{ selectedDate }}</h2>
       </v-col>
       <v-col>
         <Select></Select>
@@ -51,6 +51,17 @@ export default {
     UpcomingContainer,
     Select
   },
+data() {
+  return {
+    selectedDate: null
+  }
+},
+methods: {
+    logClickedDate(date) {
+      // Log the clicked date
+      console.log('Clicked Date:', date);
+    }
+  }
 };
 </script>
 

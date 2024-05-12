@@ -1,4 +1,5 @@
 const Objective = require("../Models/Objetivos/Objetivos");
+const Progress= require('../Models/Progresso/Progresso.js')
 const categoria_objetivo = require("../Models/Categorias/Category_Objective.js");
 const { Op } = require("sequelize");
 
@@ -26,6 +27,28 @@ exports.getObjectives = async (req, res, next) => {
       error: "Something went wrong. Please try again later",
     });
   }
+};
+exports.addObjectiveToUser = async (req, res, next) => {
+  const {userId, objectiveId} = req.params  
+  const {endDate} =req.body
+  
+  try{
+    const data = await Progress.create({
+      userId:userId,
+      objectiveId:objectiveId,
+      endDate:new Date()
+    })
+    console.log(data)
+    if(data){
+
+      res.status(201).send({message:'Objective added successfully'})
+      return
+    }
+  }catch(error){
+    console.log(error)
+    res.status(500).send({message:'Something went wrong'})
+  }
+
 };
 
 //DONE

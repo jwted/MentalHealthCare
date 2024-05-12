@@ -6,15 +6,15 @@
             <Button :text="'Back'" class="ma-3">Back</Button>
           </div>
           <div>
-            <label for="username">Username:</label>
-            <input type="text" id="username" v-model="username" />
+            <label for="email">Email:</label>
+            <input type="email" id="email" v-model="email" />
           </div>
           <div>
             <label for="password">Password:</label>
             <input type="password" id="password" v-model="password" />
           </div>
           <div class="login">
-            <Button :text="'Login'" class="ma-3"></Button>
+            <Button @click.prevent="login" :text="'Login'" class="ma-3"></Button>
           </div>
           <div>
             <p>
@@ -36,7 +36,7 @@ export default {
 
   data() {
     return {
-      username: "",
+      name: "",
       email: "",
       password: "",
       userStore: userStore(),
@@ -46,7 +46,7 @@ export default {
   methods: {
     login() {
       try {
-        this.userStore.login({ name: this.username, password: this.password });
+        this.userStore.login({ email: this.email, password: this.password });
       } catch (error) {
         throw new Error(error);
       }
