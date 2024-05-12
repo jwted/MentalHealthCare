@@ -21,20 +21,21 @@ exports.bodyValidation = (req, res, next) => {
   }
 };
 
-exports.idValidation = (req, res, next) => {
+exports.idValidation = async (req, res, next) => {
   const { id } = req.params;
   if (!id) {
-    res.status(404).json({
-      error: "Provided post was not found",
+    res.status(400).json({
+      error: "Missing post id",
     });
   } else {
-    const data = Post.findByPk(id);
-    if (data == null) {
+    const post = await Post.findByPk(id);
+    if (!post) {
       res.status(404).json({
         error: "Provided post was not found",
       });
+    } else {
+      next();
     }
-    next();
   }
 };
 
@@ -176,70 +177,39 @@ exports.deletePostById = async (req, res, next) => {
 
 // DONE
 exports.getComments = async (req, res, next) => {
+  const { offset, length, comments } = req.query;
   try {
-    const { offset, length, comments } = req.query;
-    const { id } = req.params;
-
-    if (offset && length) {
-      if (comments) {
-        const ids = comments.split(",").map(Number);
-        const data = await Comment.findAll({
-          where: { postId: id, id: { [Op.in]: ids } },
-          offset: parseInt(offset),
-          limit: parseInt(length),
-        });
-        return res.status(200).json({
-          success: "Successful request",
-          Comments: data,
-        });
-      } else {
-        const data = await Comment.findAll({
-          where: { postId: id },
-          offset: parseInt(offset),
-          limit: parseInt(length),
-        });
-        return res.status(200).json({
-          success: "Successful request",
-          Comments: data,
-        });
-      }
-    }
+    let query = {};
     if (comments) {
       const ids = comments.split(",").map(Number);
-      const data = await Comment.findAll({
-        where: { postId: id, id: { [Op.in]: ids } },
-      });
-      return res.status(200).json({
-        success: "Successful request",
-        Comments: data,
-      });
-    } else {
-      const data = await Comment.findAll({
-        where: { postId: id },
-      });
-      return res.status(200).json({
-        success: "Successful request",
-        Comments: data,
-      });
+      query.where = { id: { [Op.in]: ids } };
     }
-  } catch (error) {
-    console.error(error); // Log the error for debugging
-    res.status(500).json({
+    if (offset && length) {
+      query.offset = parseInt(offset);
+      query.limit = parseInt(length);
+    }
+    const data = await Comment.findAll(query);
+    return res.status(200).json({
+      success: "Successful request",
+      Comments: data,
+    });
+  } catch {
+    return res.status(500).json({
       error: "Something went wrong. Please try again later",
     });
   }
 };
 
-// NOT DONE,ERROR 500
+// DONE
 exports.addComments = async (req, res, next) => {
   const { userId, text } = req.body;
   const { id } = req.params;
   try {
+    console.log("TESTE");
     const data = await Comment.create({
       userId: userId,
-      postId: id,
       text: text,
-      likes: 0,
+      PostId: id,
     });
     res.status(201).json({
       success: "Successfully created",
@@ -252,27 +222,20 @@ exports.addComments = async (req, res, next) => {
   }
 };
 
-//NOT DONE
+//DONE
 exports.getCommentById = async (req, res, next) => {
   try {
     const { postId, commentId } = req.params;
-    const post = await Post.findByPk(postId);
-    if (!post) {
+    const comment = await Comment.findByPk(commentId);
+    if (!comment) {
       return res.status(404).json({
-        error: "Provided post was not found",
+        error: "Provided comment was not found",
       });
     } else {
-      const comment = await Comment.findByPk(commentId);
-      if (!comment) {
-        return res.status(404).json({
-          error: "Provided comment was not found",
-        });
-      } else {
-        res.status(200).json({
-          success: "Successful request",
-          Comment: comment,
-        });
-      }
+      res.status(200).json({
+        success: "Successful request",
+        Comment: comment,
+      });
     }
   } catch (error) {
     res.status(500).json({
@@ -324,6 +287,7 @@ exports.updateCommentById = async (req, res, next) => {
     const { postId, commentId } = req.params;
     const { text } = req.body;
     const post = await Post.findByPk(postId);
+    console.log(post)
     if (!post) {
       return res.status(404).json({
         error: "Provided post was not found",
@@ -371,14 +335,13 @@ exports.addLike = async (req, res, next) => {
         postId: id,
       });
 
-      post.likes+=1;
+      post.likes += 1;
 
       res.status(201).json({
         success: "Successfully created",
         like: data,
       });
     }
-
   } catch (error) {
     res.status(500).json({
       error: "Something went wrong. Please try again later",

@@ -4,37 +4,36 @@ const { Sequelize, DataTypes } = require("sequelize");
 const Comentario = sequelize.define(
   "Comment",
   {
-    
-  text:{
-      type:DataTypes.TEXT('medium'),
-      allowNull: false
-  },
-  PostId:{
-      type:DataTypes.INTEGER,
+    text: {
+      type: DataTypes.TEXT("medium"),
+      allowNull: false,
+    },
+    PostId: {
+      type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-          model: "Post",
-          key: "id"
-        },
+        model: "Post",
+        key: "id",
+      },
     },
-    userId:{
-      type:DataTypes.INTEGER,
-      allowNull:false,
+    userId: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
       references: {
         model: "User",
-        key: "id"
+        key: "id",
       },
-  },
-  
-  likes:{
-      type:DataTypes.INTEGER,
-      allowNull:false,
-      defaultValue:0
-  }
+    },
+
+    likes: {
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      defaultValue: 0,
+    },
   },
   {
-    tableName:'Comment'
+    tableName: "Comment",
   }
 );
-Comentario.sync({"logging":false})
+Comentario.sync({ logging: false });
 module.exports = Comentario;

@@ -1,7 +1,7 @@
 const Badges = require("../Models/Badges/Badge.js");
 
 exports.badgeValidation = (req, res, next) => {
-  const { name, description, points, type,requirement } = req.body;
+  const { name, description, points, type, requirement } = req.body;
   if (!name || !description || !points || !type || !requirement) {
     let missingFields = [];
     if (!name) missingFields.push("name");
@@ -44,14 +44,14 @@ exports.getBadges = async (req, res) => {
 
 //DONE
 exports.createBadge = async (req, res, next) => {
-  const { name, description, points, type,requirement } = req.body;
+  const { name, description, points, type, requirement } = req.body;
   try {
     const data = await Badges.create({
       name: name,
       description: description,
       points: points,
       type: type,
-      requirement:requirement
+      requirement: requirement,
     });
     return res.status(201).json({
       success: "Badge created successfully",
@@ -65,7 +65,7 @@ exports.createBadge = async (req, res, next) => {
 };
 
 //DONE
-exports.getBadge= async (req, res) => {
+exports.getBadge = async (req, res) => {
   const { id } = req.params;
   try {
     const data = await Badges.findByPk(id);
@@ -83,12 +83,12 @@ exports.getBadge= async (req, res) => {
       error: "Something went wrong. Please try again later",
     });
   }
-}
+};
 
 //DONE
 exports.updateBadge = async (req, res) => {
   const { id } = req.params;
-  const { name, description, points, type,requirement } = req.body;
+  const { name, description, points, type, requirement } = req.body;
   try {
     const data = await Badges.findByPk(id);
     if (!data) {
@@ -101,7 +101,7 @@ exports.updateBadge = async (req, res) => {
       description: description,
       points: points,
       type: type,
-      requirement:requirement
+      requirement: requirement,
     });
     return res.status(200).json({
       success: "Badge updated successfully",
@@ -112,7 +112,7 @@ exports.updateBadge = async (req, res) => {
       error: "Something went wrong. Please try again later",
     });
   }
-}
+};
 
 //DONE
 exports.deleteBadge = async (req, res) => {
@@ -133,4 +133,4 @@ exports.deleteBadge = async (req, res) => {
       error: "Something went wrong. Please try again later",
     });
   }
-}
+};

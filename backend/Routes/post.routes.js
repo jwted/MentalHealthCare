@@ -18,15 +18,15 @@ router
 
 // Post / Get - Comments of Post Id
 router.route("/:id/comments")
-  .get(postController.idValidation,postController.getComments)
-  .post(postController.idValidation,postController.bodyValidation,postController.addComments);
+  .get(postController.idValidation,offsetLengthValidation,postController.getComments)
+  .post(offsetLengthValidation,postController.bodyValidation,postController.addComments);
 
-// // Get / Delete / Put - Comments by Id
-// router
-//   .route("/:id/comments/:commentId")
-//   .get(postController.getCommentById)
-//   .delete(postController.deleteCommentById)
-//   .put(postController.updateCommentById);
+// Get / Delete / Put - Comments by Id
+router
+  .route("/:id/comments/:commentId")
+  .get(postController.idValidation,postController.getCommentById)
+  .delete(postController.idValidation,postController.deleteCommentById)
+  .put(postController.idValidation,postController.updateCommentById);
 
 // Post / Delete - Likes
 router

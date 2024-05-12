@@ -4,7 +4,7 @@ exports.offsetLengthValidation = (req, res, next) => {
   if ((offset && !length) || (!offset && length)) {
     return res.status(400).json({
       error:
-        "Incorrect query use(you must use offset and length at the same time",
+        "Incorrect query use(you must use offset and length at the same time)",
     });
   }
   if (offset && length) {
