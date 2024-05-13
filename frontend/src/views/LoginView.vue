@@ -47,6 +47,7 @@ export default {
     login() {
       try {
         this.userStore.login({ email: this.email, password: this.password });
+        this.$router.push("/home");
       } catch (error) {
         throw new Error(error);
       }

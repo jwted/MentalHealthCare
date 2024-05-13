@@ -1,6 +1,6 @@
 import { ref, computed } from "vue";
 import { defineStore } from "pinia";
-import axios from 'axios'
+import axios from "axios";
 
 const url = "http://localhost:3000";
 export const userStore = defineStore("user", {
@@ -11,9 +11,7 @@ export const userStore = defineStore("user", {
     getUserProgress: (state) => state.userProgress,
   },
   actions: {
-   
-
-    async register(name,email,password) {
+    async register(name, email, password) {
       /* const response = await fetch(`${url}/users`, {
         method: "POST",
         body: JSON.stringify(user),
@@ -23,32 +21,33 @@ export const userStore = defineStore("user", {
       this.users.push(data); */
 
       const data = {
-        name:name,
-        email:email,
-        password:password
+        name: name,
+        email: email,
+        password: password,
+      };
+
+      try {
+        const response = await axios.post(`${url}/register`, data);
+        if (response.status === 201) {
+          console.log(response.data);
+          this.users.push(response.data);
+          console.log(this.users);
+        } else {
+          console.error("Erro na requisição:", response.status);
+        }
+      } catch (error) {
+        console.log(error);
       }
-     
-      try{
-       
-        const response = await axios.post(`${url}/register`,data)
-      }catch(error){
-        console.log(error)
-      }
-      
     },
 
     async login(user) {
-      
-      try{
-        
-        const response = await axios.post(`${url}/login`,user)
-        
-        if(response.status == 201){
-          
-          localStorage.setItem('Token',response.data.token)
+      try {
+        const response = await axios.post(`${url}/login`, user);
+        if (response.status == 201) {
+          localStorage.setItem("Token", response.data.token);
         }
-      }catch(error){
-        console.log(error)
+      } catch (error) {
+        console.log(error);
       }
       /* const response = await fetch(`${url}/login`, {
         method: "POST",

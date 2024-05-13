@@ -1,5 +1,5 @@
 <template>
-  <nav>
+  <nav v-if="isUserLogged == null">
     <div>
       <img src="@/assets/logo.svg" alt="">
     </div>
@@ -25,7 +25,7 @@
     </ul>
   </nav>
   
-  <!-- <nav>
+  <nav v-else>
     <div>
       <img src="@/assets/logo.svg" alt="">
     </div>
@@ -34,17 +34,24 @@
         <router-link to="/login"><Button :text="'Login'"></Button></router-link>
       </li>
       <li>
-        <router-link to="/login"><Button :text="'Register'"></Button></router-link>
+        <router-link to="/register"><Button :text="'Register'"></Button></router-link>
       </li>
     </ul>
-  </nav>  -->
+  </nav>
 </template>
 
 <script>
+import { userStore } from '@/store/userStore';
 import Button from './Button.vue';
 export default {
   components: {
     Button,
+  },
+  data() {
+    return {
+      userStore: userStore,
+      isUserLogged: userStore.getLoggedInUser,
+    };
   },
 }
 </script>
@@ -75,5 +82,9 @@ export default {
 
   a:hover {
     color: #2E4242;
+  }
+
+  Button{
+    width:100%
   }
 </style>

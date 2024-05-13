@@ -7,9 +7,8 @@
         <h2>Hello,John Doe!</h2>
       </v-row>
     </v-container>
-    <v-container class="d-flex align-center">
-      <v-col cols="8" class="cont"> CALENDAR </v-col>
-      <v-col cols="4" class="cont">
+    <v-container class="d-flex align-center cont">
+      <v-col>
         <v-col>
           <h2>Upcoming Activities</h2>
         </v-col>
@@ -20,7 +19,7 @@
     </v-container>
     <v-container class="d-flex align-center flex-column cont">
       <v-col cols="12">
-          <h2>Ours Objectives</h2>
+          <h2>Current Objectives</h2>
       </v-col>
       <v-col cols="12">
         <v-row>

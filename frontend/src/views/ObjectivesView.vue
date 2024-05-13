@@ -19,17 +19,8 @@
         <Select></Select>
       </v-col>
     </v-row>
-    <v-row class="d-flex flex-column cont">
-      <ObjectiveContainer></ObjectiveContainer>        
-    </v-row>
-    <v-row class="d-flex flex-column cont">
-      <ObjectiveContainer></ObjectiveContainer>        
-    </v-row>
-    <v-row class="d-flex flex-column cont">
-      <ObjectiveContainer></ObjectiveContainer>        
-    </v-row>
-    <v-row class="d-flex flex-column cont">
-      <ObjectiveContainer></ObjectiveContainer>        
+    <v-row class="d-flex flex-column cont" v-for="obj in getObjs" :key="obj.id">
+      <ObjectiveContainer :obj="obj"></ObjectiveContainer>
     </v-row>
   </v-container>
   <Footer></Footer>
@@ -41,8 +32,24 @@ import Footer from "@/components/Footer.vue";
 import Button from "@/components/Button.vue";
 import Select from "@/components/Select.vue";
 import ObjectiveContainer from "@/components/ObjectiveContainer.vue";
+import { objectiveStore } from "@/store/objectiveStore";
 export default {
-  components: { Navbar, Footer, Button, Select, ObjectiveContainer},
+  components: { Navbar, Footer, Button, Select, ObjectiveContainer },
+  data() {
+    return {
+      store: objectiveStore(),
+    };
+  },
+
+  mounted() {
+    this.store.getObjectives();
+  },
+
+  computed: {
+    getObjs() {
+      return this.store.getAllObjectives;
+    },
+  },
 };
 </script>
 

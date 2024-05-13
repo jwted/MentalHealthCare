@@ -22,6 +22,19 @@ exports.categoryValidation = async (req, res, next) => {
         error: "Objective not found",
       });
     }
+
+    const categoryObjective = await categoria_objetivo.findOne({
+      where: {
+        objectiveId: objectiveId,
+      },
+    });
+
+    if (categoryObjective) {
+      return res.status(400).json({
+        error: "Objective already has a category",
+      });
+    }
+
     next();
   }
 
@@ -32,6 +45,19 @@ exports.categoryValidation = async (req, res, next) => {
         error: "Activity not found",
       });
     }
+
+    const categoryActivity = await categoria_atividade.findOne({
+      where: {
+        activityId: activityId,
+      },
+    });
+
+    if (categoryActivity) {
+      return res.status(400).json({
+        error: "Activity already has a category",
+      });
+    }
+
     next();
   }
   next();
@@ -48,6 +74,7 @@ exports.createCategory = async (req, res) => {
       success: "Category created successfully",
       Category: data,
     });
+
   } catch {
     return res.status(500).json({
       error: "Something went wrong. Please try again later",

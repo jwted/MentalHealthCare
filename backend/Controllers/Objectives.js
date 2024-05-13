@@ -30,7 +30,6 @@ exports.getObjectives = async (req, res, next) => {
 };
 exports.addObjectiveToUser = async (req, res, next) => {
   const {userId, objectiveId} = req.params  
-  const {endDate} =req.body
   
   try{
     const data = await Progress.create({

@@ -13,14 +13,14 @@
       </div>
       <div>
         <label for="name">Name:</label>
-        <input v-model="name" id="name" ></input>
+        <input v-model="name" id="name" >
       </div>
       <div>
         <label for="password">Password:</label>
         <input v-model="password" type="password" id="password" />
       </div>
       <div class="login">
-        <v-btn @click="register" :text="'Register'" class="button"></v-btn>
+        <Button @click="register" :text="'Register'" class="button"></Button>
       </div>
       <div>
         <p>

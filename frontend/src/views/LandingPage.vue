@@ -197,12 +197,6 @@ export default {
     Button,
     CourseContainer,
   },
-  data() {
-    return {
-      objectives: [],
-    };
-  },
-
 };
 </script>
 <style scoped>
