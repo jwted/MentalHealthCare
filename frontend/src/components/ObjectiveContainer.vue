@@ -5,10 +5,6 @@
       <h2 class="bg">Fitness</h2>
     </v-col>
     <v-col class="d-flex flex-column justify-center align-center bg">
-      <h2 class="bg mb-4">Today</h2>
-      <h2 class="bg">10:00-11:00</h2>
-    </v-col>
-    <v-col class="d-flex flex-column justify-center align-center bg">
       <img src="../assets/detail.svg" alt="" class="animate bg mb-4" />
       <img src="../assets/cancel.svg" alt="" class="animate bg" />
     </v-col>

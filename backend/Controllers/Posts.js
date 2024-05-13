@@ -178,6 +178,7 @@ exports.deletePostById = async (req, res, next) => {
 // DONE
 exports.getComments = async (req, res, next) => {
   const { offset, length, comments } = req.query;
+  const { id } = req.params;
   try {
     let query = {};
     if (comments) {
@@ -188,7 +189,7 @@ exports.getComments = async (req, res, next) => {
       query.offset = parseInt(offset);
       query.limit = parseInt(length);
     }
-    const data = await Comment.findAll(query);
+    const data = await Comment.findAll({ where: { postId: id }, ...query });
     return res.status(200).json({
       success: "Successful request",
       Comments: data,
@@ -225,8 +226,8 @@ exports.addComments = async (req, res, next) => {
 //DONE
 exports.getCommentById = async (req, res, next) => {
   try {
-    const { postId, commentId } = req.params;
-    const comment = await Comment.findByPk(commentId);
+    const { id, commentId } = req.params;
+    const comment = await Comment.findOne({where: {postId: id, id: commentId}});
     if (!comment) {
       return res.status(404).json({
         error: "Provided comment was not found",
@@ -247,14 +248,14 @@ exports.getCommentById = async (req, res, next) => {
 // NOT DONE
 exports.deleteCommentById = async (req, res, next) => {
   try {
-    const { postId, commentId } = req.params;
-    const post = await Post.findByPk(postId);
+    const { id, commentId } = req.params;
+    const post = await Post.findByPk(id);
     if (!post) {
       return res.status(404).json({
         error: "Provided post was not found",
       });
     } else {
-      const comment = await Comment.findByPk(commentId);
+      const comment = await Comment.findOne({where: {postId: id, id: commentId}});
       if (!comment) {
         return res.status(404).json({
           error: "Provided comment was not found",
@@ -320,7 +321,7 @@ exports.updateCommentById = async (req, res, next) => {
   }
 };
 
-// NOT DONE
+// Not Done
 exports.addLike = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -335,12 +336,19 @@ exports.addLike = async (req, res, next) => {
         postId: id,
       });
 
-      post.likes += 1;
+      if(data.findOne({where: {userId: 3, postId: id}})){
+        data.destroy({where: {userId: 3, postId: id}});
+      }else{
+        post.update({
+          likes: post.likes + 1,
+        });
+  
+        return res.status(201).json({
+          success: "Successfully created",
+          like: data,
+        });
+      }
 
-      res.status(201).json({
-        success: "Successfully created",
-        like: data,
-      });
     }
   } catch (error) {
     res.status(500).json({
