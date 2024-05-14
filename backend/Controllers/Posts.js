@@ -153,11 +153,15 @@ exports.updatePostById = async (req, res, next) => {
   }
 };
 
-//DONE
+//MISS DELETE LIKES TOO
 exports.deletePostById = async (req, res, next) => {
   try {
+    console.log(req.params.id);
     const data = await Post.destroy({
-      where: { id: req.params.id },
+      where: { 
+        id: req.params.id,
+       },
+       cascade: true
     });
     if (data == 1) {
       res.status(204).json({
@@ -169,6 +173,7 @@ exports.deletePostById = async (req, res, next) => {
       });
     }
   } catch (error) {
+    console.log(error);
     res.status(500).send({
       error: "Something went wrong. Please try again later",
     });

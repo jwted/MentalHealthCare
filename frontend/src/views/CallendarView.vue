@@ -10,14 +10,6 @@
       </v-col>
     </v-row>
   </v-container>
-  <v-container>
-    <v-row class="fill-height cont">
-      <v-col>
-        <Callendar @date-clicked="logClickedDate"></Callendar>
-      </v-col>
-    </v-row>
-  </v-container>
-
   <v-container class="d-flex flex-column cont">
     <v-row class="d-flex justify-space-between align-center">
       <v-col>

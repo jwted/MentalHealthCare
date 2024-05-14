@@ -31,15 +31,9 @@
           <h2>Our Courses</h2>
         </v-col>
       </v-row>
-      <v-row>
+      <v-row v-for="obj in getObjs" :key="obj.id">
         <v-col cols="12" sm="6" md="4" class="pa-3">
-          <CourseContainer />
-        </v-col>
-        <v-col cols="12" sm="6" md="4" class="pa-3">
-          <CourseContainer />
-        </v-col>
-        <v-col cols="12" sm="6" md="4" class="pa-3">
-          <CourseContainer />
+          <CourseContainer :obj="obj"/>
         </v-col>
       </v-row>
     </v-container>
@@ -141,22 +135,16 @@
           <h2>How InnerPeace changed lives</h2>
         </v-col>
       </v-row>
-      <v-row class="d-flex justify-space-around align-center mt-4">
-        <v-col cols="4" md="4">
-          <CourseContainer />
-        </v-col>
-        <v-col cols="4" md="4">
-          <CourseContainer />
+      <v-row class="d-flexjustify-space-around align-center mt-4" v-for="post in getPosts" :key="post.id" cols="12">
+        <v-col cols="3" md="4">
+          <PostContainer :post="post"/>
         </v-col>
       </v-row>
-      <v-row class="d-flex justify-space-around align-center mt-4">
+      <!-- <v-row class="d-flex justify-space-around align-center mt-4" v-for="post in getPosts" :key="post.id">
         <v-col cols="4" md="4" class="mt-4">
-          <CourseContainer />
+          <PostContainer :post="post" />
         </v-col>
-        <v-col cols="4" md="4">
-          <CourseContainer />
-        </v-col>
-      </v-row>
+      </v-row> -->
     </v-container>
 
     <v-container class="d-flex justify-center align-center">
@@ -189,14 +177,43 @@ import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
 import Button from "@/components/Button.vue";
 import CourseContainer from "@/components/CourseContainer.vue";
-
+import PostContainer from "@/components/PostContainer.vue";
+import { objectiveStore } from "@/store/objectiveStore";
+import { postStore } from "@/store/postStore";
 export default {
   components: {
     Navbar,
     Footer,
     Button,
     CourseContainer,
+    PostContainer,
   },
+
+  data() {
+    return {
+      objStore: objectiveStore(),
+      postStore: postStore(),
+    }
+  },
+
+  created () {
+    this.objStore.getObjectives();
+    this.postStore.getPosts();
+  },
+
+  computed: {
+    getObjs() {
+      while(this.objStore.getObjectives.length==0){
+        return this.objStore.getAllObjectives;
+      }
+    },
+
+    getPosts() {
+      while(this.postStore.getPosts.length==0){
+        return this.postStore.getAllPosts;
+      }
+    }
+  }
 };
 </script>
 <style scoped>
@@ -212,11 +229,5 @@ export default {
 
 Button {
   width: 20%;
-}
-
-.card {
-  background-color: #addfad;
-  color: #f6fff8;
-  border: #2e4242 solid 2px;
 }
 </style>

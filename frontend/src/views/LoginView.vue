@@ -47,7 +47,11 @@ export default {
     login() {
       try {
         this.userStore.login({ email: this.email, password: this.password });
-        this.$router.push("/home");
+        if(this.userStore.getLoggedInUser){
+          this.$router.push("/home");
+        }else{
+          throw new Error("Invalid credentials");
+        }
       } catch (error) {
         throw new Error(error);
       }

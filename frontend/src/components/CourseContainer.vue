@@ -2,21 +2,26 @@
   <v-container class="d-flex flex-column mx-auto container bg" width="400">
     <v-row class="d-flex bg">
       <img src="../assets/depression.svg" alt="" class="bg flex-start" />
-      <h3 class="bg justify-center align-center">Depression</h3>
+      <h3 class="bg justify-center align-center">{{ obj.name }}</h3>
     </v-row>
     <v-row class="bg">
       <p class="bg">
-        Welcome to a journey of self-improvement. Our platform is designed to
-        guide you through the process of personal growth, step by step. Whether
-        you're looking to enhance your skills, build confidence, or achieve your
-        goals, we're here to support you every step of the way.
+        {{ obj.description }}
       </p>
     </v-row>
   </v-container>
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    obj: Object,
+    default: () => ({
+      name: "Depression",
+      description: "This is a description of the course",
+    }),
+  },
+};
 </script>
 
 <style scoped>

@@ -29,6 +29,7 @@
       </div>
     </v-form>
   </v-container>
+  {{ getUsers }}
 </template>
 
 <script>
@@ -52,6 +53,12 @@ export default {
         console.log(error);
       }
     },
+  },
+
+  computed: {
+    getUsers() {
+     console.log(this.userStore.getUsers); 
+    }
   },
 
   components: {

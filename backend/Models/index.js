@@ -84,6 +84,13 @@ Post.hasMany(Comment, {
 		// other constraints or options
 	},
 });
+Post.hasMany(Like_Post, {
+	onDelete: "CASCADE", // This will automatically delete children when a father is deleted
+	foreignKey: {
+		allowNull: false,
+		// other constraints or options
+	},
+});
 Post.belongsTo(User, {foreignKey:'userId'})
 User.hasMany(Post)
 Comment.belongsTo(Post);
