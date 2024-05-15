@@ -33,7 +33,7 @@
         <v-row class="bg">
           <h2 class="bg">Bio:</h2>
           <h2 class="bg">
-            afuoahfsahu
+            I want be a good person
           </h2>
         </v-row>
       </v-col>
@@ -53,25 +53,19 @@
       class="d-flex align-center justify-space-between bg border"
     >
       <v-col class="bg">
-        <v-row class="bg">
-          <h2 class="bg">Name:</h2>
-          <h2 class="bg">John Doe</h2>
-        </v-row>
-        <v-row class="bg">
-          <h2 class="bg">Email:</h2>
-          <h2 class="bg">johndoe@gmail.com</h2>
-        </v-row>
-        <v-row class="bg">
-          <h2 class="bg">Points: </h2>
-          <h2 class="bg">
-            100000
-          </h2>
-        </v-row>
-        <v-row class="bg">
-          <h2 class="bg">Bio:</h2>
-          <h2 class="bg">
-            afuoahfsahu
-          </h2>
+        <v-row class="bg d-flex justify-center align-center">
+          <v-col class="bg d-flex flex-column justify-center align-center">
+            <img src="../assets/fitness.svg" alt="" width="100" height="100">
+            <h3 class="bg">Do some Fitness activity</h3>
+          </v-col>
+          <v-col class="bg d-flex flex-column justify-center align-center">
+            <img src="../assets/fitness.svg" alt="" width="100" height="100">
+            <h3 class="bg">Do some Fitness activity</h3>
+          </v-col>
+          <v-col class="bg d-flex flex-column justify-center align-center">
+            <img src="../assets/fitness.svg" alt="" width="100" height="100">
+            <h3 class="bg">Do some Fitness activity</h3>
+          </v-col>
         </v-row>
       </v-col>
     </v-container>

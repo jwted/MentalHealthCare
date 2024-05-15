@@ -31,9 +31,9 @@
           <h2>Our Courses</h2>
         </v-col>
       </v-row>
-      <v-row v-for="obj in getObjs" :key="obj.id">
-        <v-col cols="12" sm="6" md="4" class="pa-3">
-          <CourseContainer :obj="obj"/>
+      <v-row>
+        <v-col v-for="obj in getObjs" :key="obj.id" class="d-flex align-center">
+            <CourseContainer :obj="obj"/>
         </v-col>
       </v-row>
     </v-container>
@@ -135,16 +135,14 @@
           <h2>How InnerPeace changed lives</h2>
         </v-col>
       </v-row>
-      <v-row class="d-flexjustify-space-around align-center mt-4" v-for="post in getPosts" :key="post.id" cols="12">
-        <v-col cols="3" md="4">
+      <v-row class="d-flex justify-space-around align-center mt-4">
+        <v-col cols="4" md="4" v-for="post in getPosts" :key="post.id">
+          <PostContainer :post="post"/>
+        </v-col>
+        <v-col cols="4" md="4" v-for="post in getPosts" :key="post.id">
           <PostContainer :post="post"/>
         </v-col>
       </v-row>
-      <!-- <v-row class="d-flex justify-space-around align-center mt-4" v-for="post in getPosts" :key="post.id">
-        <v-col cols="4" md="4" class="mt-4">
-          <PostContainer :post="post" />
-        </v-col>
-      </v-row> -->
     </v-container>
 
     <v-container class="d-flex justify-center align-center">

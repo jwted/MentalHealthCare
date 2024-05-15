@@ -156,12 +156,10 @@ exports.updatePostById = async (req, res, next) => {
 //MISS DELETE LIKES TOO
 exports.deletePostById = async (req, res, next) => {
   try {
-    console.log(req.params.id);
     const data = await Post.destroy({
-      where: { 
+      where: {
         id: req.params.id,
-       },
-       cascade: true
+      },
     });
     if (data == 1) {
       res.status(204).json({
@@ -232,7 +230,9 @@ exports.addComments = async (req, res, next) => {
 exports.getCommentById = async (req, res, next) => {
   try {
     const { id, commentId } = req.params;
-    const comment = await Comment.findOne({where: {postId: id, id: commentId}});
+    const comment = await Comment.findOne({
+      where: { postId: id, id: commentId },
+    });
     if (!comment) {
       return res.status(404).json({
         error: "Provided comment was not found",
@@ -260,7 +260,9 @@ exports.deleteCommentById = async (req, res, next) => {
         error: "Provided post was not found",
       });
     } else {
-      const comment = await Comment.findOne({where: {postId: id, id: commentId}});
+      const comment = await Comment.findOne({
+        where: { postId: id, id: commentId },
+      });
       if (!comment) {
         return res.status(404).json({
           error: "Provided comment was not found",
@@ -293,7 +295,7 @@ exports.updateCommentById = async (req, res, next) => {
     const { postId, commentId } = req.params;
     const { text } = req.body;
     const post = await Post.findByPk(postId);
-    console.log(post)
+    console.log(post);
     if (!post) {
       return res.status(404).json({
         error: "Provided post was not found",
@@ -341,19 +343,18 @@ exports.addLike = async (req, res, next) => {
         postId: id,
       });
 
-      if(data.findOne({where: {userId: 3, postId: id}})){
-        data.destroy({where: {userId: 3, postId: id}});
-      }else{
+      if (data.findOne({ where: { userId: 3, postId: id } })) {
+        data.destroy({ where: { userId: 3, postId: id } });
+      } else {
         post.update({
           likes: post.likes + 1,
         });
-  
+
         return res.status(201).json({
           success: "Successfully created",
           like: data,
         });
       }
-
     }
   } catch (error) {
     res.status(500).json({

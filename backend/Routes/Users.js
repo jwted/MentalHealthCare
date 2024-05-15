@@ -9,6 +9,6 @@ router.get('/',verifyUser,offsetLengthValidation,idsValidation,getUsers)
 
 router.post('/:userId/objectives/:objectiveId',verifyUser, addObjectiveToUser)
 router.get('/:userId',verifyUser, getUser)
-router.put('/:userId',verifySameUser,editProfile)
+router.put('/:userId',editProfile)
 
 module.exports = router
