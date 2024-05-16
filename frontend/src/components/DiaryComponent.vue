@@ -1,6 +1,27 @@
 <template>
   <v-container>
-    <v-row></v-row>
+    <v-row>
+      <h2>Thoughts</h2>
+      <textarea class="cont bg" v-model="thoughts"></textarea>
+    </v-row>
+  </v-container>
+  <v-container>
+    <v-row>
+      <h2>Feelings</h2>
+      <textarea class="cont bg" v-model="feelings"></textarea>
+    </v-row>
+  </v-container>
+  <v-container>
+    <v-row>
+      <h2>Achievements</h2>
+      <textarea class="cont bg" v-model="achievements"></textarea>
+    </v-row>
+  </v-container>
+  <v-container>
+    <v-row>
+      <h2>Notes</h2>
+      <textarea class="cont bg" v-model="notes"></textarea>
+    </v-row>
   </v-container>
 </template>
 
@@ -8,23 +29,25 @@
 export default {
   data() {
     return {
-      value: "",
-      showTextarea: false,
+      thoughts: "",
+      feelings: "",
+      achievements: "",
+      notes: "",
     };
   },
+
+
 };
 </script>
 
 <style scoped>
-.expandable-input {
-  position: relative;
-}
-
 textarea {
-  display: none;
-  position: absolute;
   width: 100%;
-  height: 100px; /* Ajuste conforme necessário */
-  border: 1px solid #ccc;
+  height: 200px;
+  padding: 12px 20px;
+  box-sizing: border-box;
+  border-radius: 12px;
+  font-size: 20pt;
+  resize: none;
 }
 </style>

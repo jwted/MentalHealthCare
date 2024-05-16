@@ -1,48 +1,72 @@
 <template>
   <nav v-if="isUserLogged == null">
     <div>
-      <img src="@/assets/logo.svg" alt="">
+      <img src="@/assets/logo.svg" alt="" />
     </div>
     <ul>
       <li>
-        <router-link to="/home">Home</router-link>
+        <router-link to="/home" :class="{ activeLink: $route.path === '/home' }"
+          >Home</router-link
+        >
       </li>
       <li>
-        <router-link to="/callendar">Callendar</router-link>
+        <router-link
+          to="/callendar"
+          :class="{ activeLink: $route.path === '/callendar' }"
+          >Callendar</router-link
+        >
       </li>
       <li>
-        <router-link to="/objectives">Objectives</router-link>
+        <router-link
+          to="/objectives"
+          :class="{ activeLink: $route.path === '/objectives' }"
+          >Objectives</router-link
+        >
       </li>
       <li>
-        <router-link to="/posts">Community</router-link>
+        <router-link
+          to="/posts"
+          :class="{ activeLink: $route.path === '/posts' }"
+          >Community</router-link
+        >
       </li>
       <li>
-        <router-link to="/diary">Diary</router-link>
+        <router-link
+          to="/diary"
+          :class="{ activeLink: $route.path === '/diary' }"
+          >Diary</router-link
+        >
       </li>
       <li>
-        <router-link to="/profile">Profile</router-link>
+        <router-link
+          to="/profile"
+          :class="{ activeLink: $route.path === '/profile' }"
+          >Profile</router-link
+        >
       </li>
     </ul>
   </nav>
-  
+
   <nav v-else>
     <div>
-      <img src="@/assets/logo.svg" alt="">
+      <img src="@/assets/logo.svg" alt="" />
     </div>
     <ul>
       <li>
         <router-link to="/login"><Button :text="'Login'"></Button></router-link>
       </li>
       <li>
-        <router-link to="/register"><Button :text="'Register'"></Button></router-link>
+        <router-link to="/register"
+          ><Button :text="'Register'"></Button
+        ></router-link>
       </li>
     </ul>
   </nav>
 </template>
 
 <script>
-import { userStore } from '@/store/userStore';
-import Button from './Button.vue';
+import { userStore } from "@/store/userStore";
+import Button from "./Button.vue";
 export default {
   components: {
     Button,
@@ -53,38 +77,42 @@ export default {
       isUserLogged: userStore.getLoggedInUser,
     };
   },
-}
+};
 </script>
 
 <style scoped>
-  nav {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 1rem 2rem;
-    background-color: #f6fff8;
-  }
+nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #f6fff8;
+}
 
-  ul {
-    display: flex;
-    list-style: none;
-  }
+ul {
+  display: flex;
+  list-style: none;
+}
 
-  li {
-    margin-left: 1rem;
-  }
+li {
+  margin-left: 1rem;
+}
 
-  a {
-    text-decoration: none;
-    color: #6B9080;
-    font-size: 16pt;
-  }
+a {
+  text-decoration: none;
+  color: #6b9080;
+  font-size: 16pt;
+}
 
-  a:hover {
-    color: #2E4242;
-  }
+a:hover {
+  color: #2e4242;
+}
 
-  Button{
-    width:100%
-  }
+Button {
+  width: 100%;
+}
+
+.activeLink {
+  color: #2e4242;
+}
 </style>

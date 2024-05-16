@@ -58,7 +58,4 @@ methods: {
 </script>
 
 <style>
-Button {
-  width: 10%;
-}
 </style>

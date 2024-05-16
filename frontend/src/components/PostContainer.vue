@@ -16,12 +16,12 @@
         <h2 class="bg">{{ formatDate(post.createdAt) }}</h2>
       </v-col>
       <v-col class="bg d-flex flex-row">
-        <v-col cols="12" sm="4" class="bg d-flex flex-row">
+        <v-col cols="6" sm="4" class="bg d-flex flex-row">
           <h2 class="bg pa-3">{{ post.likes }}</h2>
           <img src="../assets/heart.svg" alt="Favourite Image" class="bg" />
         </v-col>
-        <v-col cols="12" sm="4" class="bg d-flex flex-row">
-          <h2 class="bg pa-3">{{  }}</h2>
+        <v-col cols="6" sm="4" class="bg d-flex flex-row justify-end">
+          <h2 class="bg pa-3">12</h2>
           <img src="../assets/comment.svg" alt="" class="bg" />
         </v-col>
       </v-col>
