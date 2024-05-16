@@ -1,7 +1,5 @@
 <template>
-  <v-container
-    class="fill-height d-flex align-items-center justify-content-center"
-  >
+  <v-container class="fill-height d-flex align-center justify-center">
     <v-form>
       <div class="login">
         <h2>Register</h2>
@@ -9,15 +7,15 @@
       </div>
       <div>
         <label for="email">Email:</label>
-        <input v-model="email" type="email" id="email"  />
+        <input v-model="email" type="email" id="email" class="cont" />
       </div>
       <div>
         <label for="name">Name:</label>
-        <input v-model="name" id="name" >
+        <input v-model="name" id="name" class="cont" />
       </div>
       <div>
         <label for="password">Password:</label>
-        <input v-model="password" type="password" id="password" />
+        <input v-model="password" type="password" id="password" class="cont" />
       </div>
       <div class="login">
         <Button @click="register" :text="'Register'" class="button"></Button>
@@ -48,7 +46,7 @@ export default {
   methods: {
     async register() {
       try {
-        this.userStore.register(this.name,this.email,this.password);
+        this.userStore.register(this.name, this.email, this.password);
       } catch (error) {
         console.log(error);
       }
@@ -57,8 +55,8 @@ export default {
 
   computed: {
     getUsers() {
-     console.log(this.userStore.getUsers); 
-    }
+      console.log(this.userStore.getUsers);
+    },
   },
 
   components: {

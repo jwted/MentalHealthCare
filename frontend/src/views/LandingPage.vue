@@ -162,7 +162,9 @@
           class="d-flex flex-column justify-center align-center"
         >
           <h1 class="text-justify ma-3">Start your road to happiness today</h1>
-          <Button :text="'Start'" class="ma-3"></Button>
+          <router-link :to="{ name: 'login' }">
+          <Button :text="'Start'" class="ma-3 w-100"></Button>
+          </router-link>
         </v-col>
       </v-row>
     </v-container>

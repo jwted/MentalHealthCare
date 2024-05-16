@@ -1,28 +1,31 @@
 <template>
-  <v-container class="fill-height d-flex align-items-center justify-content-center">
-        <form>
-          <div class="login">
-            <h2>Login</h2>
-            <Button :text="'Back'" class="ma-3">Back</Button>
-          </div>
-          <div>
-            <label for="email">Email:</label>
-            <input type="email" id="email" v-model="email" />
-          </div>
-          <div>
-            <label for="password">Password:</label>
-            <input type="password" id="password" v-model="password" />
-          </div>
-          <div class="login">
-            <Button @click.prevent="login" :text="'Login'" class="ma-3"></Button>
-          </div>
-          <div>
-            <p>
-              Don't have an account?
-              <router-link to="/register">Register</router-link>
-            </p>
-          </div>
-        </form>
+  <v-container
+    fill-height
+    class="d-flex align-items-center justify-content-center"
+  >
+    <form>
+      <div class="login">
+        <h2>Login</h2>
+        <Button :text="'Back'" class="ma-3">Back</Button>
+      </div>
+      <div>
+        <label for="email">Email:</label>
+        <input type="email" id="email" v-model="email" class="cont" />
+      </div>
+      <div>
+        <label for="password">Password:</label>
+        <input type="password" id="password" v-model="password" class="cont" />
+      </div>
+      <div class="login">
+        <Button @click.prevent="login" :text="'Login'" class="ma-3"></Button>
+      </div>
+      <div>
+        <p>
+          Don't have an account?
+          <router-link to="/register">Register</router-link>
+        </p>
+      </div>
+    </form>
   </v-container>
 </template>
 
@@ -47,9 +50,9 @@ export default {
     login() {
       try {
         this.userStore.login({ email: this.email, password: this.password });
-        if(this.userStore.getLoggedInUser){
+        if (this.userStore.getLoggedInUser) {
           this.$router.push("/home");
-        }else{
+        } else {
           throw new Error("Invalid credentials");
         }
       } catch (error) {
@@ -89,7 +92,8 @@ div {
   width: 100%;
 }
 
-p,p.router-link {
+p,
+p.router-link {
   margin-top: 1rem;
   text-decoration: none;
 }

@@ -12,7 +12,7 @@ export const objectiveStore = defineStore("objective", {
     async getObjectives(){
       try {
         const response= await axios.get(`${url}/objectives`);
-        this.objectives=response.data.Objectives        ;
+        this.objectives=response.data.Objectives;
       } catch (error) {
         console.log(error);
       }
