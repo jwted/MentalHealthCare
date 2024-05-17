@@ -1,9 +1,9 @@
 <template>
-  <nav v-if="isUserLogged == null">
+  <nav>
     <div>
       <img src="@/assets/logo.svg" alt="" />
     </div>
-    <ul>
+    <ul v-if="isUserLogged">
       <li>
         <router-link to="/home" :class="{ activeLink: $route.path === '/home' }"
           >Home</router-link
@@ -37,6 +37,13 @@
           >Diary</router-link
         >
       </li>
+      <li v-if="isAdmin">
+        <router-link
+          to="/admin"
+          :class="{ activeLink: $route.path === '/settings' }"
+          >Admin</router-link
+        >
+      </li>
       <li>
         <router-link
           to="/profile"
@@ -45,23 +52,23 @@
         >
       </li>
     </ul>
-  </nav>
-
-  <nav v-else>
-    <div>
-      <img src="@/assets/logo.svg" alt="" />
-    </div>
-    <ul>
-      <li>
-        <router-link to="/login"><Button :text="'Login'"></Button></router-link>
-      </li>
-      <li>
-        <router-link to="/register"
-          ><Button :text="'Register'"></Button
-        ></router-link>
-      </li>
+    <ul v-else>
+      <div>
+        <img src="@/assets/logo.svg" alt="" />
+      </div>
+      <ul>
+        <li>
+          <router-link to="/login"><Button :text="'Login'"></Button></router-link>
+        </li>
+        <li>
+          <router-link to="/register"
+            ><Button :text="'Register'"></Button
+          ></router-link>
+        </li>
+      </ul>
     </ul>
   </nav>
+
 </template>
 
 <script>
@@ -76,6 +83,16 @@ export default {
       userStore: userStore,
       isUserLogged: userStore.getLoggedInUser,
     };
+  },
+
+  computed: {
+    isAdmin() {
+      const user= this.userStore.getLoggedInUser;
+      if(user.role==1){
+        return true;
+      }
+      return false;
+    },
   },
 };
 </script>

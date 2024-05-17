@@ -1,5 +1,5 @@
 <template>
-  <v-container class="fill-height d-flex align-center justify-center">
+  <v-container class="log">
     <v-form>
       <div class="login">
         <h2>Register</h2>
@@ -27,13 +27,13 @@
       </div>
     </v-form>
   </v-container>
-  {{ getUsers }}
 </template>
 
 <script>
 import Button from "@/components/Button.vue";
 import { userStore } from "@/store/userStore";
 export default {
+
   data() {
     return {
       name: "",
@@ -64,3 +64,9 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+Button {
+  width: 30%;
+}
+</style>

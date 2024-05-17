@@ -108,8 +108,8 @@ module.exports = {
 
     const token = jwt.sign(payload, secret);
 
-    jwt.decode(token);
+    const decoded=jwt.decode(token);
 
-    return token;
+    return decoded;
   },
 };

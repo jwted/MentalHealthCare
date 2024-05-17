@@ -1,8 +1,5 @@
 <template>
-  <v-container
-    fill-height
-    class="d-flex align-items-center justify-content-center"
-  >
+  <v-container class="log">
     <form>
       <div class="login">
         <h2>Login</h2>
@@ -39,7 +36,6 @@ export default {
 
   data() {
     return {
-      name: "",
       email: "",
       password: "",
       userStore: userStore(),
@@ -50,10 +46,8 @@ export default {
     login() {
       try {
         this.userStore.login({ email: this.email, password: this.password });
-        if (this.userStore.getLoggedInUser) {
-          this.$router.push("/home");
-        } else {
-          throw new Error("Invalid credentials");
+        if(this.userStore.getLoggedInUser){
+          this.$router.push({ name: "home" });
         }
       } catch (error) {
         throw new Error(error);
@@ -64,6 +58,13 @@ export default {
 </script>
 
 <style>
+.log {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+
 form {
   padding: 1rem 2rem;
   border: none;
@@ -98,19 +99,20 @@ p.router-link {
   text-decoration: none;
 }
 
-Button {
-  width: 100%;
-}
-
 .login {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
   margin-bottom: 1rem;
 }
 
 .login Button {
   width: 40%;
+}
+</style>
+
+<style scoped>
+Button{
+  width: 30%;
 }
 </style>

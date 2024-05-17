@@ -1,4 +1,5 @@
 const { User, User_Badges, Post } = require("../Models/index");
+const bcrypt= require("bcrypt");
 
 module.exports = {
   getUser: async (req, res) => {
@@ -30,7 +31,6 @@ module.exports = {
           exclude: ["password"],
         },
       };
-
       if (offset && length) {
         query.offset = parseInt(offset);
         query.length = parseInt(length);

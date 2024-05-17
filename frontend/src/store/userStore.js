@@ -12,14 +12,6 @@ export const userStore = defineStore("user", {
   },
   actions: {
     async register(name, email, password) {
-      /* const response = await fetch(`${url}/users`, {
-        method: "POST",
-        body: JSON.stringify(user),
-        headers: { "Content-Type": "application/json" },
-      });
-      const data = await response.json();
-      this.users.push(data); */
-
       const data = {
         name: name,
         email: email,
@@ -42,19 +34,13 @@ export const userStore = defineStore("user", {
     async login(user) {
       try {
         const response = await axios.post(`${url}/login`, user);
-        if (response.status == 201) {
-          localStorage.setItem("Token", response.data.token);
+        if (response.status == 200) {
+          localStorage.setItem("Token", response.data.token.id);
+          this.loggedInUser = response.data.token.id;
         }
       } catch (error) {
         console.log(error);
       }
-      /* const response = await fetch(`${url}/login`, {
-        method: "POST",
-        body: JSON.stringify(user),
-        headers: { "Content-Type": "application/json" },
-      });
-      const data = await response.json();
-      this.users.push(data); */
     },
 
     async logout() {

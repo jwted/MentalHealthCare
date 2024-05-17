@@ -6,6 +6,7 @@ module.exports = {
   login: async (req, res) => {
     try {
       const user = await User.findOne({ where: { email: req.body.email } });
+      if(!user) return res.status(404).send({message: "User not found"})
       if (req.body.password && req.body.email) {
         const passwordIsValid = await compareHash(
           user.password,
@@ -13,12 +14,11 @@ module.exports = {
         );
 
         if (passwordIsValid) {
-          console.log("yyyy");
           const token = await SignToken(user.id);
-
-          res.status(201).send({ message: "Success", token: token });
+          console.log(token)
+          return res.status(200).send({ message: "Success", token: token });
         } else {
-          res.status(401).send({ message: "Invalid Credentials" });
+          return res.status(401).send({ message: "Invalid Credentials" });
         }
       } else {
         res
@@ -28,6 +28,7 @@ module.exports = {
           });
       }
     } catch (error) {
+      console.log(error)
       res
         .status(500)
         .send({
@@ -48,9 +49,8 @@ module.exports = {
             password: req.body.password,
           });
           await user.save();
-          const token = await SignToken(user.id);
           res
-            .send({ message: "successuful Register", token: token })
+            .send({ message: "successuful Register"})
             .status(201);
         }
       } else {

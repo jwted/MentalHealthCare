@@ -34,7 +34,6 @@ exports.categoryValidation = async (req, res, next) => {
         error: "Objective already has a category",
       });
     }
-
     next();
   }
 
