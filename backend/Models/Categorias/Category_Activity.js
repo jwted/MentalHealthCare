@@ -9,7 +9,7 @@ const Category_Activity = sequelize.define("Category_Activity", {
             key: "id"
         }
     },
-	cateogryId:{
+	categoryId:{
         type:DataTypes.INTEGER,
         references:{
             model:'Category',

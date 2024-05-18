@@ -1,27 +1,58 @@
 const Objective = require("../Models/Objetivos/Objetivos");
 const Progress= require('../Models/Progresso/Progresso.js')
+const Category= require('../Models/Categorias/Category.js')
+const Activity= require('../Models/Atividades/Atividade.js')
 const categoria_objetivo = require("../Models/Categorias/Category_Objective.js");
 const { Op } = require("sequelize");
 
 //DONE
 exports.getObjectives = async (req, res, next) => {
-  const { offset, length, objectives } = req.query;
+  //!DONE AND TESTED
+  const { offset, length, objective } = req.query;
   try {
-    let query = {};
-    if (offset && length) {
-      query.offset = parseInt(offset);
-      query.limit = parseInt(length);
+    let query = {
+      where:{},
+      include: [
+        {
+          model: Category,
+          as: 'categories',
+          through: {
+            attributes: [] // Exclude join table attributes
+          }
+        },
+        {
+          model: Activity,
+          as: 'activities',
+          through: {
+            attributes: [] // Exclude join table attributes
+          },
+          include: [
+            {
+              model: Category,
+              as: 'categories',
+              through: {
+                attributes: [] // Exclude join table attributes for the nested include
+              }
+            }
+          ]
+        }
+      ]
     }
-    if (objectives) {
-      const ids = objectives.split(",").map(Number);
-      query.where = query.where || {};
-      query.where.id = { [Op.in]: ids };
+    if (offset && length){
+      query.offset = parseInt(offset)
+      query.limit = parseInt(length)
     }
-    const data = await Objective.findAll(query);
-    return res.status(200).json({
-      success: "Successful request",
-      Objectives: data,
-    });
+    if(objective){
+      query.where.id = objective.split(',')
+    }
+    const objectives = await Objective.findAll(query)
+    if(objectives){
+      res.status(200).send({
+        message:'Sucessfully found activities',
+        content:objectives
+      })
+    }
+    
   } catch {
     return res.status(500).json({
       error: "Something went wrong. Please try again later",
@@ -51,28 +82,84 @@ exports.addObjectiveToUser = async (req, res, next) => {
 };
 
 //DONE
-exports.createObjective = async (req, res, next) => {
-  const { name, description } = req.body;
+exports.createObjective = async (req, res) => {
+  //!DONE AND TESTED
   try {
-    const data = await Objective.create({
-      name,
-      description,
+    const { name, description, activityId, categoryId } = req.body;
+
+    if (!name || !description || !activityId || !categoryId) {
+      const missingFields = [];
+      if (!name) missingFields.push("name");
+      if (!description) missingFields.push("description");
+      if (!categoryId) missingFields.push("categoryId");
+      if (!activityId) missingFields.push("activityId");
+      
+      return res.status(400).json({
+        error: `Missing fields: ${missingFields.join(", ")}`,
+      });
+    }
+
+    const categoriesArr = categoryId.split(',');
+    const activitiesArr = activityId.split(',');
+
+    // Create the objective
+    const objective = await Objective.create({ name, description });
+
+    // Associate activities with the objective
+    if (categoriesArr.length > 0) {
+      const categories = await Category.findAll({ where: { id: categoriesArr } });
+      await objective.addCategories(categories);
+    }
+
+    if (activitiesArr.length > 0) {
+      const activities = await Activity.findAll({ where: { id: activitiesArr } });
+      await objective.addActivities(activities);
+    }
+
+    const result = await Objective.findByPk(objective.id, {
+      include: [
+        {
+          model: Category,
+          as: 'categories',
+          through: {
+            attributes: [] // Exclude join table attributes
+          }
+        },
+        {
+          model: Activity,
+          as: 'activities',
+          through: {
+            attributes: [] // Exclude join table attributes
+          },
+          include: [
+            {
+              model: Category,
+              as: 'categories',
+              through: {
+                attributes: [] // Exclude join table attributes for the nested include
+              }
+            }
+          ]
+        }
+      ]
     });
-    return res.status(201).json({
+
+    res.status(201).json({
       success: "Objective created successfully",
-      Objective: data,
+      objective: result
     });
   } catch (error) {
-    return res.status(500).json({
-      error: "Something went wrong. Please try again later",
-    });
+    console.error('Error creating objective:', error);
+    return res.status(500).json({ error: 'Could not create objective' });
   }
-};
+}; 
+
 
 // DONE
 exports.updateObjective = async (req, res, next) => {
+  //!DONE AND TESTED
   const { id } = req.params;
-  const { name, description } = req.body;
+  const { name, description ,activityId,categoryId} = req.body;
   try {
     const objective = await Objective.findByPk(id);
     if (!objective) {
@@ -84,14 +171,22 @@ exports.updateObjective = async (req, res, next) => {
         {
           name,
           description,
+          activityId,
+          categoryId
         },
         {
           where: { id },
         }
       );
-      return res.status(200).json({
-        success: "Objective updated successfully",
-      });
+      if (data[0] === 1) {
+        res.status(200).json({
+          success: "Objective updated successfully",
+        });
+      } else {
+        res.status(404).json({
+          error: "Objective not found",
+        });
+      }
     }
   } catch (error) {
     return res.status(500).json({
@@ -102,43 +197,63 @@ exports.updateObjective = async (req, res, next) => {
 
 //DONE
 exports.getObjective = async (req, res, next) => {
-  const { id } = req.params;
-
-  try {
-    const objective = await Objective.findByPk(id);
-    if (objective) {
-      return res.status(201).json({
-        message: "Successful request",
-        Objective: objective,
-      });
-    } else {
-      return res.status(404).json({
-        error: "Provided objective was not found",
-      });
+  //!DONE AND TESTED
+  try{
+    const objective = await Objective.findByPk(req.params.id, {
+      include: [
+        {
+          model: Category,
+          as: 'categories',
+          through: {
+            attributes: [] // Exclude join table attributes
+          }
+        },
+        {
+          model: Activity,
+          as: 'activities',
+          through: {
+            attributes: [] // Exclude join table attributes
+          },
+          include: [
+            {
+              model: Category,
+              as: 'categories',
+              through: {
+                attributes: [] // Exclude join table attributes for the nested include
+              }
+            }
+          ]
+        }
+      ]
+    })
+    
+    if (objective){
+      res.status(200).send({message:'Objective Sucessfully retrieved', content:objective})
+    }else{
+      res.status(404).send({message:'Objective not found. Invalid ID'})
     }
-  } catch (error) {
-    return res.status(500).json({
-      error: "Something went wrong. Please try again later",
-    });
+  }catch(error){
+    res.status(500).send({message:'Something went wrong.', error})
   }
 };
 
 // DONE
 exports.deleteObjective = async (req, res, next) => {
+  //!DONE AND TESTED
   try {
     const { id } = req.params;
     const objective = await Objective.findByPk(id);
 
     if (!objective) {
-      return res.status(404).json({
+       res.status(404).json({
         error: "Provided objective was not found",
       });
     } else {
-      const data = await Objective.destroy({
+      await Objective.destroy({
         where: { id },
       });
 
-      res.status(204).json({
+       res.status(204).json({
         success: "Objective deleted successfully",
       });
     }
@@ -149,26 +264,3 @@ exports.deleteObjective = async (req, res, next) => {
   }
 };
 
-exports.addCategoryToObjective = async (req, res, next) => {
-  const { objectiveId, categoryId } = req.body;
-  try {
-    const objective = await Objective.findByPk(objectiveId);
-    if (!objective) {
-      return res.status(404).json({
-        error: "Objective not found",
-      });
-    }
-    const category = await categoria_objetivo.create({
-      objectiveId,
-      categoryId,
-    });
-    return res.status(201).json({
-      success: "Category added to objective successfully",
-      Category: category,
-    });
-  } catch {
-    return res.status(500).json({
-      error: "Something went wrong. Please try again later",
-    });
-  }
-}

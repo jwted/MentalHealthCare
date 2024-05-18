@@ -1,26 +1,46 @@
 const {Activity} =require('../Models/index');
+const {Category} =require('../Models/index');
 
 module.exports = {
 
-  getActivities : async (req, res, next) => {
-    
+  getActivity : async (req, res, next) => {
+    //!DONE AND TESTED
     try{
-      const { activity, offset, limit } = req.query;
+      const activity = await Activity.findByPk(req.params.id, {include:[{model:Category, as:'categories', through: {
+        attributes: [] // Exclude join table attributes
+      }}]})
       
+      if (activity){
+        res.status(200).send({message:'Activity Sucessfully retrieved', content:activity})
+      }else{
+        res.status(404).send({message:'Activity not found. Invalid ID'})
+      }
+    }catch(error){
+      res.status(500).send({message:'Something went wrong.', error})
+    }
+
+  
+},
+  getActivities : async (req, res, next) => {
+    //!DONE AND TESTED
+    try{
+      const { activity, offset, length } = req.query;
+      console.log(length)
       let query = {
-        where:{}
+        where:{},
+        include:[{model:Category, as:'categories', through: {
+          attributes: [] // Exclude join table attributes
+        }}]
       }
       
-      if (offset && limit){
+      if (offset && length){
         query.offset = parseInt(offset)
-        query.limit - parseInt(limit)
-        
-        
+        query.limit = parseInt(length)
       }
       if(activity){
         query.where.id = activity.split(',')
       }
-
+      console.log(query)
       const activities = await Activity.findAll(query)
       
       if (activities){
@@ -34,66 +54,43 @@ module.exports = {
       res.status(500).send({message:'Something went wrong.', error})
     }
 
-    /* if (offset && length) {
-      if (offset == NaN || length == NaN) {
-        return res.status(400).json({
-          error: "Only numbers are allowed",
-        });
-      } else if ((offset && !length) || (!offset && length)) {
-        return res.status(400).json({
-          error:
-            "Incorrect query use(you must use offset and length at the same time",
-        });
-      } else {
-        if (!id) {
-          const data = await Activity.findAll({
-            offset: parseInt(offset),
-            limit: parseInt(length),
-          });
-          res.status(200).json({
-            success: "Successful request",
-            Posts: data,
-          });
-        } else {
-          const data = await Activity.findAll({
-            where: { id },
-            offset: parseInt(offset),
-            limit: parseInt(length),
-          });
-          res.status(200).json({
-            success: "Successful request",
-            Activity: data,
-          });
-        }
-      }
-    } else {
-      if (id) {
-        const data = await Activity.findAll({
-          where: { id },
-        });
-        res.status(200).json({
-          success: "Successful request",
-          Activity: data,
-        });
-      }
-    }
-  } catch {
-    res
-    .status(500)
-      .json({ error: "Something went wrong. Please try again later" });
-    }
-    */
+  
 },
 
 createActivity : async (req, res, next) => {
+  //!DONE AND TESTED
   try {
-    const { name, description, objectiveId, categoryId } = req.body;
-    
-    if (!name || !description || !objectiveId || !categoryId) {
+   
+   const {name, description,categoryId} = req.body
+    if (!name || !description   || !categoryId) {
       const missingFields = [];
       if (!name) missingFields.push("name");
       if (!description) missingFields.push("description");
-      if (!objectiveId) missingFields.push("objectiveId");
+      if (!categoryId) missingFields.push("categoryId");
+      
+      return res.status(400).json({
+        error: `Missing fields: ${missingFields.join(", ")}`,
+      });
+    }
+  
+   const categoriesArr = categoryId.split(',')
+   const activity = await Activity.create({name,description})
+
+   if(categoriesArr && categoriesArr.length > 0){
+    const categories = await Category.findAll({where:{id:categoriesArr}})
+    await activity.addCategories(categoriesArr)
+   }
+   const result = await Activity.findByPk(activity.id, {include:[{model:Category, as:'categories', through: {
+    attributes: [] // Exclude join table attributes
+  }}]})
+   res.status(201).send({success:'Activity created successfully', Activity:result})
+    /*   const { name, description, objectiveId, categoryId } = req.body; */
+    
+    /* if (!name || !description  || !objectiveId  || !categoryId) {
+      const missingFields = [];
+      if (!name) missingFields.push("name");
+      if (!description) missingFields.push("description");
+      //if (!objectiveId) missingFields.push("objectiveId");
       if (!categoryId) missingFields.push("categoryId");
       
       return res.status(400).json({
@@ -106,15 +103,16 @@ createActivity : async (req, res, next) => {
     const data = await Activity.create({
       name,
       description,
-      objectiveId,
+      //objectiveId,
       categoryId,
     });
 
     res.status(201).json({
       success: "Activity created successfully",
       Activity: data,
-    });
-  } catch {
+    }); 
+     */
+  } catch(error) {
     res
     .status(500)
     .json({ error: "Something went wrong. Please try again later" });
@@ -123,9 +121,10 @@ createActivity : async (req, res, next) => {
 
 // Patch Activity
 updateActivity : async (req, res, next) => {
+  //!DONE AND TESTED
   try {
     const { id } = req.params;
-    const { name, description, objectiveId, categoryId } = req.body;
+    const { name, description, categoryId } = req.body;
     const activity= await Activity.findByPk(id);
     
     if (!activity) {
@@ -137,7 +136,6 @@ updateActivity : async (req, res, next) => {
         {
           name,
           description,
-          objectiveId,
           categoryId,
         },
         {
@@ -164,20 +162,21 @@ updateActivity : async (req, res, next) => {
 
 // Delete Activity
 deleteActivity : async (req, res, next) => {
+  //!DONE AND TESTED
   try {
     const { id } = req.params;
     const activity = await Activity.findByPk(id);
     
     if (!activity) {
-      return res.status(404).json({
+       res.status(404).json({
         error: "Activity not found",
       });
     } else {
-      const data=await Activity.destroy({
+     await Activity.destroy({
         where: { id },
       });
       
-      res.status(200).json({
+      res.status(204).json({
         success: "Activity deleted successfully",
       });
     }
@@ -187,9 +186,4 @@ deleteActivity : async (req, res, next) => {
     .json({ error: "Something went wrong. Please try again later" });
   }
 },
-
-//Get Categories
-getCategories : async (req, res, next) => {
-  
-}
 }
