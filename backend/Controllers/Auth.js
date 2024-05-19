@@ -1,4 +1,5 @@
 const { User } = require("../Models/index");
+const jwt = require("jsonwebtoken");
 const { compareHash } = require("../Middlewares/bcrypt");
 const { SignToken } = require("../Middlewares/jwt");
 
@@ -15,8 +16,8 @@ module.exports = {
 
         if (passwordIsValid) {
           const token = await SignToken(user.id);
-          console.log(token)
-          return res.status(200).send({ message: "Success", token: token });
+          const decode=jwt.decode(token);
+          return res.status(200).send({ message: "Success", token: decode });
         } else {
           return res.status(401).send({ message: "Invalid Credentials" });
         }
@@ -28,7 +29,7 @@ module.exports = {
           });
       }
     } catch (error) {
-      console.log(error)<
+      console.log(error)
       res
         .status(500)
         .send({

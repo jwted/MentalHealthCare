@@ -48,7 +48,7 @@ export default {
 
       // Make the calculation
       if (differenceInSeconds < 60) {
-        return `${60 - differenceInSeconds} s`; // Less than 1 minute
+        return `Now`; // Less than 1 minute
       } else if (differenceInSeconds < 3600) {
         return `${Math.floor(60 - differenceInSeconds / 60)} min`; // Between 1 and 59 minutes
       } else if (differenceInSeconds < 86400) {

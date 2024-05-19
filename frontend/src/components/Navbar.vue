@@ -76,13 +76,24 @@ export default {
   data() {
     return {
       userStore: userStore(),
-      isUserLogged: userStore.getLoggedInUser,
     };
   },
 
   computed: {
+    isUserLogged() {
+      const token= JSON.parse(localStorage.getItem("Token"));
+      if(token){
+        return true;
+      }
+      return false;
+    },
     isAdmin() {
-      return this.userStore.getLoggedInUser.role === "1";
+      if (this.userStore.getLoggedUser) {
+        if (this.userStore.getLoggedUser.type === true) {
+          return true;
+        }
+      }
+      return false;
     },
   },
 };

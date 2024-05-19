@@ -4,7 +4,7 @@
     <v-container>
       <v-row>
         <img src="../assets/hand.svg" alt="Hand" />
-        <h2>Hello,John Doe!</h2>
+        <h2 v-if="userLoading">Hello, {{ getLogged.name }}!</h2>
       </v-row>
     </v-container>
     <v-container class="d-flex align-center cont">
@@ -55,8 +55,8 @@
           <h2>Last Posts</h2>
           <v-row v-for="post in getPosts" :key="post.id" cols="12">
             <v-col cols="12" class="cont">
-              <PostContainer :post="post"/>
-            </v-col>  
+              <PostContainer :post="post" />
+            </v-col>
           </v-row>
         </v-col>
       </v-container>
@@ -85,17 +85,28 @@ export default {
     return {
       postStore: postStore(),
       userStore: userStore(),
+      userLoading: false,
     };
   },
 
   created() {
-    this.userStore.getLoggedInUser;
+    const token = JSON.parse(localStorage.getItem("Token"));
+    this.userStore.getUser(token).then(() => {
+      this.userLoading = true;
+    });
     this.postStore.getPosts();
   },
 
   computed: {
     getPosts() {
       return this.postStore.getAllPosts;
+    },
+
+    getLogged(){
+      if(this.userStore.getUserLogged){
+        this.userLoading = true;
+      }
+      return this.userStore.getUserLogged;
     },
   },
 };
