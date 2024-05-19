@@ -33,7 +33,7 @@ module.exports = {
       };
       if (offset && length) {
         query.offset = parseInt(offset);
-        query.length = parseInt(length);
+        query.limit = parseInt(length);
       }
 
       if (user) {

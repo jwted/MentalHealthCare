@@ -25,7 +25,7 @@ module.exports = {
         res.locals.userId = payload.id;
         next();
       } else {
-        res.status(401).send({ message: "User does not exist" });
+        res.status(401).send({ message: "Authentication required" });
       }
     } catch (error) {
       res
@@ -93,7 +93,7 @@ module.exports = {
           return;
         }
       } else {
-        res.status(401).send({ message: "User does not exist" });
+        res.status(401).send({ message: "Authentication required" });
         return;
       }
     } catch (error) {
@@ -108,8 +108,8 @@ module.exports = {
 
     const token = jwt.sign(payload, secret);
 
-    const decoded=jwt.decode(token);
+    jwt.decode(token);
 
-    return decoded;
+    return token;
   },
 };

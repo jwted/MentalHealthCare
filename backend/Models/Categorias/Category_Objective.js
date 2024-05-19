@@ -4,13 +4,12 @@ const sequelize = require("../../sequelizeconnection");
 const Category_Objective = sequelize.define("Category_Objective", {
 	objectiveId:{
         type:DataTypes.INTEGER,
-        allowNull:false,
         references:{
             model:'Objective',
             key: "id"
         }
     },
-    cateogryId:{
+    categoryId:{
         type:DataTypes.INTEGER,
         references:{
             model:'Category',

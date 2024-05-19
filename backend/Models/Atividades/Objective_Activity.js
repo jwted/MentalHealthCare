@@ -6,7 +6,6 @@ const Objective_Activity = sequelize.define(
   {
    objectiveId:{
     type:DataTypes.INTEGER,
-    allowNull: false,
         references: {
             model: "Objective",
             key: "id"
@@ -14,8 +13,7 @@ const Objective_Activity = sequelize.define(
    },
    activityId:{
     type:DataTypes.INTEGER,
-    allowNull: false,
-        references: {
+    references: {
             model: "Activity",
             key: "id"
         },
