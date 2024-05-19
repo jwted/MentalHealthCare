@@ -35,8 +35,8 @@ export const userStore = defineStore("user", {
       try {
         const response = await axios.post(`${url}/login`, user);
         if (response.status == 200) {
-          localStorage.setItem("Token", response.data.token.id);
-          this.loggedInUser = response.data.token.id;
+          localStorage.setItem("Token", JSON.stringify(response.data.token));
+          this.loggedInUser = response.data.token;
         }
       } catch (error) {
         console.log(error);

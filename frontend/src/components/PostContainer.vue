@@ -7,7 +7,7 @@
     <v-row class="d-flex align-center bg">
       <v-col cols="12" class="pa-3 text-justify bg">
         <h3 class="bg">
-         {{ post.text }}
+          {{ post.text }}
         </h3>
       </v-col>
     </v-row>
@@ -36,15 +36,27 @@ export default {
 
   methods: {
     formatDate(date) {
-      const newDate = new Date(date);
-      if(Date.now() - newDate.getTime() < 3600000) {
-        return `${Math.floor((Date.now() - newDate.getTime()) / 60000)} min`;
-      } else if(Date.now() - newDate.getTime() < 86400000) {
-        return `${Math.floor((Date.now() - newDate.getTime()) / 3600000)} h`;
+      const currentDateTime = new Date(date);
+      const now = new Date(); // Actual date and time
+
+      const differenceInMillis = now.getTime() - currentDateTime.getTime(); // Difference in milliseconds
+
+      // Convert the difference to seconds
+      const differenceInSeconds = Math.abs(
+        Math.floor(differenceInMillis / 1000)
+      );
+
+      // Make the calculation
+      if (differenceInSeconds < 60) {
+        return `${60 - differenceInSeconds} s`; // Less than 1 minute
+      } else if (differenceInSeconds < 3600) {
+        return `${Math.floor(60 - differenceInSeconds / 60)} min`; // Between 1 and 59 minutes
+      } else if (differenceInSeconds < 86400) {
+        return `${Math.floor(60 - differenceInSeconds / 3600)} h`; // Between 1 and 23 hours
       } else {
-        return `${Math.floor((Date.now() - newDate.getTime()) / 86400000)} d`;
+        return `${Math.floor(60 - differenceInSeconds / 86400)} d`; // More than 24 hours
       }
-    }
+    },
   },
 };
 </script>

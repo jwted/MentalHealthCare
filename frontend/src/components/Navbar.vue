@@ -53,10 +53,6 @@
       </li>
     </ul>
     <ul v-else>
-      <div>
-        <img src="@/assets/logo.svg" alt="" />
-      </div>
-      <ul>
         <li>
           <router-link to="/login"><Button :text="'Login'"></Button></router-link>
         </li>
@@ -65,7 +61,6 @@
             ><Button :text="'Register'"></Button
           ></router-link>
         </li>
-      </ul>
     </ul>
   </nav>
 
@@ -80,18 +75,14 @@ export default {
   },
   data() {
     return {
-      userStore: userStore,
+      userStore: userStore(),
       isUserLogged: userStore.getLoggedInUser,
     };
   },
 
   computed: {
     isAdmin() {
-      const user= this.userStore.getLoggedInUser;
-      if(user.role==1){
-        return true;
-      }
-      return false;
+      return this.userStore.getLoggedInUser.role === "1";
     },
   },
 };

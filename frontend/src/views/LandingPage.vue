@@ -139,9 +139,6 @@
         <v-col cols="4" md="4" v-for="post in getPosts" :key="post.id">
           <PostContainer :post="post"/>
         </v-col>
-        <v-col cols="4" md="4" v-for="post in getPosts" :key="post.id">
-          <PostContainer :post="post"/>
-        </v-col>
       </v-row>
     </v-container>
 

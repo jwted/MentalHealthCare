@@ -120,11 +120,23 @@
 import Navbar from "@/components/Navbar.vue";
 import Button from "@/components/Button.vue";
 import Footer from "@/components/Footer.vue";
+import { userStore } from "@/store/userStore";
 export default {
   components: {
     Navbar,
     Button,
     Footer,
+  },
+
+  data() {
+    return {
+      userStore: userStore(),
+      loggedUser:null
+    }
+  },
+
+  created () {
+    this.loggedUser=this.userStore.getLoggedInUser;
   },
 };
 </script>

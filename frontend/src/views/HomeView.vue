@@ -71,6 +71,7 @@ import Button from "@/components/Button.vue";
 import UpcomingContainer from "@/components/UpcomingContainer.vue";
 import PostContainer from "@/components/PostContainer.vue";
 import { postStore } from "@/store/postStore";
+import { userStore } from "@/store/userStore";
 
 export default {
   components: {
@@ -83,11 +84,12 @@ export default {
   data() {
     return {
       postStore: postStore(),
-      post: false,
+      userStore: userStore(),
     };
   },
 
   created() {
+    this.userStore.getLoggedInUser;
     this.postStore.getPosts();
   },
 
