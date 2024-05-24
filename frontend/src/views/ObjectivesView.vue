@@ -33,21 +33,27 @@ import Button from "@/components/Button.vue";
 import Select from "@/components/Select.vue";
 import ObjectiveContainer from "@/components/ObjectiveContainer.vue";
 import { objectiveStore } from "@/store/objectiveStore";
+import { userStore } from "@/store/userStore";
 export default {
   components: { Navbar, Footer, Button, Select, ObjectiveContainer },
   data() {
     return {
-      store: objectiveStore(),
+      userStore: userStore(),
+      objStore: objectiveStore(),
+      user: {},
     };
   },
 
-  mounted() {
-    this.store.getObjectives();
+  mounted () {
+    this.userStore.getUser().then(() => {
+      this.user = this.userStore.getLoggedUser;
+    });
+    this.objStore.getObjectives()
   },
 
   computed: {
     getObjs() {
-      return this.store.getAllObjectives;
+      return this.objStore.getAllObjectives;
     },
   },
 };

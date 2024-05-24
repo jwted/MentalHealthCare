@@ -35,6 +35,7 @@ export const userStore = defineStore("user", {
         const response = await axios.post(`${url}/login`, user);
         if (response.status == 200) {
           localStorage.setItem("Token", JSON.stringify(response.data.token));
+          return true
         }
       } catch (error) {
         console.log(error);
@@ -42,15 +43,16 @@ export const userStore = defineStore("user", {
     },
 
     async logout() {
+      localStorage.removeItem("Token");
       this.loggedInUser = null;
     },
 
-    async getUser(token) {
+    async getUser() {
       try {
+        const token = JSON.parse(localStorage.getItem("Token"));
         const response = await axios.get(`${url}/users/${token.id}`,{headers: {Authorization: `Bearer ${token}`}});
         if(response.status == 200){
           this.loggedInUser = response.data.content;
-          console.log(this.loggedInUser);
         }
       } catch (error) {
         console.error("Error getting users:", error);

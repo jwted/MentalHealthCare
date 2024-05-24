@@ -51,6 +51,9 @@
           >Profile</router-link
         >
       </li>
+      <li>
+        <router-link to="/" @click="userStore.logout">Logout</router-link>
+      </li>
     </ul>
     <ul v-else>
         <li>

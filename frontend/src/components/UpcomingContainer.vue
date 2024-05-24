@@ -1,7 +1,7 @@
 <template>
   <v-container class="d-flex align-center justify-center cont bg animate">
     <v-col class="d-flex flex-column align-center justify-start bg">
-      <h2 class="bg">Do exercise</h2>
+      <h2 class="bg">{{ object.name }}</h2>
       <h3 class="bg">Fitness</h3>
     </v-col>
     <v-col class="d-flex flex-column justify-center align-center bg">
@@ -12,7 +12,18 @@
 </template>
 
 <script>
-export default {};
+export default {
+  props: {
+    object: {
+      type: Object,
+      default: {
+        title: "Do exercise",
+        category: "Fitness",
+        date: "2024-05-01T10:00:00.000Z",
+      }
+    },
+  },
+};
 </script>
 
 <style>

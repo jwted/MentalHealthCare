@@ -45,9 +45,8 @@ export default {
   methods: {
     login() {
       try {
-        this.userStore.login({ email: this.email, password: this.password });
-        const user = this.userStore.getLoggedInUser;
-        if (user) {
+        const login=this.userStore.login({ email: this.email, password: this.password });
+        if (login) {
           this.$router.push("/home");
         }
       } catch (error) {

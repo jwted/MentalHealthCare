@@ -263,4 +263,3 @@ exports.deleteObjective = async (req, res, next) => {
       .json({ error: "Something went wrong. Please try again later" });
   }
 };
-

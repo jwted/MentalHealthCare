@@ -4,7 +4,7 @@
     <v-container>
       <v-row>
         <img src="../assets/hand.svg" alt="Hand" />
-        <h2 v-if="userLoading">Hello, {{ getLogged.name }}!</h2>
+        <h2>Hello, {{ user.name }}!</h2>
       </v-row>
     </v-container>
     <v-container class="d-flex align-center cont">
@@ -22,39 +22,22 @@
         <h2>Current Objectives</h2>
       </v-col>
       <v-col cols="12">
-        <v-row>
-          <UpcomingContainer />
+        <v-row v-for="obj in getObjs" :key="obj.id">
+          <UpcomingContainer :object="obj"/>
         </v-row>
       </v-col>
     </v-container>
     <v-container class="d-flex align-center">
-      <v-container cols="6" class="cont">
-        <v-col class="cont">
-          <h2>Last Posts</h2>
-          <v-col>
-            <v-row cols="4" class="cont">
-              <img src="../assets/face1.jpg" alt="Face1" />
-              <h3>John Doe</h3>
-              <h4>CEO</h4>
-            </v-row>
-            <v-row cols="4" class="cont">
-              <img src="../assets/face2.jpg" alt="Face2" />
-              <h3>Jane Doe</h3>
-              <h4>CTO</h4>
-            </v-row>
-            <v-row cols="4">
-              <img src="../assets/face3.jpg" alt="Face3" />
-              <h3>John Smith</h3>
-              <h4>COO</h4>
-            </v-row>
-          </v-col>
+      <v-container cols="2" class="cont">
+        <v-col>
+          <h2>Community</h2>
         </v-col>
       </v-container>
       <v-container>
-        <v-col cols="6" class="cont">
+        <v-col cols="10" class="cont">
           <h2>Last Posts</h2>
           <v-row v-for="post in getPosts" :key="post.id" cols="12">
-            <v-col cols="12" class="cont">
+            <v-col cols="12">
               <PostContainer :post="post" />
             </v-col>
           </v-row>
@@ -72,6 +55,7 @@ import UpcomingContainer from "@/components/UpcomingContainer.vue";
 import PostContainer from "@/components/PostContainer.vue";
 import { postStore } from "@/store/postStore";
 import { userStore } from "@/store/userStore";
+import { objectiveStore } from "@/store/objectiveStore";
 
 export default {
   components: {
@@ -85,16 +69,17 @@ export default {
     return {
       postStore: postStore(),
       userStore: userStore(),
-      userLoading: false,
+      objStore: objectiveStore(),
+      user: {},
     };
   },
 
   created() {
-    const token = JSON.parse(localStorage.getItem("Token"));
-    this.userStore.getUser(token).then(() => {
-      this.userLoading = true;
+    this.userStore.getUser().then(() => {
+      this.user = this.userStore.getLoggedUser;
     });
     this.postStore.getPosts();
+    this.objStore.getObjectives();
   },
 
   computed: {
@@ -102,11 +87,10 @@ export default {
       return this.postStore.getAllPosts;
     },
 
-    getLogged(){
-      if(this.userStore.getUserLogged){
-        this.userLoading = true;
+    getObjs() {
+      while(this.objStore.getObjectives.length==0){
+        return this.objStore.getAllObjectives;
       }
-      return this.userStore.getUserLogged;
     },
   },
 };

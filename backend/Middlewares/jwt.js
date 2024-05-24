@@ -8,7 +8,6 @@ module.exports = {
     let bearer;
     try {
       bearer = req.headers.authorization.split(" ")[1];
-      console.log(bearer)
       jwt.verify(bearer, secret);
     } catch (error) {
       res.status(401).send({ message: "Token failed verification" });
@@ -26,7 +25,7 @@ module.exports = {
         res.locals.userId = payload.id;
         next();
       } else {
-        res.status(401).send({ message: "Authentication required" });
+        res.status(401).send({ message: "User does not exist" });
       }
     } catch (error) {
       res
@@ -94,7 +93,7 @@ module.exports = {
           return;
         }
       } else {
-        res.status(401).send({ message: "Authentication required" });
+        res.status(401).send({ message: "User does not exist" });
         return;
       }
     } catch (error) {
@@ -108,6 +107,8 @@ module.exports = {
     const payload = { id: userId };
 
     const token = jwt.sign(payload, secret);
+
+    jwt.decode(token);
 
     return token;
   },

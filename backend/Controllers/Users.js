@@ -1,5 +1,5 @@
-const { User, User_Badges, Post } = require("../Models/index");
-const bcrypt= require("bcrypt");
+const { User, User_Badges, Post,Progress,Objective,Category,Activity } = require("../Models/index");
+const bcrypt = require("bcrypt");
 
 module.exports = {
   getUser: async (req, res) => {
@@ -92,5 +92,23 @@ module.exports = {
       .catch((err) => {
         res.status(500).send({ error: err.message });
       });
+  },
+
+  // Get User Objectives
+  getUserObjectives: async (req, res, next) => {
+    const { userId } = req.params;
+    try {
+      const userObjectives = await Progress.findAll({
+        where: { userId },
+      });
+
+      res.status(200).json({
+        success: "Successfully retrieved user objectives",
+        content: userObjectives,
+      });
+    } catch (error) {
+      console.error("Error getting user objectives:", error);
+      return res.status(500).json({ error: "Could not get user objectives" });
+    }
   },
 };

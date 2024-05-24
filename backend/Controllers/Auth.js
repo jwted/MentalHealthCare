@@ -16,8 +16,7 @@ module.exports = {
 
         if (passwordIsValid) {
           const token = await SignToken(user.id);
-          const decode=jwt.decode(token);
-          return res.status(200).send({ message: "Success", token: decode });
+          return res.status(200).send({ message: "Success", token: token, user: res.locals.id});
         } else {
           return res.status(401).send({ message: "Invalid Credentials" });
         }
