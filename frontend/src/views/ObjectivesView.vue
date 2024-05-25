@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
   <Navbar></Navbar>
   <v-container>
     <v-row cols="10" class="d-flex align-center justify-space-between">
@@ -59,4 +59,18 @@ export default {
 };
 </script>
 
-<style></style>
+<style></style> -->
+<template>
+  <ObjectctiveForm></ObjectctiveForm>
+</template>
+
+<script>
+import ObjectctiveForm from "@/components/ObjectiveForm.vue";
+export default {
+  components: { ObjectctiveForm },
+};
+</script>
+
+<style>
+
+</style>

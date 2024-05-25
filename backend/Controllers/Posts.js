@@ -329,64 +329,36 @@ exports.updateCommentById = async (req, res, next) => {
 };
 
 // Not Done
-exports.addLike = async (req, res, next) => {
+exports.likePost = async (req, res, next) => {
   try {
     const { id } = req.params;
-    const post = await Post.findByPk(id);
+    console.log(id)
+    const post= await Post.findByPk(id);
+  
     if (!post) {
       return res.status(404).json({
         error: "Provided post was not found",
       });
-    } else {
-      const data = await like.create({
-        userId: 3,
-        postId: id,
-      });
-
-      if (data.findOne({ where: { userId: 3, postId: id } })) {
-        data.destroy({ where: { userId: 3, postId: id } });
-      } else {
-        post.update({
-          likes: post.likes + 1,
-        });
-
-        return res.status(201).json({
-          success: "Successfully created",
-          like: data,
-        });
-      }
     }
-  } catch (error) {
-    res.status(500).json({
-      error: "Something went wrong. Please try again later",
+    const userLike = await like.findOne({
+      where: { userId: res.locals.userId, postId: id },
     });
-  }
-};
-
-// NOT DONE
-exports.removeLike = async (req, res, next) => {
-  try {
-    const { postId } = req.params;
-    const post = await Post.findByPk(postId);
-    if (!post) {
-      return res.status(404).json({
-        error: "Provided post was not found",
+    
+    if (userLike) {
+      await like.destroy({ where: { userId: res.locals.userId, postId: id } });
+      res.status(204).json({
+        success: "Successfully unliked",
       });
     } else {
-      const data = await like.destroy({
-        where: { userId: req.user.id, postId: postId },
+    
+      const create=await like.create({ userId: res.locals.userId, postId: 1 });
+      res.status(201).json({
+        success: "Successfully liked",
+        content: create,
       });
-      if (data == 1) {
-        res.status(204).json({
-          success: "Successful Delete request!",
-        });
-      } else {
-        res.status(404).json({
-          error: "Provided like was not found.",
-        });
-      }
     }
   } catch (error) {
+    console.log(error)
     res.status(500).json({
       error: "Something went wrong. Please try again later",
     });

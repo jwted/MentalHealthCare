@@ -21,20 +21,7 @@ const UtilizadorAtividade = sequelize.define(
         key: "id",
       },
       primaryKey:true
-    },
-    date: {
-      type: DataTypes.DATE,
-      allowNull: false,
-    },
-    
-    state: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false,
-    },
-    points: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
+    }
   },
   {
     tableName: "User_Activity",

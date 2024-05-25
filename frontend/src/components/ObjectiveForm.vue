@@ -2,33 +2,16 @@
   <v-container class="log">
     <form>
       <div class="login">
-        <h2>Start Objective NOME</h2>
         <Button :text="'Back'" class="ma-3">Back</Button>
       </div>
       <div>
         <h3>Activities:</h3>
-        <v-row>
-          <v-col>
-            <v-checkbox v-model="selected" label="Run" value="Run"></v-checkbox>
-          </v-col>
-          <v-col>
-            <v-checkbox
-              v-model="selected"
-              label="Swim"
-              value="Swim"
-            ></v-checkbox>
-          </v-col>
-          <v-col>
-            <v-checkbox
-              v-model="selected"
-              label="Bike"
-              value="Bike"
-            ></v-checkbox>
-          </v-col>
-          <v-col>
-            <v-checkbox v-model="selected" label="Gym" value="Gym"></v-checkbox>
-          </v-col>
-        </v-row>
+
+        <select name="" id="">
+          <option value="1">Activity 1</option>
+          <option value="2">Activity 2</option>
+          <option value="3">Activity 3</option>
+        </select>
       </div>
       <div>
         <label for="start">Start at:</label>

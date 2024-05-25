@@ -74,4 +74,5 @@ module.exports = {
   Objective_Activity,
   Category_Activity,
   Category_Objective,
+  Resource
 };

@@ -1,5 +1,5 @@
 const Badges = require("../Models/Badges/Badge.js");
-
+const User_Badges = require("../Models/Badges/BadgeUtilizador.js");
 exports.badgeValidation = (req, res, next) => {
   const { name, description, points, type, requirement } = req.body;
   if (!name || !description || !points || !type || !requirement) {
@@ -127,6 +127,51 @@ exports.deleteBadge = async (req, res) => {
     await data.destroy();
     return res.status(200).json({
       success: "Badge deleted successfully",
+    });
+  } catch {
+    return res.status(500).json({
+      error: "Something went wrong. Please try again later",
+    });
+  }
+};
+
+//DONE
+exports.getUserBadges = async (req, res) => {
+  try {
+    const userBadges=await User_Badges.findAll({
+      where: { userId: res.locals.userId },
+    });
+
+    res.status(200).json({
+      success: "Successfully retrieved user badges",
+      content: userBadges,
+    });
+  } catch (error) {
+    res.status(500).json({
+      error: "Something went wrong. Please try again later",
+    });
+  }
+}
+
+//ERROR 500
+exports.addBadgeToUser = async (req, res) => {
+  const { badgeId } = req.body;
+  try {
+    const badge = await Badges.findByPk(badgeId);
+    if (!badge) {
+      return res.status(404).json({
+        error: "Badge not found",
+      });
+    }
+    console.log(badge)
+    console.log(res.locals.userId, badgeId)
+    const userBadge = await User_Badges.create({
+      userId: res.locals.userId,
+      badgeId: badgeId,
+    });
+    return res.status(201).json({
+      success: "Badge added to user successfully",
+      content: userBadge,
     });
   } catch {
     return res.status(500).json({

@@ -9,16 +9,6 @@ const app = express();
 app.use(cors())
 app.use(express.json());
 
-/* 
-app.use("/Allergen", require("./Routes/Allergens"));
-app.use("/Keyword", require("./Routes/Keywords"));
-app.use("/Post", require("./Routes/Posts"));
-app.use("/Product", require("./Routes/Products"));
-app.use("/Badge", require("./Routes/Badges"));
-app.use("/Category", require("./Routes/Categories"));
-app.use("/Tips", require("./Routes/Tips"));
- */
-
 app.use("/", require("./Routes/Auth"));
 app.use("/posts", require("./Routes/post.routes"));
 app.use("/objectives",require("./Routes/objectives.routes.js"));
@@ -26,6 +16,9 @@ app.use("/activities",require("./Routes/activites.routes.js"));
 app.use("/categories", require("./Routes/categories.routes.js"));
 app.use("/badges", require("./Routes/badges.routes.js"));
 app.use("/users", require("./Routes/Users"));
+app.use("/diary", require("./Routes/diaries.routes.js"));
+app.use("/resources", require("./Routes/resources.routes.js"));
+app.use("/calendar", require("./Routes/calendar.routes.js"));
 app.listen(process.env.PORT, () =>
   console.log(`Server running at http://localhost:${process.env.port}/`)
 );
