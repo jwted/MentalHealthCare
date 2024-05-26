@@ -16,6 +16,6 @@ router.get('/:userId/objectives',verifyUser,getUserObjectives)
 router.get('/:userId/objectives/:objectiveId',verifyUser,getUserObjectives)
 
 router.get("/:userId/badges",verifyUser,getUserBadges)
-router.post("/:userId/badges",verifyUser,addBadgeToUser)
+router.post("/badges",verifyUser,addBadgeToUser)
 
 module.exports = router

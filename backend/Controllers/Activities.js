@@ -154,7 +154,7 @@ module.exports = {
   },
 
   // Delete Activity
-  deleteActivity: async (req, res, next) => {
+  deleteActivity: async (req, res) => {
     //!DONE AND TESTED
     try {
       const { id } = req.params;
@@ -180,8 +180,8 @@ module.exports = {
     }
   },
 
-  // Get User Activities
-  getUserActivities: async (req, res, next) => {
+  //DONE
+  getUserActivities: async (req, res) => {
     try {
       const userActivities = await User_Activity.findAll({
         where:{userId:res.locals.userId},
@@ -196,18 +196,17 @@ module.exports = {
   },
 
   // Add Activity to User
-  addActivityToUser: async (req, res, next) => {
+  addActivityToUser: async (req, res) => {
     try {
       const { activityId } = req.body;
       const activity = await Activity.findByPk(activityId);
       if (!activity) {
         return res.status(404).send({ error: "Activity not found" });
       }
-      console.log(res.locals.userId, activityId)
-
+      console.log(res.locals.userId);
       const userActivity = await User_Activity.create({
-        userId: res.locals.userId,
-        activityId: activityId,
+        UserId: res.locals.userId,
+        ActivityId: activityId,
       });
 
       res

@@ -4,17 +4,10 @@ const like = require("../Models/Forum/GostosPost");
 const { Op } = require("sequelize");
 
 exports.bodyValidation = (req, res, next) => {
-  const { text, userId } = req.body;
-  if (!text || !userId) {
-    missingFields = [];
-    if (!text) {
-      missingFields.push("text");
-    }
-    if (!userId) {
-      missingFields.push("userId");
-    }
+  const { text } = req.body;
+  if (!text) {
     res.status(400).json({
-      error: "Missing fields, the fields are: " + missingFields.join(", "),
+      error: "Missing fields, the fields are required",
     });
   } else {
     next();
@@ -91,10 +84,10 @@ exports.getPosts = async (req, res, next) => {
 
 //DONE
 exports.postPosts = async (req, res, next) => {
-  const { userId, text } = req.body;
+  const { text } = req.body;
   try {
     const data = await Post.create({
-      userId: userId,
+      userId: res.locals.userId,
       text: text,
       likes: 0,
     });
@@ -128,11 +121,11 @@ exports.getPostById = async (req, res, next) => {
 
 // Done
 exports.updatePostById = async (req, res, next) => {
-  const { userId, text } = req.body;
+  const { text } = req.body;
   const { id } = req.params;
   try {
     const data = await Post.update(
-      { userId: userId, text: text },
+      { userId: res.locals.userId, text: text },
       {
         where: { id: id },
       }
@@ -153,7 +146,7 @@ exports.updatePostById = async (req, res, next) => {
   }
 };
 
-//MISS DELETE LIKES TOO
+//
 exports.deletePostById = async (req, res, next) => {
   try {
     const data = await Post.destroy({
@@ -206,12 +199,19 @@ exports.getComments = async (req, res, next) => {
 
 // DONE
 exports.addComments = async (req, res, next) => {
-  const { userId, text } = req.body;
+  const { text } = req.body;
   const { id } = req.params;
   try {
-    console.log("TESTE");
+    const post = await Post.findByPk(id);
+    if (!post) {
+      return res.status(404).json({
+        error: "Provided post was not found",
+      });
+    }
+    console.log(res.locals.userId);
+    console.log(id);
     const data = await Comment.create({
-      userId: userId,
+      userId: res.locals.userId,
       text: text,
       PostId: id,
     });
@@ -250,7 +250,7 @@ exports.getCommentById = async (req, res, next) => {
   }
 };
 
-// NOT DONE
+//DONE
 exports.deleteCommentById = async (req, res, next) => {
   try {
     const { id, commentId } = req.params;
@@ -289,37 +289,36 @@ exports.deleteCommentById = async (req, res, next) => {
   }
 };
 
-// NOT DONE
+//DONE
 exports.updateCommentById = async (req, res, next) => {
   try {
-    const { postId, commentId } = req.params;
+    const { id, commentId } = req.params;
     const { text } = req.body;
-    const post = await Post.findByPk(postId);
+    const post = await Post.findByPk(id);
     console.log(post);
-    if (!post) {
-      return res.status(404).json({
-        error: "Provided post was not found",
-      });
-    } else {
-      const comment = await Comment.findByPk(commentId);
-      if (!comment) {
-        return res.status(404).json({
-          error: "Provided comment was not found",
+    const comment = await Comment.findOne({
+      where: { postId: id, id: commentId },
+    });
+    if (comment) {
+      const data = await Comment.update(
+        { userId: res.locals.userId, text: text },
+        {
+          where: { id: commentId },
+        }
+      );
+      if (data == 1) {
+        res.status(200).json({
+          success: "Comment was updated successfully.",
         });
       } else {
-        const data = await Comment.update(req.body, {
-          where: { id: commentId },
+        res.status(404).json({
+          error: "Provided comment was not found",
         });
-        if (data == 1) {
-          res.status(200).json({
-            success: "Comment was updated successfully.",
-          });
-        } else {
-          res.status(404).json({
-            error: "Provided comment was not found",
-          });
-        }
       }
+    } else {
+      res.status(404).json({
+        error: "Provided comment was not found",
+      });
     }
   } catch (error) {
     res.status(500).json({
@@ -328,37 +327,32 @@ exports.updateCommentById = async (req, res, next) => {
   }
 };
 
-// Not Done
+//DONE
 exports.likePost = async (req, res, next) => {
   try {
     const { id } = req.params;
-    console.log(id)
-    const post= await Post.findByPk(id);
-  
-    if (!post) {
-      return res.status(404).json({
-        error: "Provided post was not found",
-      });
-    }
+
     const userLike = await like.findOne({
       where: { userId: res.locals.userId, postId: id },
     });
-    
+
     if (userLike) {
       await like.destroy({ where: { userId: res.locals.userId, postId: id } });
       res.status(204).json({
         success: "Successfully unliked",
       });
     } else {
-    
-      const create=await like.create({ userId: res.locals.userId, postId: 1 });
+      const create = await like.create({
+        userId: res.locals.userId,
+        PostId: 1,
+      });
       res.status(201).json({
         success: "Successfully liked",
         content: create,
       });
     }
   } catch (error) {
-    console.log(error)
+    console.log(error);
     res.status(500).json({
       error: "Something went wrong. Please try again later",
     });

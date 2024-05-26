@@ -5,7 +5,7 @@ const { verifyUser, verifyAdmin } = require("../Middlewares/jwt");
 const { offsetLengthValidation } = require("../Middlewares/objMid");
 //Get Diaries
 router.get("/", verifyUser,offsetLengthValidation,calendarController.getUserActivities);
-// router.post("/",verifyUser,calendarController.addActivityToUser);
+router.post("/",verifyUser,calendarController.addActivityToUser);
 
 // //Get / Put / Delete - By Id
 // router.get("/:id",verifyUser,diaryController.getDiary);

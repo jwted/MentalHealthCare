@@ -4,15 +4,6 @@ const { Sequelize, DataTypes } = require("sequelize");
 const Like_Post = sequelize.define(
   "Like_Post",
   {
-    postId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: "Post",
-        key: "id",
-      },
-      primaryKey:true
-    },
     userId: {
       type: DataTypes.INTEGER,
       allowNull: false,
