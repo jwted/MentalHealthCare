@@ -11,7 +11,11 @@ export const postStore = defineStore("post", {
   actions: {
     async getPosts() {
       try {
-        const response = await axios.get(`${url}/posts`);
+        const token=localStorage.getItem("Token")
+        const headersConfig = {
+          Authorization: `Bearer ${token}`, // Aqui você define o cabeçalho Authorization com o token
+        };
+        const response = await axios.get(`${url}/posts`,{ headers: headersConfig });
         this.posts = response.data.Posts;
       } catch (error) {
         console.log(error);

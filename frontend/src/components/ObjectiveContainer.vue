@@ -5,14 +5,16 @@
       <h2 class="bg">Fitness</h2>
     </v-col>
     <v-col class="d-flex flex-column justify-center align-center bg">
-      <img src="../assets/detail.svg" alt="" class="animate bg mb-4" />
-      <img src="../assets/cancel.svg" alt="" class="animate bg" />
+      <Button :text="'Detail'" class="dark"></Button>
+      <Button :text="'Start'" class="dark"></Button>
     </v-col>
   </v-container>
 </template>
 
 <script>
+import Button from "@/components/Button.vue";
 export default {
+  components: { Button },
   props: {
     obj: Object,
   }
@@ -34,5 +36,15 @@ export default {
 .animate:hover {
   transform: scale(1.05) translateY(-5%);
   cursor: pointer;
+}
+
+.dark {
+  background-color: #2e4242;
+  color: white;
+}
+
+.dark:hover {
+  background-color: #eaf4f4;
+  color: #2e4242;
 }
 </style>

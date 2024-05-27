@@ -47,6 +47,7 @@ export default {
     async register() {
       try {
         this.userStore.register(this.name, this.email, this.password);
+        this.$router.push("/login")
       } catch (error) {
         console.log(error);
       }

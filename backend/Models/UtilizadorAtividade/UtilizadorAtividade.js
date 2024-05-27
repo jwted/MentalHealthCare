@@ -13,15 +13,15 @@ const UtilizadorAtividade = sequelize.define(
     //     key: "id",
     //   },
     // },
-    activityId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      references: {
-        model: "Activity",
-        key: "id",
-      },
-      primaryKey:true
-    }
+    // activityId: {
+    //   type: DataTypes.INTEGER,
+    //   allowNull: false,
+    //   references: {
+    //     model: "Activity",
+    //     key: "id",
+    //   },
+    //   primaryKey:true
+    // }
   },
   {
     tableName: "User_Activity",

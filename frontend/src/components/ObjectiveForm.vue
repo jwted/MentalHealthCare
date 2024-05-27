@@ -8,9 +8,9 @@
         <h3>Activities:</h3>
 
         <select name="" id="">
-          <option value="1">Activity 1</option>
-          <option value="2">Activity 2</option>
-          <option value="3">Activity 3</option>
+          <option value="1">Go to the gym</option>
+          <option value="2">Do some yoga</option>
+          <option value="3">Make a healthy food</option>
         </select>
       </div>
       <div>

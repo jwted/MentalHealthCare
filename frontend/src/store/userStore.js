@@ -21,7 +21,6 @@ export const userStore = defineStore("user", {
         const response = await axios.post(`${url}/register`, data);
         if (response.status === 201) {
           this.users.push(response.data);
-          router.push("/login");
         } else {
           console.error("Erro na requisição:", response.status);
         }

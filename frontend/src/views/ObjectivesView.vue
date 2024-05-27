@@ -1,4 +1,4 @@
-<!-- <template>
+<template>
   <Navbar></Navbar>
   <v-container>
     <v-row cols="10" class="d-flex align-center justify-space-between">
@@ -13,7 +13,7 @@
   <v-container class="cont">
     <v-row>
       <v-col>
-        <h2>Current Objectives</h2>
+        <h2>Our Objectives</h2>
       </v-col>
       <v-col>
         <Select></Select>
@@ -32,10 +32,11 @@ import Footer from "@/components/Footer.vue";
 import Button from "@/components/Button.vue";
 import Select from "@/components/Select.vue";
 import ObjectiveContainer from "@/components/ObjectiveContainer.vue";
+import ObjectctiveForm from "@/components/ObjectiveForm.vue";
 import { objectiveStore } from "@/store/objectiveStore";
 import { userStore } from "@/store/userStore";
 export default {
-  components: { Navbar, Footer, Button, Select, ObjectiveContainer },
+  components: { Navbar, Footer, Button, Select, ObjectiveContainer,ObjectctiveForm },
   data() {
     return {
       userStore: userStore(),
@@ -59,18 +60,4 @@ export default {
 };
 </script>
 
-<style></style> -->
-<template>
-  <ObjectctiveForm></ObjectctiveForm>
-</template>
-
-<script>
-import ObjectctiveForm from "@/components/ObjectiveForm.vue";
-export default {
-  components: { ObjectctiveForm },
-};
-</script>
-
-<style>
-
-</style>
+<style></style>

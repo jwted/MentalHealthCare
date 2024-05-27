@@ -6,7 +6,7 @@ const { offsetLengthValidation } = require("../Middlewares/objMid");
 // Get All Posts
 router
   .route("/")
-  .get(verifyUser,offsetLengthValidation, postController.getPosts)
+  .get(offsetLengthValidation, postController.getPosts)
   .post(verifyUser,postController.bodyValidation, postController.postPosts);
 
 // Get / Put / Delete - By Id
