@@ -31,6 +31,8 @@
       <v-container cols="2" class="cont">
         <v-col>
           <h2>Community</h2>
+          <h3>Introducing our new forum feature, a dedicated space for our mental health community to share achievements and struggles. This safe environment allows users to celebrate victories, seek advice, and connect with others who understand their journey. Whether you're facing challenges or experiencing breakthroughs, our forum fosters support and empathy, empowering everyone to take positive steps towards mental well-being.</h3>
+
         </v-col>
       </v-container>
       <v-container>
