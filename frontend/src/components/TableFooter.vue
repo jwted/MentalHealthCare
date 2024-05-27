@@ -25,7 +25,7 @@ export default {
       if (this.typeString == "users") {
         return { cols: 6, text: "Add User" };
       } else if (this.typeString == "posts") {
-        return { cols: 6, text: "Add Post" };
+        return { cols: 5, text: "Add Post" };
       } else if (this.typeString == "objectives") {
         return { cols: 5, text: "Add Objective" };
       } else if (this.typeString == "activities") {

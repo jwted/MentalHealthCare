@@ -8,7 +8,6 @@
     <th class="cont">Actions</th>
   </tr>
   <tr class="cont" v-else-if="typeString == 'posts'">
-    <th class="cont">Name</th>
     <th class="cont">Text</th>
     <th class="cont">Date</th>
     <th class="cont">Likes</th>

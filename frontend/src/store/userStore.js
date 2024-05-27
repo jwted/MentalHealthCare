@@ -10,6 +10,17 @@ export const userStore = defineStore("user", {
     getUserProgress: (state) => state.userProgress,
   },
   actions: {
+    async getUsers() {
+      try {
+        const token = JSON.parse(localStorage.getItem("Token"));
+        const response = await axios.get(`${url}/users`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+        this.users = response.data.content;
+      } catch (error) {
+        console.error("Error getting users:", error);
+      }
+    },
     async register(name, email, password) {
       const data = {
         name: name,

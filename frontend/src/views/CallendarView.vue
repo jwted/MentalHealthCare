@@ -13,7 +13,7 @@
   <v-container class="d-flex flex-column cont">
     <v-row class="d-flex justify-space-between align-center">
       <v-col>
-        <h2>Upcoming Activities {{ selectedDate }}</h2>
+        <h2>Your Activities</h2>
       </v-col>
       <v-col>
         <Select></Select>
@@ -24,6 +24,12 @@
         <UpcomingContainer></UpcomingContainer>
       </v-col>
     </v-row>
+    <v-row>
+      <Button :text="'Add Activity'" @click="toggleForm"></Button>
+    </v-row>
+  </v-container>
+  <v-container v-if="showForm" class="formContainer">
+    <ActivityFormVue @remove="toggleForm"></ActivityFormVue>
   </v-container>
   <Footer></Footer>
 </template>
@@ -31,31 +37,29 @@
 import Navbar from "@/components/Navbar.vue";
 import Button from "@/components/Button.vue";
 import Footer from "@/components/Footer.vue";
-import Callendar from "@/components/Callendar.vue";
 import UpcomingContainer from "@/components/UpcomingContainer.vue";
 import Select from "@/components/Select.vue";
+import ActivityFormVue from '@/components/ActivityForm.vue';
 export default {
   components: {
     Button,
     Navbar,
     Footer,
-    Callendar,
     UpcomingContainer,
-    Select
+    Select,
+    ActivityFormVue,
   },
-data() {
-  return {
-    selectedDate: null
-  }
-},
-methods: {
-    logClickedDate(date) {
-      // Log the clicked date
-      console.log('Clicked Date:', date);
-    }
-  }
+  data() {
+    return {
+      showForm: false,
+    };
+  },
+  methods: {
+    toggleForm() {
+      this.showForm = !this.showForm;
+    },
+  },
 };
 </script>
 
-<style>
-</style>
+<style></style>

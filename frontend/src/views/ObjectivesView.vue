@@ -20,10 +20,13 @@
       </v-col>
     </v-row>
     <v-row class="d-flex flex-column cont" v-for="obj in getObjs" :key="obj.id">
-      <ObjectiveContainer :obj="obj"></ObjectiveContainer>
+      <ObjectiveContainer :obj="obj" @start-obj="handleForm"></ObjectiveContainer>
     </v-row>
   </v-container>
   <Footer></Footer>
+  <v-container v-if="showForm===true" class="formContainer">
+    <ObjectctiveForm @remove="handleForm"></ObjectctiveForm>
+  </v-container>
 </template>
 
 <script>
@@ -36,11 +39,12 @@ import ObjectctiveForm from "@/components/ObjectiveForm.vue";
 import { objectiveStore } from "@/store/objectiveStore";
 import { userStore } from "@/store/userStore";
 export default {
-  components: { Navbar, Footer, Button, Select, ObjectiveContainer,ObjectctiveForm },
+  components: { Navbar, Footer, Button, Select, ObjectiveContainer,ObjectctiveForm},
   data() {
     return {
       userStore: userStore(),
       objStore: objectiveStore(),
+      showForm: false,
       user: {},
     };
   },
@@ -57,7 +61,22 @@ export default {
       return this.objStore.getAllObjectives;
     },
   },
+
+  methods: {
+    handleForm() {
+      this.showForm = !this.showForm;
+    },
+  },
 };
 </script>
 
-<style></style>
+<style scoped>
+.formContainer {
+  position: relative;
+  height: 100vh; /* Mantém a altura da viewport */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+</style>

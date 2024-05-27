@@ -5,7 +5,7 @@ const {idsValidation,offsetLengthValidation} = require('../Middlewares/objMid')
 const { verifyUser, verifyAdmin } = require("../Middlewares/jwt");
 // Get Activites
 router
-  .get("/", verifyUser,offsetLengthValidation,idsValidation,getActivities )
+  .get("/",offsetLengthValidation,idsValidation,getActivities )
   .post("/", createActivity);
 
 // Get / Put / Delete - By Id

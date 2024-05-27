@@ -134,10 +134,6 @@ export default {
       loggedUser:null
     }
   },
-
-  created () {
-    this.loggedUser=this.userStore.getLoggedInUser;
-  },
 };
 </script>
 

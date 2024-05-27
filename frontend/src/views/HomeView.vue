@@ -4,13 +4,13 @@
     <v-container>
       <v-row>
         <img src="../assets/hand.svg" alt="Hand" />
-        <h2>Hello, {{ user.name }}!</h2>
+        <h2>Hello, Fred!</h2>
       </v-row>
     </v-container>
     <v-container class="d-flex align-center cont">
       <v-col>
         <v-col>
-          <h2>Upcoming Activities</h2>
+          <h2>Your Activities</h2>
         </v-col>
         <v-col>
           <UpcomingContainer class="w-100 sizes" />
@@ -70,14 +70,10 @@ export default {
       postStore: postStore(),
       userStore: userStore(),
       objStore: objectiveStore(),
-      user: {},
     };
   },
 
   created() {
-    this.userStore.getUser().then(() => {
-      this.user = this.userStore.getLoggedUser;
-    });
     this.postStore.getPosts();
     this.objStore.getObjectives();
   },

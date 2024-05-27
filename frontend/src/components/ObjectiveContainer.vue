@@ -6,18 +6,34 @@
     </v-col>
     <v-col class="d-flex flex-column justify-center align-center bg">
       <Button :text="'Detail'" class="dark"></Button>
-      <Button :text="'Start'" class="dark"></Button>
+      <Button :text="'Start'" class="dark" @click="startObjective"></Button>
     </v-col>
+  </v-container>
+  <v-container v-if="showForm">
+    <ObjectctiveForm></ObjectctiveForm>
   </v-container>
 </template>
 
 <script>
 import Button from "@/components/Button.vue";
+import ObjectctiveForm from "@/components/ObjectiveForm.vue";
+import { userStore } from "@/store/userStore";
 export default {
-  components: { Button },
+  components: { Button, ObjectctiveForm},
   props: {
     obj: Object,
-  }
+  },
+  emits: ['start-obj'],
+  data() {
+    return {
+      userStore: userStore(),
+    }
+  },
+  methods: {
+    startObjective() {
+      this.$emit("start-obj");
+    },
+  },
 };
 </script>
 

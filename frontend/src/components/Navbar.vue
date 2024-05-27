@@ -1,7 +1,9 @@
 <template>
   <nav>
     <div>
-      <img src="@/assets/logo.svg" alt="" />
+      <router-link to="home">
+        <img src="@/assets/logo.svg" alt="" />
+      </router-link>
     </div>
     <ul v-if="isUserLogged">
       <li>
@@ -90,6 +92,7 @@ export default {
       }
       return false;
     },
+
     isAdmin() {
       if (this.userStore.getLoggedUser) {
         if (this.userStore.getLoggedUser.type === true) {

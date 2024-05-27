@@ -2,7 +2,7 @@
   <v-container class="container bg">
     <v-row class="d-flex align-center bg pa-3">
       <img src="../assets/profile.svg" alt="Profile Image" class="bg profile" />
-      <h2 class="bg">{{ username }}</h2>
+      <h2 class="bg">John Doe</h2>
     </v-row>
     <v-row class="d-flex align-center bg">
       <v-col cols="12" class="pa-3 text-justify bg">
@@ -46,19 +46,13 @@ export default {
       return new Date(date).toLocaleDateString();
     },
   },
-
-  computed: {
-    username() {
-      ;
-    },
-  },
 };
 </script>
 
 <style>
 .profile {
-  width: 8%;
-  height: 8%;
+  width: 15%;
+  height: 15%;
   margin-right: 10px;
 }
 
