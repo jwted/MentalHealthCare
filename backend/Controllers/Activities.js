@@ -1,4 +1,4 @@
-const { Activity, Category, User_Activity } = require("../Models/index");
+const { Activity, Category, User_Activity,User } = require("../Models/index");
 
 module.exports = {
   getActivity: async (req, res, next) => {
@@ -185,12 +185,23 @@ module.exports = {
     try {
       const userActivities = await User_Activity.findAll({
         where:{userId:res.locals.userId},
+        include: [
+          {
+            model: Activity,
+            as: 'activities',
+            through: {
+              attributes: [] // Exclude join table attributes
+            }
+          }
+        ]
       });
+      console.log(userActivities)
       res.status(200).send({
         success: "User activities retrieved successfully",
         content: userActivities,
       });
     } catch (error) {
+      console.log(error)
       res.status(500).send({ error: "Something went wrong", error });
     }
   },

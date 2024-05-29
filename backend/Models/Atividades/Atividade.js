@@ -11,6 +11,11 @@ const Activity = sequelize.define(
     description: {
       type: DataTypes.STRING,
       allowNull: false,
+    },
+    timesPerDay:{
+      type:DataTypes.INTEGER,
+      defaultValue:1
+
     }
   },
   {

@@ -6,19 +6,19 @@ const User_Activity = sequelize.define(
   {
     userId:{
       type:DataTypes.INTEGER,
-      allowNull: false,
+       
           references: {
               model: "User",
               key: "id"
-          },
+          }, 
      },
      activityId:{
       type:DataTypes.INTEGER,
-      allowNull: false,
-          references: {
+      /* allowNull: false, */
+           references: {
               model: "Activity",
               key: "id"
-          },
+          }, 
      },
   },
   {

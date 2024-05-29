@@ -3,7 +3,7 @@
   <v-container>
     <v-row cols="10" class="d-flex align-center justify-space-between">
       <v-col cols="5" class="d-flex justify-start">
-        <h2>Callendar</h2>
+        <h2>Calendar</h2>
       </v-col>
       <v-col cols="5" class="d-flex justify-end">
         <Button :text="'Back'" @click="router.go(-1)" class="w-25"></Button>

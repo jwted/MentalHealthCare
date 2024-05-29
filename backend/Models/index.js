@@ -23,8 +23,8 @@ Report.belongsTo(User);
 Objective.hasMany(Resource);
 Resource.belongsTo(Objective);
 
-Activity.belongsToMany(User, { through: User_Activity });
-User.belongsToMany(Activity, { through: User_Activity });
+Activity.belongsToMany(User, { through: User_Activity, as: 'users', foreignKey:'activityId' });
+User.belongsToMany(Activity, { through: User_Activity , as: 'activities', foreignKey:'userId'});
 
 Badge.belongsToMany(User, { through: User_Badge });
 User.belongsToMany(Badge, { through: User_Badge });

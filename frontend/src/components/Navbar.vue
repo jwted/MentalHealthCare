@@ -15,7 +15,7 @@
         <router-link
           to="/callendar"
           :class="{ activeLink: $route.path === '/callendar' }"
-          >Callendar</router-link
+          >Calendar</router-link
         >
       </li>
       <li>

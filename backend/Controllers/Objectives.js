@@ -2,6 +2,7 @@ const Objective = require("../Models/Objetivos/Objetivos");
 const Progress= require('../Models/Progresso/Progresso.js')
 const Category= require('../Models/Categorias/Category.js')
 const Activity= require('../Models/Atividades/Atividade.js')
+const User= require('../Models/Users/Users.js')
 const categoria_objetivo = require("../Models/Categorias/Category_Objective.js");
 const { Op } = require("sequelize");
 
@@ -59,21 +60,62 @@ exports.getObjectives = async (req, res, next) => {
     });
   }
 };
-exports.addObjectiveToUser = async (req, res, next) => {
-  const {userId, objectiveId} = req.params  
-  
-  try{
-    const data = await Progress.create({
-      userId:userId,
-      objectiveId:objectiveId,
-      endDate:new Date()
-    })
-    console.log(data)
-    if(data){
 
-      res.status(201).send({message:'Objective added successfully'})
-      return
+exports.addObjectiveToUser = async (req, res, next) => {
+  try{
+    const {userId} = req.params  
+    const {objectiveId} = req.body  
+    const user = await User.findByPk(userId)
+    if (!user){
+      return  res.status(404).send({message:'User provided was not found'})
     }
+    const objective = await Objective.findByPk(objectiveId)
+    if (!objective){
+      return  res.status(404).send({message:'Objective provided was not found'})
+    }
+    let endDate = req.body.endDate
+    console.log(endDate)
+    endDate = endDate.replace(/\//g,'-')
+    console.log(endDate)
+    let beginningDate = req.body.beginningDate
+    beginningDate = beginningDate.replace(/\//g,'-')
+
+    console.log(endDate)
+      const data = await Progress.create({
+        userId:userId,
+        objectiveId:objectiveId,
+        endDate:endDate,
+        beginningDate:beginningDate
+      })
+      console.log(data)
+      if(data){
+
+        res.status(201).send({message:'Objective added successfully', data:data})
+        return
+      }
+  }catch(error){
+    console.log(error)
+    res.status(500).send({message:'Something went wrong'})
+  }
+
+};
+exports.getUserObjectives = async (req, res, next) => {
+  try{
+    const {userId} = req.params  
+    const user = await User.findByPk(userId)
+    if (!user){
+      return  res.status(404).send({message:'User provided was not found'})
+    }
+    
+  const data = await Progress.findAll({where:{
+    userId:userId
+  }})
+      console.log(data)
+      if(data){
+
+        res.status(200).send({message:'User objectives retrieved successfully', data:data})
+        return
+      }
   }catch(error){
     console.log(error)
     res.status(500).send({message:'Something went wrong'})
