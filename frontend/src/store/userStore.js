@@ -3,7 +3,7 @@ import axios from "axios";
 
 const url = "http://localhost:3000";
 export const userStore = defineStore("user", {
-  state: () => ({ users: [], loggedInUser: null, userProgress: null }),
+  state: () => ({ users: [], loggedInUser: null, userProgress: [] }),
   getters: {
     getAllUsers: (state) => state.users,
     getLoggedUser: (state) => state.loggedInUser,
@@ -63,7 +63,7 @@ export const userStore = defineStore("user", {
       try {
         const token = JSON.parse(localStorage.getItem("Token"));
         const user = JSON.parse(localStorage.getItem("User"));
-        console.log(token);
+        
         const config = {
           headers: {
             Authorization: `Bearer ${token}`
@@ -104,11 +104,16 @@ export const userStore = defineStore("user", {
       }
     },
 
-    async getObjectiveProgress(user) {
+    async getObjectiveProgress() {
       try {
-        const response = await fetch(`${url}/users/${user.id}/progress`);
-        const data = await response.json();
-        this.userProgress = data;
+        const user=JSON.parse(localStorage.getItem("User"))
+        const token=JSON.parse(localStorage.getItem("Token"))
+        
+        const headersConfig = {
+          Authorization: `Bearer ${token}`,
+        };
+        const response = await axios.get(`${url}/users/${user}/objectives`,headersConfig);
+        this.userProgress = response.data.content;
       } catch (error) {
         console.error("Error getting user progress:", error);
       }
@@ -117,12 +122,17 @@ export const userStore = defineStore("user", {
     async addObjectiveToUser(id){
       try {
         const user=JSON.parse(localStorage.getItem("User"));
-        const response=await axios.post(`${url}/users/${user}/objectives/${id}`);
+        const token=JSON.parse(localStorage.getItem("Token"))
+        
+        const headersConfig = {
+          Authorization: `Bearer ${token}`,
+        };
+        const response=await axios.post(`${url}/users/${user}/objectives/${id}`,headersConfig);
         if(response.status==200){
-          this.objective=response.data.content;
+          this.userProgress.push(response.data.content);
         }
       } catch (error) {
-        
+        console.log(error)
       }
     }
   },

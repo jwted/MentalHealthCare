@@ -18,7 +18,7 @@
       <v-col class="bg d-flex flex-row">
         <v-col cols="6" sm="4" class="bg d-flex flex-row">
           <h2 class="bg pa-3">{{ post.likes }}</h2>
-          <img src="../assets/heart.svg" alt="Favourite Image" class="bg" />
+          <img src="../assets/heart.svg" alt="Favourite Image" class="bg" @click="likePost"/>
         </v-col>
         <v-col cols="6" sm="4" class="bg d-flex flex-row justify-end">
           <h2 class="bg pa-3">12</h2>
@@ -29,6 +29,7 @@
   </v-container>
 </template>
 <script>
+import { postStore } from "@/store/postStore";
 import { userStore } from "@/store/userStore";
 export default {
   props: {
@@ -38,12 +39,17 @@ export default {
   data() {
     return {
       userStore: userStore(),
+      postStore: postStore(),
     }
   },
 
   methods: {
     formatDate(date) {
       return new Date(date).toLocaleDateString();
+    },
+
+    likePost() {
+      this.postStore.likePost(this.post.id);
     },
   },
 };

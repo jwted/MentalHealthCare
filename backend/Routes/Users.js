@@ -8,11 +8,11 @@ const router = express.Router()
 
 router.get('/',offsetLengthValidation,idsValidation,getUsers)
 
-router.post('/:userId/objectives/:objectiveId',verifyUser, addObjectiveToUser)
+router.post('/:userId/objectives',verifyUser, addObjectiveToUser)
 router.get('/:userId', getUser)
 router.put('/:userId',editProfile)
 
-router.get('/:userId/objectives',verifyUser,getUserObjectives)
+router.get('/:userId/objectives',getUserObjectives)
 router.get('/:userId/objectives/:objectiveId',verifyUser,getUserObjectives)
 
 router.get("/:userId/badges",verifyUser,getUserBadges)

@@ -13,7 +13,23 @@
   <v-container class="cont">
     <v-row>
       <v-col>
-        <h2>Our Objectives</h2>
+        <h2>Your Objectives</h2>
+      </v-col>
+      <v-col>
+        <Select></Select>
+      </v-col>
+    </v-row>
+    <v-row class="d-flex flex-column cont" v-for="obj in userObj" :key="obj.id">
+      <ObjectiveContainer
+        :obj="obj"
+        @start-obj="handleForm(obj.id)"
+      ></ObjectiveContainer>
+    </v-row>
+  </v-container>
+  <v-container class="cont">
+    <v-row>
+      <v-col>
+        <h2>All Objectives</h2>
       </v-col>
       <v-col>
         <Select></Select>
@@ -34,6 +50,7 @@
     ></ObjectiveForm>
   </v-container>
   <Footer></Footer>
+  {{ userObj }}
 </template>
 
 <script>
@@ -59,30 +76,34 @@ export default {
       userStore: userStore(),
       objStore: objectiveStore(),
       showForm: false,
-      objectiveId: null, // Inicializa aqui
-      user: {},
+      objectiveId: null,
+      userObj: [],
     };
   },
 
   methods: {
     handleForm(id) {
-      // Aceita um parâmetro
-      this.showForm = true; // Garante que o formulário seja mostrado
-      this.objectiveId = id; // Armazena o ID do objetivo selecionado
+      this.showForm = true;
+      this.objectiveId = id;
     },
   },
 
   mounted() {
-    this.userStore.getUser().then(() => {
-      this.user = this.userStore.getLoggedUser;
-    });
-    this.objStore.getObjectives();
-  },
+  this.userStore.getUser().then(() => {
+    this.user = this.userStore.getLoggedUser;
+  });
+  this.objStore.getObjectives();
+  this.userObj = this.objStore.getUserObjectives;
+},
 
   computed: {
     getObjs() {
       return this.objStore.getAllObjectives;
     },
+
+    getProgressObj(){
+
+    }
   },
 };
 </script>

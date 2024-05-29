@@ -3,7 +3,7 @@ import { defineStore } from "pinia";
 import axios from "axios";
 const url = "http://localhost:3000";
 export const postStore = defineStore("post", {
-  state: () => ({ posts: [], post: null }),
+  state: () => ({ posts: [], post: null,userLikes:[] }),
   getters: {
     getAllPosts: (state) => state.posts,
     getPost: (state) => state.post,
@@ -13,7 +13,7 @@ export const postStore = defineStore("post", {
       try {
         const token=localStorage.getItem("Token")
         const headersConfig = {
-          Authorization: `Bearer ${token}`, // Aqui você define o cabeçalho Authorization com o token
+          Authorization: `Bearer ${token}`
         };
         const response = await axios.get(`${url}/posts`,{ headers: headersConfig });
         this.posts = response.data.Posts;
@@ -39,5 +39,23 @@ export const postStore = defineStore("post", {
         console.log(error);
       }
     }
-  }
+  },
+
+  async likePost(id) {
+    try {
+      const token=localStorage.getItem("Token")
+      const headersConfig = {
+        Authorization: `Bearer ${token}`,
+      };
+      const response = await axios.post(`${url}/posts/${id}/like`,{ headers: headersConfig });
+      if(response.data.status === 201){
+        this.userLikes.push(id);
+      }else if(response.data.status === 204){
+        this.userLikes = this.userLikes.filter((like) => like !== id);
+      }
+    }
+    catch(error){
+      console.log(error);
+    }
+  },
 });

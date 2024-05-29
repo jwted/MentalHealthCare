@@ -32,7 +32,6 @@ module.exports = {
     //!DONE AND TESTED
     try {
       const { activity, offset, length } = req.query;
-      console.log(length);
       let query = {
         where: {},
         include: [
@@ -207,7 +206,7 @@ module.exports = {
           }
         ]
       });
-      console.log(userActivities)
+      
       res.status(200).send({
         success: "User activities retrieved successfully",
         content: userActivities,

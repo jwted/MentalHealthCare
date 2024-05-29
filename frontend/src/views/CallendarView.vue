@@ -40,6 +40,7 @@ import Footer from "@/components/Footer.vue";
 import UpcomingContainer from "@/components/UpcomingContainer.vue";
 import Select from "@/components/Select.vue";
 import ActivityFormVue from '@/components/ActivityForm.vue';
+import { activityStore } from "@/store/activityStore";
 export default {
   components: {
     Button,
@@ -51,8 +52,13 @@ export default {
   },
   data() {
     return {
+      activityStore:activityStore(),
       showForm: false,
     };
+  },
+
+  created () {
+    this.activityStore.getActivities();
   },
   methods: {
     toggleForm() {

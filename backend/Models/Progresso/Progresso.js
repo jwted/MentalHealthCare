@@ -33,7 +33,7 @@ const Progress = sequelize.define(
         }
       },
       isSameOrAfterStartDate(value) {
-        const startDate = parseDate(this.startDate);
+        const startDate = parseDate(this.beginningDate);
         const endDate = parseDate(value);
         if (endDate < startDate) {
           throw new Error('End date must be the same day or after the start date');

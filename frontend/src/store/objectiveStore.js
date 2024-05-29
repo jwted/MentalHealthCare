@@ -10,7 +10,7 @@ export const objectiveStore = defineStore("objective", {
     getObjective: (state) => state.objective,
   },
   actions: {
-    async getObjectives(){
+    async getObjectives(query){
       try {
         const token= JSON.parse(localStorage.getItem("Token"));
         const config = {
@@ -18,6 +18,11 @@ export const objectiveStore = defineStore("objective", {
             Authorization: `Bearer ${token}`
           }
         };
+        if(query){
+          const response= await axios.get(`${url}/objectives?${query}`,config);
+          this.objectives=response.data.content;
+          return;
+        }
         const response= await axios.get(`${url}/objectives`,config);
         this.objectives=response.data.content;
       } catch (error) {
@@ -26,7 +31,13 @@ export const objectiveStore = defineStore("objective", {
     },
     async getObjectiveById(id){
       try {
-        const response=await axios.get(`${url}/objectives/${id}`);
+        const token=JSON.parse(localStorage.getItem("Token"))
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        };
+        const response=await axios.get(`${url}/objectives/${id}`,config);
         this.objective=response.data.content;
       } catch (error) {
         console.log(error);  

@@ -18,19 +18,19 @@
       <v-col cols="8" class="bg">
         <v-row class="bg">
           <h2 class="bg">Name:</h2>
-          <h2 class="bg">John Doe</h2>
+          <h2 class="bg">{{ loggedUser.name }}</h2>
         </v-row>
         <v-row class="bg">
           <h2 class="bg">Email:</h2>
-          <h2 class="bg">johndoe@gmail.com</h2>
+          <h2 class="bg">{{ loggedUser.email }}</h2>
         </v-row>
         <v-row class="bg">
           <h2 class="bg">Points:</h2>
-          <h2 class="bg">100000</h2>
+          <h2 class="bg">{{ loggedUser.points }}</h2>
         </v-row>
         <v-row class="bg">
           <h2 class="bg">Bio:</h2>
-          <h2 class="bg">I want be a good person</h2>
+          <h2 class="bg">{{ loggedUser.bio }}</h2>
         </v-row>
       </v-col>
       <v-col cols="4" class="d-flex align-center justify-center bg">
@@ -114,6 +114,7 @@
     </v-container>
   </main>
   <Footer></Footer>
+  {{ console.log(loggedUser) }}
 </template>
 
 <script>
@@ -121,6 +122,7 @@ import Navbar from "@/components/Navbar.vue";
 import Button from "@/components/Button.vue";
 import Footer from "@/components/Footer.vue";
 import { userStore } from "@/store/userStore";
+import { badgeStore } from "@/store/badgesStore";
 export default {
   components: {
     Navbar,
@@ -131,8 +133,20 @@ export default {
   data() {
     return {
       userStore: userStore(),
-      loggedUser:null
+      badgeStore: badgeStore(),
+      loggedUser: {},
+      badges: [],
     }
+  },
+
+  created() {
+    this.userStore.getUser().then(() => {
+      this.loggedUser = this.userStore.getLoggedUser;
+    });
+
+    this.badgeStore.getBadges().then(() => {
+      this.badges = this.badgeStore.getAllBadges;
+    });
   },
 };
 </script>

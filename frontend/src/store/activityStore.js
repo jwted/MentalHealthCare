@@ -12,7 +12,11 @@ export const activityStore = defineStore("activity", {
   actions: {
     async getActivities() {
       try {
-        const response = await axios.get(`${url}/activities`);
+        const token=JSON.parse(localStorage.getItem("Token"))
+        const headersConfig = {
+          Authorization: `Bearer ${token}`,
+        };
+        const response = await axios.get(`${url}/activities`,headersConfig);
         this.activities = response.data.content;
       } catch (error) {
         console.error(error);
