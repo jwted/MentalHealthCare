@@ -76,6 +76,7 @@ export default {
   created() {
     this.postStore.getPosts();
     this.objStore.getObjectives();
+    this.userStore.getUser();
   },
 
   computed: {
@@ -87,7 +88,7 @@ export default {
       while(this.objStore.getObjectives.length==0){
         return this.objStore.getAllObjectives;
       }
-    },
+    }
   },
 };
 </script>

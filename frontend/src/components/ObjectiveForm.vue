@@ -6,39 +6,30 @@
         <Button :text="'Back'" class="ma-3" @click="remove">Back</Button>
       </div>
       <div>
-        <label for="email"><b>Objective Name:</b> Lose Weight</label>
+        <label for="email"><b>Objective Name:</b> {{ objective.name }}</label>
       </div>
       <div>
         <label for="description"><b>Description:</b></label>
         <p class="text">
-          Embarking on a weight loss journey can seem daunting, but with 'Lose
-          Weight', you're not just losing pounds; you're gaining a healthier,
-          happier version of yourself. Designed to support you in achieving your
-          health and wellness goals, this product is your ally in shedding
-          weight efficiently and sustainably, without compromising your quality
-          of life.
+          {{ objective.description }}
         </p>
       </div>
       <div>
         <label for="activities"><b>Activities:</b></label>
-        <ul>
-          <li>Drink 8 glasses of water</li>
-          <li>Get 8 hours of sleep</li>
-          <li>Reduce sugar intake</li>
-          <li>Reduce carb intake</li>
-          <li>Go to the gym</li>
+        <ul v-for="activity in objective.activities" :key="activity.id">
+          <li>{{ activity.name }}</li>
         </ul>
       </div>
       <div>
         <label for="start"><b>Start Date:</b></label>
-        <input type="date" id="start" class="cont" />
+        <input type="date" id="start" class="cont" v-model="startDate"/>
       </div>
       <div>
         <label for="end"><b>End Date:</b></label>
-        <input type="date" id="end" class="cont" />
+        <input type="date" id="end" class="cont" v-model="endDate"/>
       </div>
       <div class="login">
-        <Button :text="'Start'" class="ma-3"></Button>
+        <Button :text="'Start'" class="ma-3" @click="startProgress"></Button>
       </div>
     </form>
   </v-container>
@@ -47,19 +38,43 @@
 <script>
 import { objectiveStore } from "@/store/objectiveStore";
 import Button from "@/components/Button.vue";
+import { userStore } from "@/store/userStore";
 export default {
   components: {
     Button,
   },
+
   data() {
     return {
       objStore: objectiveStore(),
+      userStore: userStore(),
+      startDate: "",
+      endDate: "",
     };
+  },
+
+  props: {
+    objectiveId: Number, // Define o tipo da propriedade
+  },
+
+  created () {
+    this.objStore.getObjectiveById(this.objectiveId);
   },
 
   methods: {
     remove() {
       this.$emit("remove");
+    },
+
+    startProgress() {
+      this.userStore.addObjectiveToUser(this.objectiveId, this.startDate, this.endDate);
+      this.$emit("close");
+    },
+  },
+
+  computed: {
+    objective() {
+      return this.objStore.getObjective;
     },
   },
 };

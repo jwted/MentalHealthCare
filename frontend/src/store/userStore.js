@@ -63,7 +63,13 @@ export const userStore = defineStore("user", {
       try {
         const token = JSON.parse(localStorage.getItem("Token"));
         const user = JSON.parse(localStorage.getItem("User"));
-        const response = await axios.get(`${url}/users/${user}`,{headers: {Authorization: `Bearer ${token}`}});
+        console.log(token);
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        };
+        const response = await axios.get(`${url}/users/${user}`, config);
         if(response.status == 200){
           this.loggedInUser = response.data.content;
         }
@@ -107,5 +113,17 @@ export const userStore = defineStore("user", {
         console.error("Error getting user progress:", error);
       }
     },
+
+    async addObjectiveToUser(id){
+      try {
+        const user=JSON.parse(localStorage.getItem("User"));
+        const response=await axios.post(`${url}/users/${user}/objectives/${id}`);
+        if(response.status==200){
+          this.objective=response.data.content;
+        }
+      } catch (error) {
+        
+      }
+    }
   },
 });

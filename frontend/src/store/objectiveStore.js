@@ -7,6 +7,7 @@ export const objectiveStore = defineStore("objective", {
   state: () => ({ objectives: [], objective:{} }),
   getters: {
     getAllObjectives: (state) => state.objectives,
+    getObjective: (state) => state.objective,
   },
   actions: {
     async getObjectives(){
@@ -16,6 +17,14 @@ export const objectiveStore = defineStore("objective", {
       } catch (error) {
         console.log(error);
       }
-    }
+    },
+    async getObjectiveById(id){
+      try {
+        const response=await axios.get(`${url}/objectives/${id}`);
+        this.objective=response.data.content;
+      } catch (error) {
+        console.log(error);  
+      }
+    },
   }
 });

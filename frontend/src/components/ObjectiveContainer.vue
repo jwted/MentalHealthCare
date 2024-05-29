@@ -6,7 +6,7 @@
     </v-col>
     <v-col class="d-flex flex-column justify-center align-center bg">
       <Button :text="'Detail'" class="dark"></Button>
-      <Button :text="'Start'" class="dark" @click="startObjective"></Button>
+      <Button :text="'Start'" class="dark" @click="startObjective(obj.id)"></Button>
     </v-col>
   </v-container>
   <v-container v-if="showForm">
@@ -30,8 +30,8 @@ export default {
     }
   },
   methods: {
-    startObjective() {
-      this.$emit("start-obj");
+    startObjective(id) {
+      this.$emit("start-obj",id);
     },
   },
 };
