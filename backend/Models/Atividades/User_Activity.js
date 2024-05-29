@@ -14,7 +14,6 @@ const User_Activity = sequelize.define(
      },
      activityId:{
       type:DataTypes.INTEGER,
-      /* allowNull: false, */
            references: {
               model: "Activity",
               key: "id"

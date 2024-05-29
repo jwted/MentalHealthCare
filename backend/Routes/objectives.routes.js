@@ -8,7 +8,7 @@ const {
 const { verifyUser, verifyAdmin } = require("../Middlewares/jwt");
 // Get Objectives
 router
-  .get("/",offsetLengthValidation,objectiveController.getObjectives)
+  .get("/",verifyUser,offsetLengthValidation,objectiveController.getObjectives)
   .post("/",verifyUser,objectiveValidation, objectiveController.createObjective);
 
 //Get / Patch / Delete - By Id

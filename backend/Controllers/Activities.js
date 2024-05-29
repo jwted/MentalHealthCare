@@ -180,18 +180,30 @@ module.exports = {
     }
   },
 
-  //DONE
+  //
   getUserActivities: async (req, res) => {
     try {
+      // const userActivities = await User_Activity.findAll({
+      //   where:{userId:res.locals.userId},
+      //   include: [
+      //     {
+      //       model: Activity,
+      //       // as: 'activities',
+      //       through: {
+      //         attributes: []
+      //       }
+      //     }
+      //   ]
+      // });
       const userActivities = await User_Activity.findAll({
         where:{userId:res.locals.userId},
         include: [
           {
             model: Activity,
-            as: 'activities',
-            through: {
-              attributes: [] // Exclude join table attributes
-            }
+            // // as: 'activities',
+            // through: {
+            //   attributes: []
+            // }
           }
         ]
       });
@@ -206,7 +218,7 @@ module.exports = {
     }
   },
 
-  // Add Activity to User
+  //DONE
   addActivityToUser: async (req, res) => {
     try {
       const { activityId } = req.body;
@@ -214,10 +226,9 @@ module.exports = {
       if (!activity) {
         return res.status(404).send({ error: "Activity not found" });
       }
-      console.log(res.locals.userId);
       const userActivity = await User_Activity.create({
-        UserId: res.locals.userId,
-        ActivityId: activityId,
+        userId: res.locals.userId,
+        activityId: activityId,
       });
 
       res

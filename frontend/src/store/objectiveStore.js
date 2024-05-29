@@ -12,7 +12,13 @@ export const objectiveStore = defineStore("objective", {
   actions: {
     async getObjectives(){
       try {
-        const response= await axios.get(`${url}/objectives`);
+        const token= JSON.parse(localStorage.getItem("Token"));
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        };
+        const response= await axios.get(`${url}/objectives`,config);
         this.objectives=response.data.content;
       } catch (error) {
         console.log(error);
