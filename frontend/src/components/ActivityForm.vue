@@ -7,19 +7,32 @@
       </div>
       <div>
         <label for="objective"><b>Objective:</b></label>
-        <select name="" id="" class="select">
-          <option value="lose">Lose Weight</option>
-          <option value="gain">Gain Weight</option>
-          <option value="maintain">Maintain Weight</option>
+        <select class="select" v-model="selectedObjective">
+          <option value="#" disabled selected>Select your Objective</option>
+          <option
+            :value="obj.Objective.name"
+            v-for="obj in objectives"
+            :key="obj.id"
+          >
+            {{ obj.Objective.name }}
+          </option>
         </select>
       </div>
       <div>
         <label for="activities"><b>Activity:</b></label>
-        <select name="" id="" class="select">
-          <option value="lose">Go to the gym</option>
-          <option value="gain">Get 8 hours of sleep</option>
-          <option value="maintain">Reduce sugar intake</option>
-          <option value="">Reduce carb intake</option>
+        <select name="" id="" class="select" v-model="selectedActivity">
+          <optgroup
+            v-for="activityGroup in filteredActivities"
+            label="Select Activity"
+            :key="activityGroup.id"
+          >
+            <option
+              v-for="activity in activityGroup.Objective.activities"
+              :key="activity.id"
+            >
+              {{ activity.name }}
+            </option>
+          </optgroup>
         </select>
       </div>
       <div>
@@ -33,24 +46,28 @@
 </template>
 
 <script>
-import { objectiveStore } from "@/store/objectiveStore";
-import { activityStore } from "@/store/activityStore";
-import { userStore } from '@/store/userStore';
 import Button from "@/components/Button.vue";
 export default {
   components: {
     Button,
   },
+
   data() {
     return {
-      objStore: objectiveStore(),
-      activityStore: activityStore(),
-      userStore:userStore(),
+      selectedObjective: "",
+      selectedActivity: "",
     };
   },
-  created () {
-    this.userStore.getObjectiveProgress();
-    this.userStore.getUserActivities();
+
+  props: {
+    objectives: Object,
+  },
+  computed: {
+    filteredActivities() {
+      return this.objectives.filter((obj) => {
+        return obj.Objective.name === this.selectedObjective;
+      });
+    },
   },
   methods: {
     remove() {

@@ -8,6 +8,7 @@ export const userStore = defineStore("user", {
     getAllUsers: (state) => state.users,
     getLoggedUser: (state) => state.loggedInUser,
     getUserProgress: (state) => state.userProgress,
+    getAllUserActivities: (state) => state.userActivities,
   },
   actions: {
     async getUsers() {
@@ -136,6 +137,24 @@ export const userStore = defineStore("user", {
         const response=await axios.post(`${url}/users/${user}/objectives`,body,config);
         if(response.status==200){
           this.userProgress.push(response.data.content);
+        }
+      } catch (error) {
+        console.log(error)
+      }
+    },
+    async deleteObjectiveFromUser(id){
+      console.log("CHEGUEI AQUI")
+      try {
+        const user=JSON.parse(localStorage.getItem("User"));
+        const token=JSON.parse(localStorage.getItem("Token"))
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        };
+        const response=await axios.delete(`${url}/users/${user}/objectives/${id}`,config);
+        if(response.status==204){
+          this.userProgress=this.userProgress.filter((obj)=>obj.id!=id);
         }
       } catch (error) {
         console.log(error)

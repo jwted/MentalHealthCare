@@ -2,7 +2,7 @@
     <v-container class="d-flex align-center justify-center cont bg" v-if="obj && !startedObj">
       <v-col class="d-flex flex-column align-center justify-start bg">
         <h2 class="bg mb-4">{{ obj.name }}</h2>
-        <h2 class="bg">Fitness</h2>
+        <h2 class="bg">{{ formatCategories(obj.categories) }}</h2>
       </v-col>
       <v-col class="d-flex flex-column justify-center align-center bg">
         <Button :text="'Detail'" class="dark"></Button>
@@ -12,11 +12,11 @@
     <v-container class="d-flex align-center justify-center cont bg" v-else-if="!obj && startedObj">
       <v-col class="d-flex flex-column align-center justify-start bg">
         <h2 class="bg mb-4">{{ startedObj.Objective.name }}</h2>
-        <h2 class="bg">{{formatCategories() }}</h2>
+        <h2 class="bg">{{formatCategories(startedObj.Objective.categories) }}</h2>
       </v-col>
       <v-col class="d-flex flex-column justify-center align-center bg">
         <Button :text="'Detail'" class="dark"></Button>
-        <Button :text="'Cancel'" class="dark" @click="startObjective(obj.id)"></Button>
+        <Button :text="'Cancel'" class="dark" @click="deleteUserObjective(startedObj.id)"></Button>
       </v-col>
     </v-container>
   </template>
@@ -31,7 +31,7 @@
       obj: Object,
       startedObj: Object,
     },
-    emits: ['start-obj'],
+    emits: ['start-obj','remove-obj'],
     data() {
       return {
         userStore: userStore(),
@@ -43,8 +43,12 @@
         this.$emit("start-obj",id);
       },
 
-      formatCategories() {
-        const string=this.startedObj.Objective.categories.map((cat) => {
+      deleteUserObjective(id) {
+        this.$emit("remove-obj",id);
+      },
+
+      formatCategories(categories) {
+        const string=categories.map((cat) => {
           return cat.name;
         }).join(", ");
 

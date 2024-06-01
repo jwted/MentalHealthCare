@@ -20,8 +20,8 @@
       </v-col>
     </v-row>
     <v-row>
-      <v-col>
-        <UpcomingContainer></UpcomingContainer>
+      <v-col v-for="act in userActivities" :key="act.id">
+        <ActivityContainer :act="act"></ActivityContainer>
       </v-col>
     </v-row>
     <v-row>
@@ -29,7 +29,7 @@
     </v-row>
   </v-container>
   <v-container v-if="showForm" class="formContainer">
-    <ActivityFormVue @remove="toggleForm"></ActivityFormVue>
+    <ActivityFormVue @remove="toggleForm" :objectives="userProgress"></ActivityFormVue>
   </v-container>
   <Footer></Footer>
 </template>
@@ -37,32 +37,46 @@
 import Navbar from "@/components/Navbar.vue";
 import Button from "@/components/Button.vue";
 import Footer from "@/components/Footer.vue";
-import UpcomingContainer from "@/components/UpcomingContainer.vue";
+import ActivityContainer from "@/components/ActivityContainer.vue";
 import Select from "@/components/Select.vue";
 import ActivityFormVue from '@/components/ActivityForm.vue';
 import { activityStore } from "@/store/activityStore";
+import { userStore } from "@/store/userStore";
 export default {
   components: {
     Button,
     Navbar,
     Footer,
-    UpcomingContainer,
+    ActivityContainer,
     Select,
     ActivityFormVue,
   },
   data() {
     return {
       activityStore:activityStore(),
+      userStore:userStore(),
       showForm: false,
     };
   },
 
   created () {
     this.activityStore.getActivities();
+    this.userStore.getUserActivities();
+    this.userStore.getObjectiveProgress();
   },
   methods: {
     toggleForm() {
       this.showForm = !this.showForm;
+    },
+  },
+
+  computed: {
+    userActivities() {
+      return this.userStore.getAllUserActivities;
+    },
+
+    userProgress() {
+      return this.userStore.getUserProgress;
     },
   },
 };

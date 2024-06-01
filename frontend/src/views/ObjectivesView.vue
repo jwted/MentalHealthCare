@@ -26,19 +26,6 @@
       ></ObjectiveContainer>
     </v-row>
   </v-container>
-  <!-- <v-container class="cont">
-    <v-row>
-      <v-col>
-        <h2>Your Objectives</h2>
-      </v-col>
-      <v-col>
-        <Select></Select>
-      </v-col>
-    </v-row>
-    <v-row class="d-flex flex-column align-center justify-center">
-      <h2>No objectives found</h2>
-    </v-row>
-  </v-container> -->
   <v-container class="cont">
     <v-row>
       <v-col>
@@ -48,10 +35,10 @@
         <Select></Select>
       </v-col>
     </v-row>
-    <v-row class="d-flex flex-column cont" v-for="obj in filteredObjs" :key="obj.id">
+    <v-row class="d-flex flex-column justify-center align-center" v-for="obj in filteredObjs" :key="obj.id">
       <ObjectiveContainer
         :obj="obj"
-        @start-obj="handleForm(obj.id)"
+        @remove-obj="removeUserObj"
       ></ObjectiveContainer>
     </v-row>
   </v-container>
@@ -101,6 +88,10 @@ export default {
     addObjectiveProgress({ objectiveId, startDate, endDate }) {
       this.userStore.addObjectiveToUser(objectiveId, startDate, endDate);
       this.showForm = false;
+    },
+
+    removeUserObj(id) {
+      this.userStore.deleteObjectiveFromUser(id);
     },
   },
 

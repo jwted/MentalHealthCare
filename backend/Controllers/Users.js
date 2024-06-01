@@ -143,4 +143,45 @@ module.exports = {
       res.status(500).send({ message: "Something went wrong" });
     }
   },
+
+  //DONE
+  deleteObjectiveFromUser: async (req, res) => {
+    try {
+      const { userId, objectiveId } = req.params;
+      const user = await User.findByPk(userId);
+      if (!user) {
+        return res.status(404).send({ message: "User provided was not found" });
+      }
+
+      const objective = await Objective.findByPk(objectiveId);
+      if (!objective) {
+        return res
+          .status(404)
+          .send({ message: "Objective provided was not found" });
+      }
+
+      const progress = await Progress.findOne({
+        where: {
+          userId: userId,
+          objectiveId: objectiveId,
+        },
+      });
+
+      if (!progress) {
+        return res
+          .status(404)
+          .send({ message: "Objective is not assigned to user" });
+      }
+
+      await progress.destroy();
+      res.status(204).send({
+        message: "Objective successfully removed from user",
+      });
+    } catch (error) {
+      console.log(error);
+      res.status(500).send({ message: "Something went wrong" });
+    }
+  }
 };
+
+
