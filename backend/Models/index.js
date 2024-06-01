@@ -34,6 +34,15 @@ User.hasMany(User_Activity, {foreignKey:'userId'} );
 User_Activity.belongsTo(User, {foreignKey:'userId'} );
 //////////////////////////////////////
 
+// Objective.belongsToMany(User, { through: Progress, foreignKey: 'objectiveId' });
+// User.belongsToMany(Objective, { through: Progress, foreignKey: 'userId' });
+
+Objective.hasMany(Progress, {foreignKey:'objectiveId'} );
+Progress.belongsTo(Objective, {foreignKey:'objectiveId'} );
+
+User.hasMany(Progress, {foreignKey:'userId'} );
+Progress.belongsTo(User, {foreignKey:'userId'} );
+
 Badge.belongsToMany(User, { through: User_Badge });
 User.belongsToMany(Badge, { through: User_Badge });
 

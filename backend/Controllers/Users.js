@@ -1,4 +1,12 @@
-const { User, User_Badges, Post,Progress,Objective,Category,Activity } = require("../Models/index");
+const {
+  User,
+  User_Badges,
+  Post,
+  Progress,
+  Objective,
+  Category,
+  Activity,
+} = require("../Models/index");
 const bcrypt = require("bcrypt");
 
 module.exports = {
@@ -73,7 +81,6 @@ module.exports = {
         )
         .catch((err) => err);
     }
-
     await user
       .update({
         name: req.body.name,
@@ -99,7 +106,24 @@ module.exports = {
     const { userId } = req.params;
     try {
       const userObjectives = await Progress.findAll({
-        where: { userId },
+        where: { userId: userId },
+        include: [
+          {
+            model: Objective,
+            include: [
+              {
+                model: Category,
+                as: "categories",
+                attributes: ["name"],
+              },
+              {
+                model: Activity,
+                as: "activities",
+                attributes: ["name"],
+              },
+            ],
+          },
+        ],
       });
 
       res.status(200).json({

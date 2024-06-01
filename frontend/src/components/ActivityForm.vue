@@ -34,6 +34,8 @@
 
 <script>
 import { objectiveStore } from "@/store/objectiveStore";
+import { activityStore } from "@/store/activityStore";
+import { userStore } from '@/store/userStore';
 import Button from "@/components/Button.vue";
 export default {
   components: {
@@ -42,9 +44,14 @@ export default {
   data() {
     return {
       objStore: objectiveStore(),
+      activityStore: activityStore(),
+      userStore:userStore(),
     };
   },
-
+  created () {
+    this.userStore.getObjectiveProgress();
+    this.userStore.getUserActivities();
+  },
   methods: {
     remove() {
       this.$emit("remove");

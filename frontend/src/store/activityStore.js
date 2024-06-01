@@ -13,10 +13,12 @@ export const activityStore = defineStore("activity", {
     async getActivities() {
       try {
         const token=JSON.parse(localStorage.getItem("Token"))
-        const headersConfig = {
-          Authorization: `Bearer ${token}`,
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
         };
-        const response = await axios.get(`${url}/activities`,headersConfig);
+        const response = await axios.get(`${url}/activities`,config);
         this.activities = response.data.content;
       } catch (error) {
         console.error(error);

@@ -1,4 +1,4 @@
-const { Activity, Category, User_Activity,User } = require("../Models/index");
+const { Activity, Category, User_Activity, User } = require("../Models/index");
 
 module.exports = {
   getActivity: async (req, res, next) => {
@@ -39,7 +39,7 @@ module.exports = {
             model: Category,
             as: "categories",
             through: {
-              attributes: [], // Exclude join table attributes
+              attributes: [],
             },
           },
         ],
@@ -52,7 +52,7 @@ module.exports = {
       if (activity) {
         query.where.id = activity.split(",");
       }
-      console.log(query);
+      
       const activities = await Activity.findAll(query);
 
       if (activities) {
@@ -195,7 +195,7 @@ module.exports = {
       //   ]
       // });
       const userActivities = await User_Activity.findAll({
-        where:{userId:res.locals.userId},
+        where: { userId: res.locals.userId },
         include: [
           {
             model: Activity,
@@ -203,16 +203,16 @@ module.exports = {
             // through: {
             //   attributes: []
             // }
-          }
-        ]
+          },
+        ],
       });
-      
+
       res.status(200).send({
         success: "User activities retrieved successfully",
         content: userActivities,
       });
     } catch (error) {
-      console.log(error)
+      console.log(error);
       res.status(500).send({ error: "Something went wrong", error });
     }
   },
@@ -230,12 +230,10 @@ module.exports = {
         activityId: activityId,
       });
 
-      res
-        .status(201)
-        .send({
-          success: "Activity added to user successfully",
-          content: userActivity,
-        });
+      res.status(201).send({
+        success: "Activity added to user successfully",
+        content: userActivity,
+      });
     } catch (error) {
       res.status(500).send({ error: "Something went wrong", error });
     }
