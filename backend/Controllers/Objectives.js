@@ -79,7 +79,19 @@ exports.addObjectiveToUser = async (req, res, next) => {
     let beginningDate = req.body.beginningDate;
 
     endDate = endDate.replace(/\//g, "-");
-    beginningDate = beginningDate.replace(/\//g, "-")
+    beginningDate = beginningDate.replace(/\//g, "-");
+
+    const search = await Progress.findOne({
+      where: {
+        [Op.and]: [{ userId: userId }, { objectiveId: objectiveId }],
+      },
+    });
+
+    if (search) {
+      return res.status(400).send({
+        message: "Objective already added to user",
+      });
+    }
 
     const data = await Progress.create({
       userId: userId,
@@ -88,40 +100,9 @@ exports.addObjectiveToUser = async (req, res, next) => {
       beginningDate: beginningDate,
     });
     if (data) {
-      res
+      return res
         .status(201)
         .send({ message: "Objective added successfully", data: data });
-      return;
-    }
-  } catch (error) {
-    console.log(error);
-    res.status(500).send({ message: "Something went wrong" });
-  }
-};
-
-//DONE
-exports.getUserObjectives = async (req, res, next) => {
-  try {
-    const { userId } = req.params;
-    const user = await User.findByPk(userId);
-    if (!user) {
-      return res.status(404).send({ message: "User provided was not found" });
-    }
-
-    const data = await Progress.findAll({
-      where: {
-        userId: userId,
-      },
-    });
-    console.log(data);
-    if (data) {
-      res
-        .status(200)
-        .send({
-          message: "User objectives retrieved successfully",
-          data: data,
-        });
-      return;
     }
   } catch (error) {
     console.log(error);
@@ -256,21 +237,21 @@ exports.getObjective = async (req, res, next) => {
           model: Category,
           as: "categories",
           through: {
-            attributes: [], // Exclude join table attributes
+            attributes: [],
           },
         },
         {
           model: Activity,
           as: "activities",
           through: {
-            attributes: [], // Exclude join table attributes
+            attributes: [],
           },
           include: [
             {
               model: Category,
               as: "categories",
               through: {
-                attributes: [], // Exclude join table attributes for the nested include
+                attributes: [],
               },
             },
           ],
@@ -279,12 +260,10 @@ exports.getObjective = async (req, res, next) => {
     });
 
     if (objective) {
-      res
-        .status(200)
-        .send({
-          message: "Objective Sucessfully retrieved",
-          content: objective,
-        });
+      res.status(200).send({
+        message: "Objective Sucessfully retrieved",
+        content: objective,
+      });
     } else {
       res.status(404).send({ message: "Objective not found. Invalid ID" });
     }

@@ -19,13 +19,26 @@
         <Select></Select>
       </v-col>
     </v-row>
-    <v-row class="d-flex flex-column cont" v-for="obj in userObj" :key="obj.id">
+    <v-row class="d-flex flex-column" v-for="obj in userObj" :key="obj.id">
       <ObjectiveContainer
-        :obj="obj"
+        :startedObj="obj"
         @start-obj="handleForm(obj.id)"
       ></ObjectiveContainer>
     </v-row>
   </v-container>
+  <!-- <v-container class="cont">
+    <v-row>
+      <v-col>
+        <h2>Your Objectives</h2>
+      </v-col>
+      <v-col>
+        <Select></Select>
+      </v-col>
+    </v-row>
+    <v-row class="d-flex flex-column align-center justify-center">
+      <h2>No objectives found</h2>
+    </v-row>
+  </v-container> -->
   <v-container class="cont">
     <v-row>
       <v-col>
@@ -35,7 +48,7 @@
         <Select></Select>
       </v-col>
     </v-row>
-    <v-row class="d-flex flex-column cont" v-for="obj in getObjs" :key="obj.id">
+    <v-row class="d-flex flex-column cont" v-for="obj in filteredObjs" :key="obj.id">
       <ObjectiveContainer
         :obj="obj"
         @start-obj="handleForm(obj.id)"
@@ -46,11 +59,10 @@
     <ObjectiveForm
       v-if="showForm"
       :objective-id="objectiveId"
-      @close="handleForm()"
+      @addProgress="addObjectiveProgress"
     ></ObjectiveForm>
   </v-container>
   <Footer></Footer>
-  {{ userObj }}
 </template>
 
 <script>
@@ -77,7 +89,6 @@ export default {
       objStore: objectiveStore(),
       showForm: false,
       objectiveId: null,
-      userObj: [],
     };
   },
 
@@ -86,23 +97,33 @@ export default {
       this.showForm = true;
       this.objectiveId = id;
     },
+
+    addObjectiveProgress({ objectiveId, startDate, endDate }) {
+      this.userStore.addObjectiveToUser(objectiveId, startDate, endDate);
+      this.showForm = false;
+    },
   },
 
-  mounted() {
-  this.userStore.getUser().then(() => {
-    this.user = this.userStore.getLoggedUser;
-  });
-  this.objStore.getObjectives();
-  this.userObj = this.objStore.getUserObjectives;
-},
+  created() {
+    this.userStore.getUser().then(() => {
+      this.user = this.userStore.getLoggedUser;
+    });
+    this.objStore.getObjectives();
+    this.userStore.getObjectiveProgress();
+  },
 
   computed: {
     getObjs() {
       return this.objStore.getAllObjectives;
     },
 
-    getProgressObj(){
+    userObj() {
+      return this.userStore.getUserProgress;
+    },
 
+    filteredObjs(){
+      const userObjIds = this.userObj.map((obj) => obj.objectiveId);
+      return this.getObjs.filter((obj) => !userObjIds.includes(obj.id));
     }
   },
 };

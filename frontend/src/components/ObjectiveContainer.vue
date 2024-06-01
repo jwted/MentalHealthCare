@@ -1,5 +1,5 @@
 <template>
-    <v-container class="d-flex align-center justify-center cont bg">
+    <v-container class="d-flex align-center justify-center cont bg" v-if="obj && !startedObj">
       <v-col class="d-flex flex-column align-center justify-start bg">
         <h2 class="bg mb-4">{{ obj.name }}</h2>
         <h2 class="bg">Fitness</h2>
@@ -9,20 +9,27 @@
         <Button :text="'Start'" class="dark" @click="startObjective(obj.id)"></Button>
       </v-col>
     </v-container>
-    <v-container v-if="showForm">
-      <ObjectctiveForm></ObjectctiveForm>
+    <v-container class="d-flex align-center justify-center cont bg" v-else-if="!obj && startedObj">
+      <v-col class="d-flex flex-column align-center justify-start bg">
+        <h2 class="bg mb-4">{{ startedObj.Objective.name }}</h2>
+        <h2 class="bg">{{formatCategories() }}</h2>
+      </v-col>
+      <v-col class="d-flex flex-column justify-center align-center bg">
+        <Button :text="'Detail'" class="dark"></Button>
+        <Button :text="'Cancel'" class="dark" @click="startObjective(obj.id)"></Button>
+      </v-col>
     </v-container>
   </template>
-  
   <script>
   import Button from "@/components/Button.vue";
   import ObjectctiveForm from "@/components/ObjectiveForm.vue";
-import { objectiveStore } from "@/store/objectiveStore";
+  import { objectiveStore } from "@/store/objectiveStore";
   import { userStore } from "@/store/userStore";
   export default {
     components: { Button, ObjectctiveForm},
     props: {
       obj: Object,
+      startedObj: Object,
     },
     emits: ['start-obj'],
     data() {
@@ -34,6 +41,14 @@ import { objectiveStore } from "@/store/objectiveStore";
     methods: {
       startObjective(id) {
         this.$emit("start-obj",id);
+      },
+
+      formatCategories() {
+        const string=this.startedObj.Objective.categories.map((cat) => {
+          return cat.name;
+        }).join(", ");
+
+        return string;
       },
     },
   };

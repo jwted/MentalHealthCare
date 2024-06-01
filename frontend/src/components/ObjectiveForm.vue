@@ -9,6 +9,12 @@
         <label for="email"><b>Objective Name:</b> {{ objective.name }}</label>
       </div>
       <div>
+        <label for="activities"><b>Categories:</b></label>
+        <ul v-for="cat in objective.categories" :key="cat.id">
+          <li>{{ cat.name }}</li>
+        </ul>
+      </div>
+      <div>
         <label for="description"><b>Description:</b></label>
         <p class="text">
           {{ objective.description }}
@@ -54,7 +60,7 @@ export default {
   },
 
   props: {
-    objectiveId: Number, // Define o tipo da propriedade
+    objectiveId: Number,
   },
 
   created () {
@@ -67,8 +73,11 @@ export default {
     },
 
     startProgress() {
-      this.userStore.addObjectiveToUser(this.objectiveId, this.startDate, this.endDate);
-      this.$emit("close");
+      this.$emit("addProgress", {
+        objectiveId: this.objectiveId,
+        startDate: this.startDate,
+        endDate: this.endDate,
+      });
     },
   },
 

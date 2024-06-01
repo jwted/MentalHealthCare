@@ -101,12 +101,19 @@ module.exports = {
       });
   },
 
-  // Get User Objectives
+  //DONE
   getUserObjectives: async (req, res, next) => {
-    const { userId } = req.params;
     try {
-      const userObjectives = await Progress.findAll({
-        where: { userId: userId },
+      const { userId } = req.params;
+      const user = await User.findByPk(userId);
+      if (!user) {
+        return res.status(404).send({ message: "User provided was not found" });
+      }
+
+      const data = await Progress.findAll({
+        where: {
+          userId: userId,
+        },
         include: [
           {
             model: Objective,
@@ -114,25 +121,26 @@ module.exports = {
               {
                 model: Category,
                 as: "categories",
-                attributes: ["name"],
               },
               {
                 model: Activity,
                 as: "activities",
-                attributes: ["name"],
               },
             ],
           },
         ],
       });
-
-      res.status(200).json({
-        success: "Successfully retrieved user objectives",
-        content: userObjectives,
-      });
+      console.log(data);
+      if (data) {
+        res.status(200).send({
+          message: "User objectives retrieved successfully",
+          content: data,
+        });
+        return;
+      }
     } catch (error) {
-      console.error("Error getting user objectives:", error);
-      return res.status(500).json({ error: "Could not get user objectives" });
+      console.log(error);
+      res.status(500).send({ message: "Something went wrong" });
     }
   },
 };
