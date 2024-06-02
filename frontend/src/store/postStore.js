@@ -24,6 +24,22 @@ export const postStore = defineStore("post", {
       }
     },
 
+    async addPost(post) {
+      try {
+        const token=JSON.parse(localStorage.getItem("Token"))
+        const body={text:post}
+        const headersConfig = {
+          Authorization: `Bearer ${token}`,
+        };
+        const response = await axios.post(`${url}/posts`, body, { headers: headersConfig });
+        if(response.data.status === 201){
+          this.posts.push(response.data.Post);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
     async getPostById(id) {
       try {
         const response = await axios.get(`${url}/posts/${id}`);
