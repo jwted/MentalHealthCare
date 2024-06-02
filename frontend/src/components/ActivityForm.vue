@@ -29,6 +29,7 @@
             <option
               v-for="activity in activityGroup.Objective.activities"
               :key="activity.id"
+              :value="activity.id"
             >
               {{ activity.name }}
             </option>
@@ -39,7 +40,7 @@
         <h3>Points:50</h3>
       </div>
       <div class="login">
-        <Button :text="'Submit'" class="ma-3"></Button>
+        <Button :text="'Submit'" class="ma-3" @click="addActivity"></Button>
       </div>
     </form>
   </v-container>
@@ -51,6 +52,8 @@ export default {
   components: {
     Button,
   },
+
+  emits: ["remove", "addActivity"],
 
   data() {
     return {
@@ -72,6 +75,13 @@ export default {
   methods: {
     remove() {
       this.$emit("remove");
+    },
+
+    addActivity() {
+      this.$emit("addActivity", {
+        objectiveId: this.selectedObjective,
+        activityId: this.selectedActivity,
+      });
     },
   },
 };

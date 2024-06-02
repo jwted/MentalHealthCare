@@ -7,6 +7,7 @@ const { offsetLengthValidation } = require("../Middlewares/objMid");
 router.get("/", verifyUser,offsetLengthValidation,calendarController.getUserActivities);
 router.post("/",verifyUser,calendarController.addActivityToUser);
 
+router.delete("/:activityId",verifyUser,calendarController.deleteActivityFromUser);
 // //Get / Put / Delete - By Id
 // router.get("/:id",verifyUser,diaryController.getDiary);
 // router.put("/:id",verifyUser, diaryController.updateDiary);

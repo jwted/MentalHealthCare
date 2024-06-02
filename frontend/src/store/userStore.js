@@ -3,7 +3,12 @@ import axios from "axios";
 
 const url = "http://localhost:3000";
 export const userStore = defineStore("user", {
-  state: () => ({ users: [], loggedInUser: null, userProgress: [],userActivities:[] }),
+  state: () => ({
+    users: [],
+    loggedInUser: null,
+    userProgress: [],
+    userActivities: [],
+  }),
   getters: {
     getAllUsers: (state) => state.users,
     getLoggedUser: (state) => state.loggedInUser,
@@ -47,7 +52,7 @@ export const userStore = defineStore("user", {
         if (response.status == 200) {
           localStorage.setItem("Token", JSON.stringify(response.data.token));
           localStorage.setItem("User", JSON.stringify(response.data.user));
-          return true
+          return true;
         }
       } catch (error) {
         console.log(error);
@@ -64,14 +69,14 @@ export const userStore = defineStore("user", {
       try {
         const token = JSON.parse(localStorage.getItem("Token"));
         const user = JSON.parse(localStorage.getItem("User"));
-        
+
         const config = {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         };
         const response = await axios.get(`${url}/users/${user}`, config);
-        if(response.status == 200){
+        if (response.status == 200) {
           this.loggedInUser = response.data.content;
         }
       } catch (error) {
@@ -107,16 +112,19 @@ export const userStore = defineStore("user", {
 
     async getObjectiveProgress() {
       try {
-        const user=JSON.parse(localStorage.getItem("User"))
-        const token=JSON.parse(localStorage.getItem("Token"))
-        
+        const user = JSON.parse(localStorage.getItem("User"));
+        const token = JSON.parse(localStorage.getItem("Token"));
+
         const config = {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         };
-        const response = await axios.get(`${url}/users/${user}/objectives`,config);
-        if(response.status == 200){
+        const response = await axios.get(
+          `${url}/users/${user}/objectives`,
+          config
+        );
+        if (response.status == 200) {
           this.userProgress = response.data.content;
         }
       } catch (error) {
@@ -124,76 +132,107 @@ export const userStore = defineStore("user", {
       }
     },
 
-    async addObjectiveToUser(id,startDate,endDate){
+    async addObjectiveToUser(id, startDate, endDate) {
       try {
-        const user=JSON.parse(localStorage.getItem("User"));
-        const token=JSON.parse(localStorage.getItem("Token"))
-        const body={objectiveId:id,beginningDate:startDate,endDate:endDate}
+        const user = JSON.parse(localStorage.getItem("User"));
+        const token = JSON.parse(localStorage.getItem("Token"));
+        const body = {
+          objectiveId: id,
+          beginningDate: startDate,
+          endDate: endDate,
+        };
         const config = {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         };
-        const response=await axios.post(`${url}/users/${user}/objectives`,body,config);
-        if(response.status==200){
+        const response = await axios.post(
+          `${url}/users/${user}/objectives`,
+          body,
+          config
+        );
+        if (response.status == 200) {
           this.userProgress.push(response.data.content);
         }
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     },
-    async deleteObjectiveFromUser(id){
-      console.log("CHEGUEI AQUI")
+    async deleteObjectiveFromUser(id) {
+      console.log("CHEGUEI AQUI");
       try {
-        const user=JSON.parse(localStorage.getItem("User"));
-        const token=JSON.parse(localStorage.getItem("Token"))
+        const user = JSON.parse(localStorage.getItem("User"));
+        const token = JSON.parse(localStorage.getItem("Token"));
         const config = {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         };
-        const response=await axios.delete(`${url}/users/${user}/objectives/${id}`,config);
-        if(response.status==204){
-          this.userProgress=this.userProgress.filter((obj)=>obj.id!=id);
+        const response = await axios.delete(
+          `${url}/users/${user}/objectives/${id}`,
+          config
+        );
+        if (response.status == 204) {
+          this.userProgress = this.userProgress.filter((obj) => obj.id != id);
         }
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     },
-    async getUserActivities(){
+    async getUserActivities() {
       try {
-        const token=JSON.parse(localStorage.getItem("Token"))
-        console.log(token)
-        const config = {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        };
-
-        const response=await axios.get(`${url}/calendar`,config);
-        if(response.status==200){
-          this.userActivities=response.data.content;
-        }
-      } catch (error) {
-        console.log(error)
-      }
-    },
-    async addActivityToUser(id){
-      try {
-        const token=JSON.parse(localStorage.getItem("Token"))
+        const token = JSON.parse(localStorage.getItem("Token"));
 
         const config = {
           headers: {
-            Authorization: `Bearer ${token}`
-          }
+            Authorization: `Bearer ${token}`,
+          },
         };
-        const response=await axios.post(`${url}/calendar`,config);
-        if(response.status==200){
+
+        const response = await axios.get(`${url}/calendar`, config);
+        if (response.status == 200) {
+          this.userActivities = response.data.content;
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async addActivityToUser(activity) {
+      try {
+        const token = JSON.parse(localStorage.getItem("Token"));
+        console.log(activity)
+        const body = { activityId: activity.activityId };
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        const response = await axios.post(`${url}/calendar`, body, config);
+        if (response.status == 200) {
           this.userActivities.push(response.data.content);
         }
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-    }
+    },
+
+    async deleteActivityFromUser(id) {
+      try {
+        const token = JSON.parse(localStorage.getItem("Token"));
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        const response = await axios.delete(`${url}/calendar/${id}`, config);
+        if (response.status == 204) {
+          this.userActivities = this.userActivities.filter(
+            (act) => act.id != id
+          );
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
 });

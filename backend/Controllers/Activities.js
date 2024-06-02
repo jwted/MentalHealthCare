@@ -238,4 +238,23 @@ module.exports = {
       res.status(500).send({ error: "Something went wrong", error });
     }
   },
+
+  deleteActivityFromUser: async (req, res) => {
+    try {
+      const { activityId } = req.params;
+      const userActivity = await User_Activity.findOne({
+        where: { userId: res.locals.userId, activityId:activityId },
+      });
+      if (!userActivity) {
+        return res.status(404).send({ error: "Activity not found" });
+      }
+      await User_Activity.destroy({
+        where: { userId: res.locals.userId, activityId:activityId },
+      });
+
+      res.status(204).send({ success: "Activity deleted from user" });
+    } catch (error) {
+      res.status(500).send({ error: "Something went wrong", error });
+    }
+  }
 };

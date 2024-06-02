@@ -6,7 +6,7 @@
       </v-col>
       <v-col class="d-flex flex-column justify-center align-center bg">
         <Button :text="'Detail'" class="dark"></Button>
-        <Button :text="'Remove'" class="dark"></Button>
+        <Button :text="'Remove'" class="dark" @click="remAct(act.activityId)"></Button>
       </v-col>
     </v-container>
   </template>
@@ -17,9 +17,13 @@
   import { userStore } from "@/store/userStore";
   export default {
     components: { Button, ObjectctiveForm},
+
     props: {
       act: Object
     },
+
+    emits: ["remove-act"],
+
     data() {
       return {
         userStore: userStore(),
@@ -34,6 +38,10 @@
 
         return string;
       },
+
+      remAct(activityId) {
+        this.$emit("remove-act", activityId);
+      }
     },
   };
   </script>

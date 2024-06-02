@@ -16,7 +16,7 @@
       </v-col>
       <v-col class="d-flex flex-column justify-center align-center bg">
         <Button :text="'Detail'" class="dark"></Button>
-        <Button :text="'Cancel'" class="dark" @click="deleteUserObjective(startedObj.id)"></Button>
+        <Button :text="'Cancel'" class="dark" @click="deleteUserObjective(startedObj.objectiveId)"></Button>
       </v-col>
     </v-container>
   </template>

@@ -11,35 +11,43 @@
     </v-row>
   </v-container>
   <v-container class="cont">
-    <v-row>
-      <v-col>
-        <h2>Your Objectives</h2>
-      </v-col>
-      <v-col>
-        <Select></Select>
+    <v-row class="d-flex align-center justify-center">
+      <v-col class="d-flex align-center">
+        <v-col>
+          <h2>Your Objectives</h2>
+        </v-col>
+        <v-col>
+          <Select></Select>
+        </v-col>
       </v-col>
     </v-row>
-    <v-row class="d-flex flex-column" v-for="obj in userObj" :key="obj.id">
-      <ObjectiveContainer
-        :startedObj="obj"
-        @start-obj="handleForm(obj.id)"
-      ></ObjectiveContainer>
+    <v-row class="d-flex flex-column">
+      <v-col v-for="obj in userObj" :key="obj.id">   
+        <ObjectiveContainer
+          :startedObj="obj"
+          @remove-obj="removeUserObj"
+        ></ObjectiveContainer>
+      </v-col>
     </v-row>
   </v-container>
   <v-container class="cont">
-    <v-row>
-      <v-col>
-        <h2>All Objectives</h2>
-      </v-col>
-      <v-col>
-        <Select></Select>
+    <v-row class="d-flex align-center justify-center">
+      <v-col class="d-flex align-center">
+        <v-col>
+          <h2>All Objectives</h2>
+        </v-col>
+        <v-col>
+          <Select></Select>
+        </v-col>
       </v-col>
     </v-row>
-    <v-row class="d-flex flex-column justify-center align-center" v-for="obj in filteredObjs" :key="obj.id">
-      <ObjectiveContainer
-        :obj="obj"
-        @remove-obj="removeUserObj"
-      ></ObjectiveContainer>
+    <v-row class="d-flex flex-column justify-center align-center">
+      <v-col v-for="obj in filteredObjs" :key="obj.id">
+        <ObjectiveContainer
+          :obj="obj"
+          @start-obj="handleForm(obj.id)"
+        ></ObjectiveContainer>
+      </v-col>
     </v-row>
   </v-container>
   <v-container class="formContainer">
@@ -86,8 +94,8 @@ export default {
     },
 
     addObjectiveProgress({ objectiveId, startDate, endDate }) {
+      this.showForm = true;
       this.userStore.addObjectiveToUser(objectiveId, startDate, endDate);
-      this.showForm = false;
     },
 
     removeUserObj(id) {

@@ -19,9 +19,9 @@
         <Select></Select>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row class="d-flex flex-column">
       <v-col v-for="act in userActivities" :key="act.id">
-        <ActivityContainer :act="act"></ActivityContainer>
+        <ActivityContainer :act="act" @remove-act="removeActivity"></ActivityContainer>
       </v-col>
     </v-row>
     <v-row>
@@ -29,7 +29,7 @@
     </v-row>
   </v-container>
   <v-container v-if="showForm" class="formContainer">
-    <ActivityFormVue @remove="toggleForm" :objectives="userProgress"></ActivityFormVue>
+    <ActivityFormVue @remove="toggleForm" :objectives="userProgress" @addActivity="addActToUser"></ActivityFormVue>
   </v-container>
   <Footer></Footer>
 </template>
@@ -67,6 +67,14 @@ export default {
   methods: {
     toggleForm() {
       this.showForm = !this.showForm;
+    },
+
+    addActToUser(activity) {
+      this.userStore.addActivityToUser(activity);
+    },
+
+    removeActivity(activityId) {
+      this.userStore.deleteActivityFromUser(activityId);
     },
   },
 
