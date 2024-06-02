@@ -16,6 +16,10 @@ const Activity = sequelize.define(
       type:DataTypes.INTEGER,
       defaultValue:1
 
+    },
+    points:{
+      type:DataTypes.INTEGER,
+      defaultValue:0
     }
   },
   {

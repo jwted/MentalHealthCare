@@ -34,6 +34,26 @@ exports.idsValidation = (req, res, next) => {
       case 'activity':
         content = req.query.activity
         break;
+      
+      case 'badge':
+        content = req.query.badge
+        break;
+      
+      case 'resource':
+        content = req.query.resource
+        break;
+          
+      case 'post':
+        content = req.query.post
+        break;
+      
+        case 'diary':
+        content = req.query.diary
+        break;
+          
+      case 'category':
+        content = req.query.category
+        break;
           
       default:
         res.status(400).send({message:'Incorrect query use. Please consult the api documentation.'})

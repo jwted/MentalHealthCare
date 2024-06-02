@@ -3,7 +3,7 @@ const Comment = require("../Models/Forum/Comentario");
 const like = require("../Models/Forum/GostosPost");
 const { Op } = require("sequelize");
 
-exports.bodyValidation = (req, res, next) => {
+/* exports.bodyValidation = (req, res, next) => {
   const { text } = req.body;
   if (!text) {
     res.status(400).json({
@@ -31,54 +31,34 @@ exports.idValidation = async (req, res, next) => {
     }
   }
 };
-
+ */
 // DONE
 exports.getPosts = async (req, res, next) => {
-  const { offset, length, posts } = req.query;
+  
   try {
+    const { offset, length, post } = req.query;
+    let query = {
+      where: {},
+    };
     if (offset && length) {
-      if (posts) {
-        const ids = posts.split(",").map(Number);
-        const data = await Post.findAll({
-          where: { id: { [Op.in]: ids } },
-          offset: parseInt(offset),
-          limit: parseInt(length),
-        });
-        return res.status(200).json({
-          success: "Successful request",
-          Posts: data,
-        });
-      } else {
-        const data = await Post.findAll({
-          offset: parseInt(offset),
-          limit: parseInt(length),
-        });
-        return res.status(200).json({
-          success: "Successful request",
-          Posts: data,
-        });
-      }
+      query.offset = parseInt(offset);
+      query.limit = parseInt(length);
     }
+
+    if (post) {
+      query.where.id = post.split(",");
+    }
+
+    const posts = await Post.findAll(query);
+
     if (posts) {
-      const ids = posts.split(",").map(Number);
-      const data = await Post.findAll({
-        where: { id: { [Op.in]: ids } },
-      });
-      return res.status(200).json({
-        success: "Successful request",
-        Posts: data,
-      });
-    } else {
-      const data = await Post.findAll();
-      return res.status(200).json({
-        success: "Successful request",
-        Posts: data,
+      res.status(200).send({
+        message: "Successfully found posts",
+        content: posts,
       });
     }
   } catch (error) {
-    return res.status(500).json({
-      error: "Something went wrong. Please try again later",
-    });
+    res.status(500).send({ error: 'Something went wrong. Please try again later' });
   }
 };
 
@@ -86,6 +66,7 @@ exports.getPosts = async (req, res, next) => {
 exports.postPosts = async (req, res, next) => {
   const { text } = req.body;
   try {
+    if(!text) res.status(400).send({message:'Missing Field: Text'})
     const data = await Post.create({
       userId: res.locals.userId,
       text: text,
@@ -104,70 +85,56 @@ exports.postPosts = async (req, res, next) => {
 
 // DONE
 exports.getPostById = async (req, res, next) => {
-  const { id } = req.params;
   try {
-    const data = await Post.findByPk(id);
-    if (data == null) {
-      res.status(404).json({ message: "Provided post was not found" });
+    const post = await Post.findByPk(req.params.id);
+    if (post) {
+      res
+        .status(200)
+        .send({ message: "Post successfully retrieved", content: post });
     } else {
-      res.status(200).json({ message: "Successful request", Post: data });
+      res.status(404).send({ message: "Post not found. Invalid ID." });
     }
   } catch (error) {
-    res
-      .status(500)
-      .json({ message: "Something went wrong. Please try again later" });
+    res.status(500).send({ error: "Something went wrong. Please try again later", });
   }
 };
 
 // Done
 exports.updatePostById = async (req, res, next) => {
-  const { text } = req.body;
-  const { id } = req.params;
-  try {
-    const data = await Post.update(
-      { userId: res.locals.userId, text: text },
-      {
-        where: { id: id },
-      }
-    );
-    if (data == 1) {
-      res.status(200).json({
-        success: "Post was updated successfully.",
-      });
-    } else {
-      res.status(404).json({
-        error: "Provided post was not found",
-      });
+  if (!req.body.text) {
+    res
+      .status(400)
+      .send({ message: "Only name, password and bio can be altered" });
+  }
+  const id = req.params.id;
+  const post = await Post.findByPk(id);
+  try{
+    if (post){
+      const data = await post.update({
+        text:req.body.text
+      },{returning:true})
+      res.status(200).send({message:'Post successfully updated'})
+    }else{
+      res.status(404).send({message:'Post not found'})
     }
-  } catch (error) {
-    res.status(500).send({
-      error: "Something went wrong. Please try again later",
-    });
+  }catch(error){
+    res.status(500).send({message:'Something went wrong. Please try again later.'})
   }
 };
 
 //
 exports.deletePostById = async (req, res, next) => {
-  try {
-    const data = await Post.destroy({
-      where: {
-        id: req.params.id,
-      },
-    });
-    if (data == 1) {
-      res.status(204).json({
-        success: "Successful Delete request!",
-      });
-    } else {
-      res.status(404).json({
-        error: "Provided post was not found.",
-      });
+  const id = req.params.id;
+  const post = await Post.findByPk(id);
+  try{
+    if (post){
+      await post.destroy()
+      res.status(204).send()
+    }else{
+      res.status(404).send({message:'Post not found'})
     }
-  } catch (error) {
-    console.log(error);
-    res.status(500).send({
-      error: "Something went wrong. Please try again later",
-    });
+  }catch(error){
+    res.status(500).send({message:'Something went wrong. Please try again later.'})
   }
 };
 
@@ -208,8 +175,6 @@ exports.addComments = async (req, res, next) => {
         error: "Provided post was not found",
       });
     }
-    console.log(res.locals.userId);
-    console.log(id);
     const data = await Comment.create({
       userId: res.locals.userId,
       text: text,
@@ -230,9 +195,7 @@ exports.addComments = async (req, res, next) => {
 exports.getCommentById = async (req, res, next) => {
   try {
     const { id, commentId } = req.params;
-    const comment = await Comment.findOne({
-      where: { postId: id, id: commentId },
-    });
+    const comment = await Comment.findByPk(commentId);
     if (!comment) {
       return res.status(404).json({
         error: "Provided comment was not found",
