@@ -3,7 +3,7 @@ const Comment = require("../Models/Forum/Comentario");
 const like = require("../Models/Forum/GostosPost");
 const { Op } = require("sequelize");
 
-/* exports.bodyValidation = (req, res, next) => {
+exports.bodyValidation = (req, res, next) => {
   const { text } = req.body;
   if (!text) {
     res.status(400).json({
@@ -31,7 +31,7 @@ exports.idValidation = async (req, res, next) => {
     }
   }
 };
- */
+
 // DONE
 exports.getPosts = async (req, res, next) => {
   
