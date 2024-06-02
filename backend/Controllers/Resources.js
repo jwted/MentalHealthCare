@@ -14,7 +14,6 @@ exports.getResources = async (req, res) => {
     if (resource) {
       query.where.id = resource.split(",");
     }
-    console.log("GET RESOURCES");
     const resources = await Resource.findAll(query);
     if (resources) {
       res.status(200).send({
