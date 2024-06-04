@@ -236,7 +236,7 @@ exports.deleteCommentById = async (req, res, next) => {
         });
         if (data == 1) {
           res.status(204).json({
-            success: "Successful Delete request!",
+             success: "Successful Delete request!",
           });
         } else {
           res.status(404).json({

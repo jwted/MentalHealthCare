@@ -18,7 +18,7 @@ export const postStore = defineStore("post", {
           }
         };
         const response = await axios.get(`${url}/posts`,config);
-        this.posts = response.data.Posts;
+        this.posts = response.data.content;
       } catch (error) {
         console.log(error);
       }

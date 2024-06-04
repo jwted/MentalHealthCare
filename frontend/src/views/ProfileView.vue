@@ -30,7 +30,8 @@
         </v-row>
         <v-row class="bg">
           <h2 class="bg">Bio:</h2>
-          <h2 class="bg">{{ loggedUser.bio }}</h2>
+          <h2 class="bg" v-if="loggedUser.bio != null">{{ loggedUser.bio }}</h2>
+          <h2 class="bg" v-else>New User!</h2>
         </v-row>
       </v-col>
       <v-col cols="4" class="d-flex align-center justify-center bg">
@@ -82,7 +83,10 @@
       class="d-flex align-center justify-space-between bg border"
     >
       <v-row class="d-flex justify-center align-center">
-        <v-col cols="6" class="bg d-flex flex-column align-center justify-start">
+        <v-col
+          cols="6"
+          class="bg d-flex flex-column align-center justify-start"
+        >
           <v-row class="bg">
             <h2 class="bg">Activities Done:</h2>
             <h2 class="bg">7</h2>
@@ -114,7 +118,6 @@
     </v-container>
   </main>
   <Footer></Footer>
-  {{ console.log(loggedUser) }}
 </template>
 
 <script>
@@ -136,7 +139,7 @@ export default {
       badgeStore: badgeStore(),
       loggedUser: {},
       badges: [],
-    }
+    };
   },
 
   created() {

@@ -182,27 +182,11 @@ module.exports = {
   //
   getUserActivities: async (req, res) => {
     try {
-      // const userActivities = await User_Activity.findAll({
-      //   where:{userId:res.locals.userId},
-      //   include: [
-      //     {
-      //       model: Activity,
-      //       // as: 'activities',
-      //       through: {
-      //         attributes: []
-      //       }
-      //     }
-      //   ]
-      // });
       const userActivities = await User_Activity.findAll({
         where: { userId: res.locals.userId },
         include: [
           {
             model: Activity,
-            // // as: 'activities',
-            // through: {
-            //   attributes: []
-            // }
           },
         ],
       });

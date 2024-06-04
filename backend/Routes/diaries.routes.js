@@ -4,7 +4,7 @@ const diaryController = require("../Controllers/Diary.js");
 const { verifyUser, verifyAdmin } = require("../Middlewares/jwt");
 const { offsetLengthValidation } = require("../Middlewares/objMid");
 //Get Diaries
-router.get("/", verifyUser,offsetLengthValidation, diaryController.getDiaries);
+// router.get("/", verifyUser,offsetLengthValidation, diaryController.getDiaries);
 router.post("/",verifyUser,diaryController.createDiary);
 
 //Get / Put / Delete - By Id

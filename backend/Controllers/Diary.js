@@ -1,11 +1,13 @@
 const Diary = require("../Models/Diarios/Diario");
 
 //DONE
-exports.getDiaries = async (req, res) => {
+exports.getUserDiaries = async (req, res) => {
   const { offset, length, diary } = req.query;
   try {
     let query = {
-      where: {},
+      where: {
+        userId: req.params.userId,
+      },
     };
     if (offset && length) {
       query.offset = parseInt(offset);
