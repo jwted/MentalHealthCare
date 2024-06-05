@@ -50,6 +50,7 @@ export default {
 
    like(id) {
     console.log(id)  
+    //console.log(this.post,"here")
     this.postStore.likePost(id);
     },
   },
