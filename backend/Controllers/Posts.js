@@ -298,18 +298,18 @@ exports.likePost = async (req, res, next) => {
     const { id } = req.params;
 
     const userLike = await like.findOne({
-      where: { userId: res.locals.userId, postId: id },
+      where: { userId: res.locals.userId, PostId: id },
     });
 
     if (userLike) {
-      await like.destroy({ where: { userId: res.locals.userId, postId: id } });
+      await userLike.destroy();
       res.status(204).json({
         success: "Successfully unliked",
       });
     } else {
       const create = await like.create({
         userId: res.locals.userId,
-        PostId: 1,
+        PostId: id,
       });
       res.status(201).json({
         success: "Successfully liked",
