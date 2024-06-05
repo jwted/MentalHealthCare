@@ -9,16 +9,23 @@ export const postStore = defineStore("post", {
     getPost: (state) => state.post,
   },
   actions: {
-    async getPosts() {
+    async getPosts(query) {
       try {
-        const token=localStorage.getItem("Token")
+        console.log("passa aqui")
+        const token=JSON.parse(localStorage.getItem("Token"))
         const config = {
           headers: {
             Authorization: `Bearer ${token}`
           }
         };
+        if(query){
+          const response = await axios.get(`${url}/posts?${query}`,config)
+          this.objectives=response.data.content
+          return
+        }
         const response = await axios.get(`${url}/posts`,config);
         this.posts = response.data.content;
+        this.posts =response.data.content;
       } catch (error) {
         console.log(error);
       }
@@ -27,6 +34,7 @@ export const postStore = defineStore("post", {
     async addPost(post) {
       try {
         const token=JSON.parse(localStorage.getItem("Token"))
+        
         const body={text:post}
         const headersConfig = {
           Authorization: `Bearer ${token}`,
@@ -56,24 +64,38 @@ export const postStore = defineStore("post", {
       } catch (error) {
         console.log(error);
       }
-    }
-  },
-
-  async likePost(id) {
-    try {
-      const token=localStorage.getItem("Token")
-      const headersConfig = {
-        Authorization: `Bearer ${token}`,
-      };
-      const response = await axios.post(`${url}/posts/${id}/like`,{ headers: headersConfig });
-      if(response.data.status === 201){
-        this.userLikes.push(id);
-      }else if(response.data.status === 204){
-        this.userLikes = this.userLikes.filter((like) => like !== id);
+    },
+    async likePost(id) {
+      try {
+        console.log(id);
+        console.log('tou ca ');
+        
+        const token = JSON.parse(localStorage.getItem("Token"));
+        if (!token) {
+          throw new Error('No token found');
+        }
+        
+        console.log(localStorage.getItem("Token"));
+        
+        const headersConfig = {
+          headers: {
+            Authorization: `Bearer ${token}`
+          }
+        };
+        
+        const response = await axios.post(`${url}/posts/${id}/like`, {}, headersConfig);
+        console.log(response)
+        if (response.status === 201) {
+          this.userLikes.push(id);
+          console.log('201')
+        } else if (response.status === 204) {
+          this.userLikes = this.userLikes.filter((like) => like !== id);
+        }
+      } catch (error) {
+        console.log(error);
       }
     }
-    catch(error){
-      console.log(error);
-    }
+    
   },
+
 });

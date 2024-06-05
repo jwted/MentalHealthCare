@@ -143,6 +143,9 @@ exports.getComments = async (req, res, next) => {
   const { offset, length, comments } = req.query;
   const { id } = req.params;
   try {
+    
+    const post  = await Post.findByPk(id)
+    if(!post) res.status(404).send({message:'Post not found'})
     let query = {};
     if (comments) {
       const ids = comments.split(",").map(Number);
@@ -258,7 +261,6 @@ exports.updateCommentById = async (req, res, next) => {
     const { id, commentId } = req.params;
     const { text } = req.body;
     const post = await Post.findByPk(id);
-    console.log(post);
     const comment = await Comment.findOne({
       where: { postId: id, id: commentId },
     });

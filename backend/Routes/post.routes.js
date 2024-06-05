@@ -30,7 +30,7 @@ router
 
 // Post / Delete - Likes
 router
-  .route("/:id/likes")
+  .route("/:id/like")
   .post(verifyUser,postController.likePost)
 
 module.exports = router;

@@ -48,8 +48,9 @@ export default {
       return new Date(date).toLocaleDateString();
     },
 
-    like(id) {
-      this.postStore.likePost(id);
+   like(id) {
+    console.log(id)  
+    this.postStore.likePost(id);
     },
   },
 };

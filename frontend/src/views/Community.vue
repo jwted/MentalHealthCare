@@ -55,12 +55,13 @@ export default {
     };
   },
 
-  created() {
-    this.postStore.getPosts();
+  async created() {
+    await this.postStore.getPosts();
   },
 
   computed: {
     getPosts() {
+      console.log(this.postStore.getPosts)
       return this.postStore.getAllPosts;
     },
   },

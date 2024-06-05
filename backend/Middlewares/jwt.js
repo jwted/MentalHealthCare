@@ -10,6 +10,7 @@ module.exports = {
       bearer = req.headers.authorization.split(" ")[1];
       jwt.verify(bearer, secret);
     } catch (error) {
+      console.log(error)
       res.status(401).send({ message: "Token failed verification" });
       return;
     }
