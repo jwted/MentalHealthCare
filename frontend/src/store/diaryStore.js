@@ -25,6 +25,27 @@ export const diaryStore = defineStore("diary", {
       } catch (error) {
         console.log(error);
       }
-    }
+    },
+
+    async addDiary(diary) {
+      try {
+        const token = JSON.parse(localStorage.getItem("Token"));
+        const user = JSON.parse(localStorage.getItem("User"));
+
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        const response = await axios.post(
+          `${url}/users/${user}/diary`,
+          diary,
+          config
+        );
+        this.userDiaries.push(response.data.content);
+      } catch (error) {
+        console.log(error);
+      }
+    } 
   }
 });

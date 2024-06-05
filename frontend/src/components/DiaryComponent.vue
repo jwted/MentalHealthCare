@@ -1,5 +1,4 @@
 <template>
-  <template v-if="edit">
     <v-container>
     <v-row>
       <h2>Thoughts</h2>
@@ -32,8 +31,7 @@
       <Button :text="'Save'" @click="saveDiary" class="save"></Button>
     </v-col>
   </v-container>
-  </template>
-  <template v-else-if="!edit">
+  <!-- <template v-else-if="!edit">
     <v-container>
     <v-row>
       <h2>Thoughts</h2>
@@ -66,21 +64,32 @@
       <Button :text="'Save'" @click="saveDiary" class="save"></Button>
     </v-col>
   </v-container>
-  </template>
+  </template> -->
 </template>
 
 <script>
 import Button from "@/components/Button.vue";
 export default {
   components: { Button },
+  emits: ["saveDiary"],
   data() {
     return {
       thoughts: "",
       feelings: "",
       achievements: "",
       notes: "",
-      edit:true
     };
+  },
+
+  vmethods: {
+    saveDiary() {
+      this.$emit("saveDiary", {
+        thoughts: this.thoughts,
+        feelings: this.feelings,
+        achievements: this.achievements,
+        notes: this.notes,
+      });
+    },
   },
 };
 </script>

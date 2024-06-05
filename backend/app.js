@@ -16,7 +16,6 @@ app.use("/activities",require("./Routes/activites.routes.js"));
 app.use("/categories", require("./Routes/categories.routes.js"));
 app.use("/badges", require("./Routes/badges.routes.js"));
 app.use("/users", require("./Routes/Users"));
-app.use("/diary", require("./Routes/diaries.routes.js"));
 app.use("/resources", require("./Routes/resources.routes.js"));
 app.use("/calendar", require("./Routes/calendar.routes.js"));
 app.listen(process.env.PORT, () =>

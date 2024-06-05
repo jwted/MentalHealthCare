@@ -24,7 +24,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <DiaryEntry :diary="currentDiary"></DiaryEntry>
+        <DiaryEntry @saveDiary="addDiary"></DiaryEntry>
       </v-row>
     </v-container>
   </main>
@@ -56,6 +56,12 @@ export default {
       const allDiaries = this.diaryStore.getAllUserDiaries;
       allDiaries.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       return allDiaries;
+    },
+  },
+
+  methods: {
+    addDiary(diary) {
+      this.diaryStore.addDiary(diary);
     },
   },
 };

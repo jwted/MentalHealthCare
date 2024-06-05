@@ -34,12 +34,14 @@ export const postStore = defineStore("post", {
     async addPost(post) {
       try {
         const token = JSON.parse(localStorage.getItem("Token"));
-        
+
         const body = { text: post };
         const headersConfig = {
           Authorization: `Bearer ${token}`,
         };
-        const response = await axios.post(`${url}/posts`, body, { headers: headersConfig });
+        const response = await axios.post(`${url}/posts`, body, {
+          headers: headersConfig,
+        });
         if (response.data.status === 201) {
           this.posts.push(response.data.Post);
         }
@@ -52,24 +54,28 @@ export const postStore = defineStore("post", {
       try {
         const token = JSON.parse(localStorage.getItem("Token"));
         if (!token) {
-          throw new Error('No token found');
+          throw new Error("No token found");
         }
-        
+
         const headersConfig = {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         };
-        
-        const response = await axios.post(`${url}/posts/${id}/like`, {}, headersConfig);
+
+        const response = await axios.post(
+          `${url}/posts/${id}/like`,
+          {},
+          headersConfig
+        );
         if (response.status === 201) {
-          const likedPost = this.posts.find(post => post.id === id);
+          const likedPost = this.posts.find((post) => post.id === id);
           if (likedPost) {
             likedPost.likes += 1;
           }
           this.userLikes.push(id);
         } else if (response.status === 204) {
-          const unlikedPost = this.posts.find(post => post.id === id);
+          const unlikedPost = this.posts.find((post) => post.id === id);
           if (unlikedPost) {
             unlikedPost.likes -= 1;
           }
@@ -78,6 +84,6 @@ export const postStore = defineStore("post", {
       } catch (error) {
         console.log(error);
       }
-    }
-  }
+    },
+  },
 });
