@@ -50,6 +50,7 @@ export const userStore = defineStore("user", {
       try {
         const response = await axios.post(`${url}/login`, user);
         if (response.status == 200) {
+          console.log(response.data)
           localStorage.setItem("Token", JSON.stringify(response.data.token));
           localStorage.setItem("User", JSON.stringify(response.data.user));
           return true;

@@ -1,50 +1,51 @@
 <template>
   <Navbar />
-  <main>
-    <v-container>
-      <v-row>
+  <main class="d-flex flex-column">
+    <v-container class="mt-3 mb-3">
+      <v-row v-if="user != null">
         <img src="../assets/hand.svg" alt="Hand" />
-        <h2>Hello, Fred!</h2>
+        <h2>Hello, {{ user.name }}!</h2>
+      </v-row>
+      <v-row v-else>
+        <img src="../assets/hand.svg" alt="Hand" />
+        <h2>Hello!</h2>
       </v-row>
     </v-container>
-    <v-container class="d-flex align-center cont">
+    <v-container class="d-flex align-center cont mt-3 mb-3">
       <v-col>
         <v-col>
           <h2>Your Activities</h2>
         </v-col>
-        <v-col>
-          <UpcomingContainer class="w-100 sizes" />
+        <v-col v-for="act in userActivities" :key="act.id">
+          <ActivityContainer
+            :act="act"
+            @remove-act="removeActivity"
+          ></ActivityContainer>
         </v-col>
       </v-col>
     </v-container>
-    <v-container class="d-flex align-center flex-column cont">
+    <v-container class="d-flex align-center flex-column cont mt-3 mb-3">
       <v-col cols="12">
         <h2>Current Objectives</h2>
       </v-col>
       <v-col cols="12">
-        <v-row v-for="obj in getObjs" :key="obj.id">
-          <UpcomingContainer :object="obj"/>
-        </v-row>
+        <v-col v-for="obj in userObj" :key="obj.id">
+          <ObjectiveContainer
+            :startedObj="obj"
+            @remove-obj="removeUserObj"
+          ></ObjectiveContainer>
+        </v-col>
       </v-col>
     </v-container>
-    <v-container class="d-flex align-center">
-      <v-container cols="2" class="cont">
-        <v-col>
-          <h2>Community</h2>
-          <h3>Introducing our new forum feature, a dedicated space for our mental health community to share achievements and struggles. This safe environment allows users to celebrate victories, seek advice, and connect with others who understand their journey. Whether you're facing challenges or experiencing breakthroughs, our forum fosters support and empathy, empowering everyone to take positive steps towards mental well-being.</h3>
-
+    <v-container class="d-flex align-center flex-column cont mt-3 mb-3">
+      <v-col cols="12">
+        <h2>Last Posts</h2>
+      </v-col>
+      <v-row v-for="post in getPosts" :key="post.id" cols="12">
+        <v-col cols="12">
+          <PostContainer :post="post" class="postHome" />
         </v-col>
-      </v-container>
-      <v-container>
-        <v-col cols="10" class="cont">
-          <h2>Last Posts</h2>
-          <v-row v-for="post in getPosts" :key="post.id" cols="12">
-            <v-col cols="12">
-              <PostContainer :post="post" />
-            </v-col>
-          </v-row>
-        </v-col>
-      </v-container>
+      </v-row>
     </v-container>
   </main>
   <Footer />
@@ -53,18 +54,21 @@
 import Navbar from "@/components/Navbar.vue";
 import Footer from "@/components/Footer.vue";
 import Button from "@/components/Button.vue";
-import UpcomingContainer from "@/components/UpcomingContainer.vue";
+import ActivityContainer from "@/components/ActivityContainer.vue";
+import ObjectiveContainer from "@/components/ObjectiveContainer.vue";
 import PostContainer from "@/components/PostContainer.vue";
 import { postStore } from "@/store/postStore";
 import { userStore } from "@/store/userStore";
 import { objectiveStore } from "@/store/objectiveStore";
+import { activityStore } from "@/store/activityStore";
 
 export default {
   components: {
     Navbar,
     Footer,
     Button,
-    UpcomingContainer,
+    ActivityContainer,
+    ObjectiveContainer,
     PostContainer,
   },
   data() {
@@ -72,26 +76,45 @@ export default {
       postStore: postStore(),
       userStore: userStore(),
       objStore: objectiveStore(),
+      activityStore: activityStore(),
     };
   },
 
   created() {
-    this.postStore.getPosts();
-    this.objStore.getObjectives();
     this.userStore.getUser();
+    this.postStore.getPosts();
+    this.userStore.getUserActivities();
+    this.userStore.getObjectiveProgress();
   },
 
   computed: {
-    getPosts() {
-      return this.postStore.getAllPosts;
+    user() {
+      return this.userStore.getLoggedUser;
     },
 
-    getObjs() {
-      while(this.objStore.getObjectives.length==0){
-        return this.objStore.getAllObjectives;
-      }
-    }
+    getPosts() {
+      const posts=this.postStore.getAllPosts;
+      posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+      return posts.slice(0, 3);
+    },
+
+    userObj() {
+      return this.userStore.getUserProgress;
+    },
+
+    userActivities() {
+      return this.userStore.getAllUserActivities;
+    },
   },
 };
 </script>
-<style></style>
+<style scoped>
+.postHome img {
+  width: 20%;
+  height: 20%;
+}
+
+.postHome h2 {
+  font-size: 10pt;
+}
+</style>

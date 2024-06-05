@@ -32,8 +32,7 @@ exports.getUserDiaries = async (req, res) => {
 
 //DONE
 exports.createDiary = async (req, res) => {
-  const {pensamentos, sentimentos, conquistas, outrasObservacoes } =
-    req.body;
+  const { pensamentos, sentimentos, conquistas, outrasObservacoes } = req.body;
   try {
     const diary = await Diary.create({
       userId: res.locals.userId,
@@ -58,11 +57,16 @@ exports.createDiary = async (req, res) => {
 
 //DONE
 exports.getDiary = async (req, res) => {
-  const { id } = req.params;
+  const { diaryId } = req.params;
   try {
-    const diary = await Diary.findByPk(id);
+    const diary = await Diary.findOne({
+      where: {
+        id: diaryId,
+        userId: res.locals.userId,
+      },
+    });
     if (diary) {
-      res.status(200).send({
+      return res.status(200).send({
         message: "Diary found successfully",
         content: diary,
       });
@@ -80,10 +84,15 @@ exports.getDiary = async (req, res) => {
 
 //DONE
 exports.updateDiary = async (req, res) => {
-  const { id } = req.params;
+  const { diaryId } = req.params;
   const { pensamentos, sentimentos, conquistas, outrasObservacoes } = req.body;
   try {
-    const diary = await Diary.findByPk(id);
+    const diary = await Diary.findOne({
+      where: {
+        id: diaryId,
+        userId: res.locals.userId,
+      },
+    });
     if (diary) {
       diary.update({
         pensamentos: pensamentos,
@@ -108,9 +117,14 @@ exports.updateDiary = async (req, res) => {
 };
 
 exports.deleteDiary = async (req, res) => {
-  const { id } = req.params;
+  const { diaryId } = req.params;
   try {
-    const diary = await Diary.findByPk(id);
+    const diary = await Diary.findOne({
+      where: {
+        id: diaryId,
+        userId: res.locals.userId,
+      },
+    });
     if (diary) {
       diary.destroy();
       res.status(204).send({

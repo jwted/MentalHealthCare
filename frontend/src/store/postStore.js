@@ -11,7 +11,6 @@ export const postStore = defineStore("post", {
   actions: {
     async getPosts(query) {
       try {
-        console.log("passa aqui")
         const token=JSON.parse(localStorage.getItem("Token"))
         const config = {
           headers: {
@@ -20,7 +19,7 @@ export const postStore = defineStore("post", {
         };
         if(query){
           const response = await axios.get(`${url}/posts?${query}`,config)
-          this.objectives=response.data.content
+          this.posts=response.data.content
           return
         }
         const response = await axios.get(`${url}/posts`,config);

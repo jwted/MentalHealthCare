@@ -1,5 +1,4 @@
 const { User } = require("../Models/index");
-const jwt = require("jsonwebtoken");
 const { compareHash } = require("../Middlewares/bcrypt");
 const { SignToken } = require("../Middlewares/jwt");
 
