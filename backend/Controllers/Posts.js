@@ -104,7 +104,7 @@ exports.updatePostById = async (req, res, next) => {
   if (!req.body.text) {
     res
       .status(400)
-      .send({ message: "Only name, password and bio can be altered" });
+      .send({ message: "Missing fields: text" });
   }
   const id = req.params.id;
   const post = await Post.findByPk(id);
