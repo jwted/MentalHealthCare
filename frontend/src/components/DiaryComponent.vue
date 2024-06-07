@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+  <!-- <v-container>
     <v-row>
       <h2>Thoughts</h2>
       <textarea class="cont bg" v-model="thoughts"></textarea>
@@ -30,30 +30,29 @@
     <v-col cols="1">
       <Button :text="'Save'" @click="saveDiary" class="save"></Button>
     </v-col>
-  </v-container>
-  <!-- <template v-else-if="!edit">
-    <v-container>
+  </v-container> -->
+  <v-container>
     <v-row>
       <h2>Thoughts</h2>
-      <p class="cont bg"></p>
+      <p class="cont bg">{{ diary.pensamentos }}</p>
     </v-row>
   </v-container>
   <v-container>
     <v-row>
       <h2>Feelings</h2>
-      <textarea class="cont bg"></textarea>
+      <p class="cont bg">{{ diary.sentimentos }}</p>
     </v-row>
   </v-container>
   <v-container>
     <v-row>
       <h2>Achievements</h2>
-      <textarea class="cont bg" v-model="achievements"></textarea>
+      <p class="cont bg">{{ diary.conquistas}}</p>
     </v-row>
   </v-container>
   <v-container>
     <v-row>
       <h2>Notes</h2>
-      <textarea class="cont bg" v-model="notes"></textarea>
+      <p class="cont bg">{{ diary.outrasObservacoes}}</p>
     </v-row>
   </v-container>
   <v-container class="d-flex justify-end">
@@ -64,13 +63,24 @@
       <Button :text="'Save'" @click="saveDiary" class="save"></Button>
     </v-col>
   </v-container>
-  </template> -->
 </template>
 
 <script>
 import Button from "@/components/Button.vue";
+import { diaryStore } from "@/store/diaryStore";
 export default {
   components: { Button },
+  props: {
+    diary: {
+      type: Object,
+      default: {
+        thoughts: "",
+        feelings: "",
+        achievements: "",
+        notes: "",
+      },
+    },
+  },
   emits: ["saveDiary"],
   data() {
     return {
@@ -82,14 +92,7 @@ export default {
   },
 
   vmethods: {
-    saveDiary() {
-      this.$emit("saveDiary", {
-        thoughts: this.thoughts,
-        feelings: this.feelings,
-        achievements: this.achievements,
-        notes: this.notes,
-      });
-    },
+    saveDiary() {},
   },
 };
 </script>

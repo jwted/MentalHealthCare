@@ -79,7 +79,7 @@ export default {
 
     addActivity() {
       this.$emit("addActivity", {
-        objectiveId: this.selectedObjective,
+        progressId: this.selectedObjective,
         activityId: this.selectedActivity,
       });
     },

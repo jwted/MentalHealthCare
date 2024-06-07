@@ -201,8 +201,8 @@ export const userStore = defineStore("user", {
     async addActivityToUser(activity) {
       try {
         const token = JSON.parse(localStorage.getItem("Token"));
-        console.log(activity)
-        const body = { activityId: activity.activityId };
+        
+        const body = { activityId: activity.activityId, progressId:activity.progressId };
         const config = {
           headers: {
             Authorization: `Bearer ${token}`,

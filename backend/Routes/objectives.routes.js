@@ -15,6 +15,6 @@ router
 router
   .get("/:id",verifyUser,objectiveController.getObjective)
   .patch("/:id",verifyAdmin,objectiveController.updateObjective)
-  .delete("/:id",verifyAdmin,objectiveController.deleteObjective);
+  .delete("/:id",verifyUser,objectiveController.deleteObjective);
 
 module.exports = router;

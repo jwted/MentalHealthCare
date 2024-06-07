@@ -71,7 +71,6 @@ exports.getDiary = async (req, res) => {
         content: diary,
       });
     }
-
     return res.status(404).json({
       error: "Diary not found",
     });

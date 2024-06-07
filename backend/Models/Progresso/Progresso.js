@@ -7,7 +7,6 @@ const Progress = sequelize.define(
     objectiveId: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        primaryKey:true,
         references: {
             model: "Objective",
             key: "id",
@@ -16,7 +15,6 @@ const Progress = sequelize.define(
     userId: {
         type: DataTypes.INTEGER,
         allowNull: false,
-        primaryKey:true,
         references: {
             model: "User",
             key: "id",

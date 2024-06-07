@@ -55,6 +55,9 @@ Category.belongsToMany(Objective, { through: Category_Objective, as: 'objectives
 Objective.belongsToMany(Activity, { through: Objective_Activity, as: 'activities', foreignKey: 'objectiveId' });
 Activity.belongsToMany(Objective, { through: Objective_Activity, as: 'objectives', foreignKey: 'activityId' });
 
+Progress.hasMany(User_Activity, {onDelete: "CASCADE", foreignKey: 'progressId'});
+User_Activity.belongsTo(Progress, {foreignKey: 'progressId'});
+
 Post.hasMany(Comment, {
   onDelete: "CASCADE",
   foreignKey: {

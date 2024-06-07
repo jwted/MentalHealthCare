@@ -1,7 +1,7 @@
 <template>
   <Navbar></Navbar>
   <v-container>
-    <v-row cols="10" class="d-flex align-center justify-space-between">
+    <v-row cols="10" class="d-flex align-center justify-space-between mt-3 mb-3">
       <v-col cols="5" class="d-flex justify-start">
         <h2>Objectives</h2>
       </v-col>
@@ -10,7 +10,7 @@
       </v-col>
     </v-row>
   </v-container>
-  <v-container class="cont">
+  <v-container class="cont mt-3 mb-3">
     <v-row class="d-flex align-center justify-center">
       <v-col class="d-flex align-center">
         <v-col>
@@ -30,7 +30,7 @@
       </v-col>
     </v-row>
   </v-container>
-  <v-container class="cont">
+  <v-container class="cont mt-3 mb-3">
     <v-row class="d-flex align-center justify-center">
       <v-col class="d-flex align-center">
         <v-col>

@@ -1,4 +1,10 @@
-const { Activity, Category, User_Activity, User } = require("../Models/index");
+const {
+  Activity,
+  Category,
+  User_Activity,
+  User,
+  Progress,
+} = require("../Models/index");
 
 module.exports = {
   getActivity: async (req, res, next) => {
@@ -52,7 +58,7 @@ module.exports = {
       if (activity) {
         query.where.id = activity.split(",");
       }
-      
+
       const activities = await Activity.findAll(query);
 
       if (activities) {
@@ -204,14 +210,27 @@ module.exports = {
   //DONE
   addActivityToUser: async (req, res) => {
     try {
-      const { activityId } = req.body;
+      const { activityId, progressId } = req.body;
       const activity = await Activity.findByPk(activityId);
       if (!activity) {
         return res.status(404).send({ error: "Activity not found" });
       }
+
+      const progress = await Progress.findOne({
+        where: {
+          userId: res.locals.userId,
+          id: progressId,
+        },
+      });
+
+      if (!progress) {
+        return res.status(404).send({ error: "User Progress not found!" });
+      }
+
       const userActivity = await User_Activity.create({
         userId: res.locals.userId,
         activityId: activityId,
+        progressId: progressId,
       });
 
       res.status(201).send({
@@ -227,18 +246,17 @@ module.exports = {
     try {
       const { activityId } = req.params;
       const userActivity = await User_Activity.findOne({
-        where: { userId: res.locals.userId, activityId:activityId },
+        where: { userId: res.locals.userId, activityId: activityId },
       });
       if (!userActivity) {
         return res.status(404).send({ error: "Activity not found" });
       }
       await User_Activity.destroy({
-        where: { userId: res.locals.userId, activityId:activityId },
+        where: { userId: res.locals.userId, activityId: activityId },
       });
-
       res.status(204).send({ success: "Activity deleted from user" });
     } catch (error) {
       res.status(500).send({ error: "Something went wrong", error });
     }
-  }
+  },
 };

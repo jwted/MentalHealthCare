@@ -6,6 +6,8 @@ const {
   Objective,
   Category,
   Activity,
+  Objective_Activity,
+  User_Activity
 } = require("../Models/index");
 const bcrypt = require("bcrypt");
 
@@ -174,6 +176,7 @@ module.exports = {
       }
 
       await progress.destroy();
+
       res.status(204).send({
         message: "Objective successfully removed from user",
       });
@@ -183,5 +186,3 @@ module.exports = {
     }
   }
 };
-
-

@@ -1,6 +1,6 @@
 <template>
   <Navbar></Navbar>
-  <v-container>
+  <v-container class="mt-3 mb-3">
     <v-row cols="10" class="d-flex align-center justify-space-between">
       <v-col cols="5" class="d-flex justify-start">
         <h2>Calendar</h2>
@@ -10,7 +10,7 @@
       </v-col>
     </v-row>
   </v-container>
-  <v-container class="d-flex flex-column cont">
+  <v-container class="d-flex flex-column mt-3 mb-3 cont">
     <v-row class="d-flex justify-space-between align-center">
       <v-col>
         <h2>Your Activities</h2>

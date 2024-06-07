@@ -14,17 +14,17 @@
     <v-container class="cont d-flex flex-column justify-center align-center">
       <v-row class="d-flex justify-center align-center">
         <v-col cols="4" class="d-flex align-center justify-start">
-          <button class="arrow">&lt;</button>
+          <button class="arrow" @click="prevDiary">&lt;</button>
         </v-col>
         <v-col cols="4" class="d-flex align-center justify-center">
-          <h2>{{ new Date().toLocaleDateString() }}</h2>
+          <h2>{{ formatDate(currentDiary.createdAt) }}</h2>
         </v-col>
         <v-col cols="4" class="d-flex align-center justify-end">
-          <button class="arrow">&gt;</button>
+          <button class="arrow" @click="nextDiary">&gt;</button>
         </v-col>
       </v-row>
       <v-row>
-        <DiaryEntry @saveDiary="addDiary"></DiaryEntry>
+        <DiaryEntry @saveDiary="addDiary" :diary="currentDiary"></DiaryEntry>
       </v-row>
     </v-container>
   </main>
@@ -44,6 +44,7 @@ export default {
   data() {
     return {
       diaryStore: diaryStore(),
+      currentIndex: 0,
     };
   },
 
@@ -54,8 +55,17 @@ export default {
   computed: {
     allDiaries() {
       const allDiaries = this.diaryStore.getAllUserDiaries;
-      allDiaries.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-      return allDiaries;
+      if(allDiaries.length!=0){
+        allDiaries.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        return allDiaries;
+      }
+
+      return allDiaries
+    },
+
+    currentDiary() {
+      if(this.allDiaries.length==0)
+      return this.allDiaries[this.currentIndex];
     },
   },
 
@@ -63,6 +73,22 @@ export default {
     addDiary(diary) {
       this.diaryStore.addDiary(diary);
     },
+
+    nextDiary() {
+      if (this.currentIndex < this.allDiaries.length - 1) {
+        this.currentIndex++;
+      }
+    },
+
+    prevDiary() {
+      if (this.currentIndex > 0) {
+        this.currentIndex--;
+      }
+    },
+
+    formatDate(date){
+      return new Date(date).toLocaleDateString();
+    }
   },
 };
 </script>

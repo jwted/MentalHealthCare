@@ -19,6 +19,14 @@ const User_Activity = sequelize.define(
               key: "id"
           }, 
      },
+     progressId:{
+      type:DataTypes.INTEGER,
+
+      references: {
+        model: "Progress",
+        key: "id"
+      }
+     }
   },
   {
     tableName:'User_Activity'

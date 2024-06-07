@@ -8,8 +8,4 @@ router.get("/", verifyUser,offsetLengthValidation,calendarController.getUserActi
 router.post("/",verifyUser,calendarController.addActivityToUser);
 
 router.delete("/:activityId",verifyUser,calendarController.deleteActivityFromUser);
-// //Get / Put / Delete - By Id
-// router.get("/:id",verifyUser,diaryController.getDiary);
-// router.put("/:id",verifyUser, diaryController.updateDiary);
-// router.delete("/:id",verifyUser, diaryController.deleteDiary);
 module.exports = router;
