@@ -5,7 +5,7 @@
         <h2 class="bg">{{ formatCategories(obj.categories) }}</h2>
       </v-col>
       <v-col class="d-flex flex-column justify-center align-center bg">
-        <Button :text="'Detail'" class="dark"></Button>
+        <Button :text="'Detail'" class="dark" @click="showDetail(obj.id)"></Button>
         <Button :text="'Start'" class="dark" @click="startObjective(obj.id)"></Button>
       </v-col>
     </v-container>
@@ -15,7 +15,7 @@
         <h2 class="bg">{{formatCategories(startedObj.Objective.categories) }}</h2>
       </v-col>
       <v-col class="d-flex flex-column justify-center align-center bg">
-        <Button :text="'Detail'" class="dark"></Button>
+        <Button :text="'Detail'" class="dark" @click="showDetail(startedObj.objectiveId)"></Button>
         <Button :text="'Cancel'" class="dark" @click="deleteUserObjective(startedObj.objectiveId)"></Button>
       </v-col>
     </v-container>
@@ -31,7 +31,7 @@
       obj: Object,
       startedObj: Object,
     },
-    emits: ['start-obj','remove-obj'],
+    emits: ['start-obj','remove-obj','show-detail'],
     data() {
       return {
         userStore: userStore(),
@@ -47,6 +47,10 @@
         this.$emit("remove-obj",id);
       },
 
+      showDetail(id) {
+        this.$emit("show-detail",id);
+      },
+      
       formatCategories(categories) {
         const string=categories.map((cat) => {
           return cat.name;

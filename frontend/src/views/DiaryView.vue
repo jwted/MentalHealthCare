@@ -16,7 +16,7 @@
         <v-col
           cols="4"
           class="d-flex align-center justify-start"
-          v-if="currentIndex > 0"
+          v-if="currentIndex < allDiaries.length - 1"
         >
           <button class="arrow" @click="prevDiary">&lt;</button>
         </v-col>
@@ -29,7 +29,7 @@
         <v-col
           cols="4"
           class="d-flex align-center justify-end"
-          v-if="currentIndex < allDiaries.length - 1"
+          v-if="allDiaries.length != 0 && currentIndex > 0"
         >
           <button class="arrow" @click="nextDiary">&gt;</button>
         </v-col>
@@ -70,9 +70,20 @@ export default {
     allDiaries() {
       const allDiaries = this.diaryStore.getAllUserDiaries;
       if (allDiaries.length != 0) {
-        allDiaries.sort(
-          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-        );
+        allDiaries.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+        if(this.formatDate(allDiaries[0].createdAt) === new Date().toLocaleDateString()) {
+          this.currentIndex = 0;
+        }else{
+          allDiaries.unshift({
+            pensamentos: "",
+            sentimentos: "",
+            conquistas: "",
+            outrasObservacoes: "",
+            createdAt: new Date().toISOString(),
+            updatedAt: new Date().toISOString(),
+          });
+        }
+        console.log(allDiaries)
         return allDiaries;
       }
       return [];
@@ -99,11 +110,11 @@ export default {
     },
 
     nextDiary() {
-      this.currentIndex++;
+      this.currentIndex--;
     },
 
     prevDiary() {
-      this.currentIndex--;
+      this.currentIndex++;
     },
 
     formatDate(date) {

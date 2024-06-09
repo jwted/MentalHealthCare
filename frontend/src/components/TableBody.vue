@@ -30,8 +30,8 @@
     <tr class="cont" v-for="objective in allObjectives" :key="objective.id">
       <td class="cont">{{ objective.name }}</td>
       <td class="cont">{{ objective.description }}</td>
-      <td class="cont">{{ objective.categories }}</td>
-      <td class="cont">{{ objective.activities }}</td>
+      <td class="cont">{{ formatCategories(objective.categories) }}</td>
+      <td class="cont">{{ formatActivities(objective.activities) }}</td>
       <td class="d-flex justify-space-around align-center">
         <Button :text="'Edit'" class="btn"></Button>
         <Button :text="'Delete'" class="btn"></Button>
@@ -42,7 +42,7 @@
     <tr class="cont" v-for="activity in allActivities" :key="activity.id">
       <td class="cont">{{ activity.name }}</td>
       <td class="cont">{{ activity.description }}</td>
-      <td class="cont">{{ activity.categories }}</td>
+      <td class="cont">{{ formatCategories(activity.categories)}}</td>
       <td class="cont">0</td>
       <td class="cont"></td>
       <td class="d-flex justify-space-around align-center">
@@ -58,6 +58,7 @@ import { userStore } from "@/store/userStore";
 import { postStore } from "@/store/postStore";
 import { objectiveStore } from "@/store/objectiveStore";
 import { activityStore } from "@/store/activityStore";
+
 export default {
   components: {
     Button,
@@ -109,6 +110,18 @@ export default {
 
     formatDate(date) {
       return new Date(date).toLocaleDateString();
+    },
+
+    formatCategories(categories) {
+      return categories.map((category) => category.name).join(", ");
+    },
+
+    formatActivities(activities) {
+      return activities.map((activity) => activity.name).join(", ");
+    },
+
+    formatObjectives(objectives) {
+      return objectives.map((objective) => objective.name).join(", ");
     },
   },
 };

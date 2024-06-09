@@ -70,7 +70,11 @@ export default {
     },
 
     addActToUser(activity) {
-      this.userStore.addActivityToUser(activity);
+      try {
+        this.userStore.addActivityToUser(activity);
+      } catch (error) {
+        console.log(error);
+      }
     },
 
     removeActivity(activityId) {
@@ -89,5 +93,4 @@ export default {
   },
 };
 </script>
-
 <style></style>

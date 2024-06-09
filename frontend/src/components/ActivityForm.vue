@@ -9,11 +9,7 @@
         <label for="objective"><b>Objective:</b></label>
         <select class="select" v-model="selectedObjective">
           <option value="#" disabled selected>Select your Objective</option>
-          <option
-            :value="obj.Objective.name"
-            v-for="obj in objectives"
-            :key="obj.id"
-          >
+          <option :value="obj.id" v-for="obj in objectives" :key="obj.id">
             {{ obj.Objective.name }}
           </option>
         </select>
@@ -57,7 +53,7 @@ export default {
 
   data() {
     return {
-      selectedObjective: "",
+      selectedObjective: 0,
       selectedActivity: "",
     };
   },
@@ -68,7 +64,7 @@ export default {
   computed: {
     filteredActivities() {
       return this.objectives.filter((obj) => {
-        return obj.Objective.name === this.selectedObjective;
+        return obj.id === this.selectedObjective;
       });
     },
   },
