@@ -70,11 +70,20 @@ Post.hasMany(Like_Post, {
     allowNull: false,
   },
 });
-Post.belongsTo(User, { foreignKey: 'userId' });
-User.hasMany(Post);
+
+Like_Post.belongsTo(User, { foreignKey: 'userId' });
+Like_Post.belongsTo(Post, { foreignKey: 'postId' });
+Post.hasMany(Like_Post, { foreignKey: 'postId', onDelete: 'CASCADE', allowNull: false });
+User.hasMany(Like_Post, { foreignKey: 'userId', onDelete: 'CASCADE', allowNull: false });
+
+// In Post model
+Post.belongsTo(User, { foreignKey: 'userId', as: 'postCreator' });
+User.hasMany(Post, { foreignKey: 'userId' });
+
 Comment.belongsTo(Post);
 User.hasMany(Comment);
 Comment.belongsTo(User);
+
 
 module.exports = {
   Activity,

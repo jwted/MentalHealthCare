@@ -1,6 +1,7 @@
 const Post = require("../Models/Forum/Posts");
 const Comment = require("../Models/Forum/Comentario");
 const like = require("../Models/Forum/GostosPost");
+const User = require('../Models/Users/Users')
 const { Op } = require("sequelize");
 
 exports.bodyValidation = (req, res, next) => {
@@ -39,6 +40,13 @@ exports.getPosts = async (req, res, next) => {
     const { offset, length, post } = req.query;
     let query = {
       where: {},
+      include: [
+        {
+          model: User,
+          as: 'postCreator', // Ensure this alias matches your model definition, if you're using it.
+          attributes: ['id', 'name'], // Specify which fields to return
+        }
+      ]
     };
     if (offset && length) {
       query.offset = parseInt(offset);
@@ -58,6 +66,7 @@ exports.getPosts = async (req, res, next) => {
       });
     }
   } catch (error) {
+    console.log(error)
     res.status(500).send({ error: 'Something went wrong. Please try again later' });
   }
 };
@@ -86,7 +95,15 @@ exports.postPosts = async (req, res, next) => {
 // DONE
 exports.getPostById = async (req, res, next) => {
   try {
-    const post = await Post.findByPk(req.params.id);
+    const post = await Post.findByPk(req.params.id,{
+      include: [
+        {
+          model: User,
+          as: 'postCreator', // Ensure this alias matches your model definition, if you're using it.
+          attributes: ['id', 'name'], // Specify which fields to return
+        }
+      ]
+    });
     if (post) {
       res
         .status(200)
@@ -296,9 +313,9 @@ exports.updateCommentById = async (req, res, next) => {
 exports.likePost = async (req, res, next) => {
   try {
     const { id } = req.params;
-
+    console.log(id)
     const userLike = await like.findOne({
-      where: { userId: res.locals.userId, PostId: id },
+      where: { userId: res.locals.userId, postId: +id },
     });
 
     if (userLike) {
@@ -307,9 +324,10 @@ exports.likePost = async (req, res, next) => {
         success: "Successfully unliked",
       });
     } else {
+      console.log(id)
       const create = await like.create({
         userId: res.locals.userId,
-        PostId: id,
+        postId: +id,
       });
       res.status(201).json({
         success: "Successfully liked",

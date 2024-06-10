@@ -10,6 +10,7 @@ import CommunityView from '@/views/Community.vue'
 import DiaryView from '@/views/DiaryView.vue'
 import AdminView from '@/views/AdminView.vue'
 import PageNotFoundView from '@/views/PageNotFoundView.vue'
+import PostView from '@/views/PostView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -60,9 +61,10 @@ const router = createRouter({
       meta: { requiresAuth: true},
     },
     {
-      path: '/posts/{postsId}',
-      name: '',
-      component: '',
+      path: '/posts/:postsId',
+      name: 'PostView',
+      component: PostView,
+      props:true,
       meta: { requiresAuth: true},
     },
     {

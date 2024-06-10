@@ -1,83 +1,81 @@
 <template>
   <v-container class="container bg">
-    <router-link :to="`/posts/${post.id}`">
+    
       <v-row class="d-flex align-center bg pa-3">
         <img src="../assets/profile.svg" alt="Profile Image" class="bg profile" />
-        <h2 class="bg">{{ post.postCreator.name }}</h2>
+        <h2 class="bg">{{ post?.postCreator.name}}</h2>
       </v-row>
       <v-row class="d-flex align-center bg">
         <v-col cols="12" class="pa-3 text-justify bg">
-          <h3 class="bg">{{ post.text }}</h3>
+          <h3 class="bg">{{ post?.text }}</h3>
         </v-col>
       </v-row>
       <v-row class="d-flex align-center bg justify-center">
         <v-col cols="12" sm="4" class="pa-3 bg">
-          <h2 class="bg">{{ formatDate(post.createdAt) }}</h2>
+          <h2 class="bg">{{ formatDate(post?.createdAt) }}</h2>
         </v-col>
         <v-col class="bg d-flex flex-row">
           <v-col cols="6" sm="4" class="bg d-flex flex-row">
-            <h2 class="bg pa-3">{{ post.likes }}</h2>
+            <h2 class="bg pa-3">{{ post?.likes }}</h2> 
             <img src="../assets/heart.svg" alt="Favourite Image" class="bg" @click.prevent="like(post.id)" />
           </v-col>
           <v-col cols="6" sm="4" class="bg d-flex flex-row justify-end">
-            <h2 class="bg pa-3">{{ post.commentsCount }}</h2>
+             <h2 class="bg pa-3">{{ post?.commentsCount }}</h2>
             <img src="../assets/comment.svg" alt="Comment Image" class="bg"  />
           </v-col>
         </v-col>
       </v-row>
-    </router-link>
+      <v-row v-for="comment in getComments  " :key="id">
+        <h1>{{ comment }}</h1>
+
+
+      </v-row>
+    
   </v-container>
 </template>
 
+
 <script>
-import { ref, computed } from "vue";
-import { postStore } from "@/store/postStore"; // Import your store instance
+import Navbar from "../components/Navbar.vue";
+import Footer from "../components/Footer.vue";
+import { postStore } from "../store/postStore";
+import { ref, onMounted, computed } from "vue";
+import { useRoute } from "vue-router";
 
 export default {
-  props: {
-    post: Object,
+  components: {
+    Navbar,
+    Footer,
   },
+  
   setup() {
-    const store = postStore(); // Use your Vuex store instance
-   /*  const showComments = ref(false);
+    const store = postStore();
+
+    const route = useRoute();
+    const post = ref(null)
     const comments = ref([]);
-    const currentPage = ref(1);
-    const commentsPerPage = 3;
- */
-    /* const paginatedComments = computed(() => {
-      const start = (currentPage.value - 1) * commentsPerPage;
-      const end = start + commentsPerPage;
-      return comments.value.slice(start, end);
+
+    onMounted(async () => {
+      await store.getIndividualPost(route.params.postsId);
+      await fetchComments(route.params.postsId);
+      
+      post.value = store.post;
+      comments.value = store.comments;
+      
+    const getComments = computed(() => {
+      return store.getAllComments;
+    } );
+ 
     });
 
-    const totalPages = computed(() => Math.ceil(comments.value.length / commentsPerPage));
- */
-/*     async function toggleComments(postId) {
-      showComments.value = !showComments.value;
-      if (showComments.value) {
-        const commentsRetrieved = await fetchComments(postId);
-        comments.value = commentsRetrieved;
-      }
-    }
- */
-/*     async function fetchComments(postId) {
+    
+
+    async function fetchComments(postId) {
       try {
         const comments = await store.getCommentsByPostId(postId);
         return comments;
       } catch (error) {
         console.log(error);
-      }
-    }
- */
-    function nextPage() {
-      if (currentPage.value < totalPages.value) {
-        currentPage.value++;
-      }
-    }
-
-    function prevPage() {
-      if (currentPage.value > 1) {
-        currentPage.value--;
       }
     }
 
@@ -88,10 +86,12 @@ export default {
     function formatDate(date) {
       return new Date(date).toLocaleDateString();
     }
-
+    
     return {
+      post,
       like,
       formatDate,
+
     };
   },
 };
@@ -108,4 +108,5 @@ export default {
   border: #2e4242 solid 2px;
   border-radius: 12px;
 }
+
 </style>
