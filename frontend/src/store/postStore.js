@@ -5,10 +5,11 @@ import axios from "axios";
 const url = "http://localhost:3000";
 
 export const postStore = defineStore("post", {
-  state: () => ({ posts: [], post: null, userLikes: [] }),
+  state: () => ({ posts: [], post: null, userLikes: [], comments:[] }),
   getters: {
     getAllPosts: (state) => state.posts,
     getPost: (state) => state.post,
+    getAllComments:(state) =>state.comments
   },
   actions: {
     async getPosts(query) {
@@ -26,6 +27,40 @@ export const postStore = defineStore("post", {
         }
         const response = await axios.get(`${url}/posts`, config);
         this.posts = response.data.content;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async getIndividualPost(id) {
+      try {
+        console.log(+id)
+        const token = JSON.parse(localStorage.getItem("Token"));
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        
+        const response = await axios.get(`${url}/posts/${id}`, config);
+        console.log(response)
+        this.post = response.data.content;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async getCommentsByPostId(id) {
+      try {
+        console.log(+id)
+        const token = JSON.parse(localStorage.getItem("Token"));
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        
+        const response = await axios.get(`${url}/posts/${id}/comments`, config);
+        console.log(response)
+        this.comments = response.data.content;
       } catch (error) {
         console.log(error);
       }
