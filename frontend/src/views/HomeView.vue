@@ -12,7 +12,7 @@
       </v-row>
     </v-container>
     <v-container class="d-flex align-center cont mt-3 mb-3">
-      <v-col>
+      <v-col v-if="userActivities.length > 0">
         <v-col>
           <h2>Your Activities</h2>
         </v-col>
@@ -23,17 +23,27 @@
           ></ActivityContainer>
         </v-col>
       </v-col>
+      <v-col v-else>
+        <v-col>
+          <h2>Your Activities</h2>
+        </v-col>
+        <v-col class="d-flex justify-center">
+          <h3>You don't have any activity, to start <router-link :to="{ name: 'callendar' }">Click here!</router-link></h3>
+        </v-col>
+      </v-col>
     </v-container>
     <v-container class="d-flex align-center flex-column cont mt-3 mb-3">
-      <v-col cols="12">
-        <h2>Current Objectives</h2>
-      </v-col>
-      <v-col cols="12">
-        <v-col v-for="obj in userObj" :key="obj.id">
-          <ObjectiveContainer
-            :startedObj="obj"
-            @remove-obj="removeUserObj"
-          ></ObjectiveContainer>
+      <v-col v-if="userObj.length>0">
+        <v-col cols="12">
+          <h2>Current Objectives</h2>
+        </v-col>
+        <v-col cols="12">
+          <v-col v-for="obj in userObj" :key="obj.id">
+            <ObjectiveContainer
+              :startedObj="obj"
+              @remove-obj="removeUserObj"
+            ></ObjectiveContainer>
+          </v-col>
         </v-col>
       </v-col>
     </v-container>

@@ -185,7 +185,7 @@ module.exports = {
     }
   },
 
-  //
+  //DONE
   getUserActivities: async (req, res) => {
     try {
       const userActivities = await User_Activity.findAll({
@@ -212,13 +212,13 @@ module.exports = {
     try {
       const { activityId, progressId } = req.body;
       const activity = await Activity.findByPk(activityId);
+
       if (!activity) {
         return res.status(404).send({ error: "Activity not found" });
       }
 
       const progress = await Progress.findOne({
         where: {
-          userId: res.locals.userId,
           id: progressId,
         },
       });

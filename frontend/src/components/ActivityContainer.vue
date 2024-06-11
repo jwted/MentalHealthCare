@@ -5,7 +5,7 @@
       <h2 class="bg"></h2>
     </v-col>
     <v-col class="d-flex flex-column justify-center align-center bg">
-      <Button :text="'Detail'" class="dark"></Button>
+      <Button :text="'Detail'" class="dark" @click="showDetail(act.id)"></Button>
       <Button
         :text="'Remove'"
         class="dark"
@@ -16,12 +16,11 @@
 </template>
 <script>
 import Button from "@/components/Button.vue";
-import ObjectctiveForm from "@/components/ObjectiveForm.vue";
 import { activityStore } from "@/store/activityStore";
 import { objectiveStore } from "@/store/objectiveStore";
 import { userStore } from "@/store/userStore";
 export default {
-  components: { Button, ObjectctiveForm },
+  components: { Button},
 
   props: {
     act: Object,
@@ -50,6 +49,10 @@ export default {
 
     remAct(activityId) {
       this.$emit("remove-act", activityId);
+    },
+
+    showDetail(id) {
+      this.$emit("show-detail", id);
     },
   },
 };

@@ -10,7 +10,13 @@
       </v-col>
     </v-row>
   </v-container>
-  <v-container class="d-flex flex-column mt-3 mb-3 cont">
+  <v-dialog v-model="showDetail" max-width="500px">
+    <ActivityDetail
+      :activity-id="userActivities[activityIndex].id"
+      @remove="showDetail = false"
+    ></ActivityDetail>
+  </v-dialog>
+  <v-container class="d-flex flex-column mt-3 mb-3 cont" v-if="userActivities.length>0">
     <v-row class="d-flex justify-space-between align-center">
       <v-col>
         <h2>Your Activities</h2>
@@ -21,7 +27,25 @@
     </v-row>
     <v-row class="d-flex flex-column">
       <v-col v-for="act in userActivities" :key="act.id">
-        <ActivityContainer :act="act" @remove-act="removeActivity"></ActivityContainer>
+        <ActivityContainer :act="act" @remove-act="removeActivity" @show-detail="showDetail"></ActivityContainer>
+      </v-col>
+    </v-row>
+    <v-row>
+      <Button :text="'Add Activity'" @click="toggleForm"></Button>
+    </v-row>
+  </v-container>
+  <v-container class="d-flex flex-column mt-3 mb-3 cont" v-else>
+    <v-row class="d-flex justify-space-between align-center">
+      <v-col>
+        <h2>Your Activities</h2>
+      </v-col>
+      <v-col>
+        <Select></Select>
+      </v-col>
+    </v-row>
+    <v-row class="d-flex flex-column">
+      <v-col class="d-flex align-center justify-center">
+        <h3>You don't have any activity</h3>
       </v-col>
     </v-row>
     <v-row>
@@ -40,6 +64,7 @@ import Footer from "@/components/Footer.vue";
 import ActivityContainer from "@/components/ActivityContainer.vue";
 import Select from "@/components/Select.vue";
 import ActivityFormVue from '@/components/ActivityForm.vue';
+import ActivityDetail from "@/components/ActivityDetail.vue";
 import { activityStore } from "@/store/activityStore";
 import { userStore } from "@/store/userStore";
 export default {
@@ -50,12 +75,15 @@ export default {
     ActivityContainer,
     Select,
     ActivityFormVue,
+    ActivityDetail
   },
   data() {
     return {
       activityStore:activityStore(),
       userStore:userStore(),
       showForm: false,
+      showDetail: false,
+      activityIndex: 0
     };
   },
 
@@ -79,6 +107,11 @@ export default {
 
     removeActivity(activityId) {
       this.userStore.deleteActivityFromUser(activityId);
+    },
+
+    showDetail(activityId) {
+      this.activityIndex = this.userActivities.findIndex((act) => act.id === activityId);
+      this.showDetail = true;
     },
   },
 

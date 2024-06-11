@@ -61,6 +61,7 @@ export default {
   props: {
     objectives: Object,
   },
+
   computed: {
     filteredActivities() {
       return this.objectives.filter((obj) => {
@@ -68,6 +69,7 @@ export default {
       });
     },
   },
+  
   methods: {
     remove() {
       this.$emit("remove");
@@ -77,6 +79,8 @@ export default {
       this.$emit("addActivity", {
         progressId: this.selectedObjective,
         activityId: this.selectedActivity,
+      }).then(() => {
+        this.remove();
       });
     },
   },

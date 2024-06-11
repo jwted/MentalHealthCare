@@ -200,14 +200,15 @@ export const userStore = defineStore("user", {
     },
     async addActivityToUser(activity) {
       try {
-        const body = { activityId: activity.activityId, progressId:activity.progressId };
-        const config = {
+        const token = JSON.parse(localStorage.getItem("Token"));
+
+        const response = await axios.post(`${url}/calendar`, activity, {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        };
-        const response = await axios.post(`${url}/calendar`, body, config);
-        if (response.status == 200) {
+        }
+        );
+        if (response.status == 201) {
           this.userActivities.push(response.data.content);
         }
       } catch (error) {

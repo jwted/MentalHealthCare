@@ -28,7 +28,7 @@
       <v-col v-for="obj in userObj" :key="obj.id">
         <ObjectiveContainer
           :startedObj="obj"
-          @show-detail="handleDetail(obj.id)"
+          @show-detail="handleDetail(obj.objectiveId)"
           @remove-obj="removeUserObj"
         ></ObjectiveContainer>
       </v-col>
@@ -61,7 +61,7 @@
       <v-col v-for="obj in filteredObjs" :key="obj.id">
         <ObjectiveContainer
           :obj="obj"
-          @show-detail="handleDetail(obj.id)"
+          @show-detail="handleDetail(obj.objectiveId)"
           @start-obj="handleForm(obj.id)"
         ></ObjectiveContainer>
       </v-col>
@@ -112,12 +112,20 @@ export default {
     }, 
 
     addObjectiveProgress({ objectiveId, startDate, endDate }) {
-      this.showForm = true;
-      this.userStore.addObjectiveToUser(objectiveId, startDate, endDate);
+      try{
+        this.showForm = true;
+        this.userStore.addObjectiveToUser(objectiveId, startDate, endDate);
+      }catch (error) {
+        console.log(error);
+      }
     },
 
     removeUserObj(id) {
-      this.userStore.deleteObjectiveFromUser(id);
+      try{
+        this.userStore.deleteObjectiveFromUser(id);
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
 
