@@ -17,7 +17,7 @@
           <textarea
             id="new-post-input"
             class="w-100 area"
-            rows="10"
+            rows="8"
             placeholder="Share your thoughts..."
             v-model="textPost"
           ></textarea>
@@ -61,7 +61,6 @@ export default {
 
   computed: {
     getPosts() {
-      console.log(this.postStore.getPosts)
       return this.postStore.getAllPosts;
     },
   },

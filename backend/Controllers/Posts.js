@@ -159,11 +159,20 @@ exports.deletePostById = async (req, res, next) => {
 exports.getComments = async (req, res, next) => {
   const { offset, length, comments } = req.query;
   const { id } = req.params;
+
   try {
     
     const post  = await Post.findByPk(id)
     if(!post) res.status(404).send({message:'Post not found'})
-    let query = {};
+    let query = {
+      where: {},
+      include: [
+        {
+          model: User,
+          as: 'commentCreator', 
+          attributes: ['id', 'name'], // Specify which fields to return
+        }
+      ]}
     if (comments) {
       const ids = comments.split(",").map(Number);
       query.where = { id: { [Op.in]: ids } };
@@ -175,9 +184,10 @@ exports.getComments = async (req, res, next) => {
     const data = await Comment.findAll({ where: { postId: id }, ...query });
     return res.status(200).json({
       success: "Successful request",
-      Comments: data,
+      content: data,
     });
-  } catch {
+  } catch(error) {
+    console.log(error)
     return res.status(500).json({
       error: "Something went wrong. Please try again later",
     });
@@ -223,7 +233,7 @@ exports.getCommentById = async (req, res, next) => {
     } else {
       res.status(200).json({
         success: "Successful request",
-        Comment: comment,
+        content: comment,
       });
     }
   } catch (error) {

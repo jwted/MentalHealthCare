@@ -5,11 +5,18 @@ import axios from "axios";
 const url = "http://localhost:3000";
 
 export const postStore = defineStore("post", {
-  state: () => ({ posts: [], post: null, userLikes: [], comments:[] }),
+  state: () => ({
+    posts: [],
+    post: null,
+    userLikes: [],
+    comments: [],
+    postComments: [],
+  }),
   getters: {
     getAllPosts: (state) => state.posts,
     getPost: (state) => state.post,
-    getAllComments:(state) =>state.comments
+    getAllComments: (state) => state.comments,
+    getPostComments: (state) => state.postComments,
   },
   actions: {
     async getPosts(query) {
@@ -33,16 +40,15 @@ export const postStore = defineStore("post", {
     },
     async getIndividualPost(id) {
       try {
-        console.log(+id)
+        console.log(+id);
         const token = JSON.parse(localStorage.getItem("Token"));
         const config = {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         };
-        
+
         const response = await axios.get(`${url}/posts/${id}`, config);
-        console.log(response)
         this.post = response.data.content;
       } catch (error) {
         console.log(error);
@@ -50,17 +56,15 @@ export const postStore = defineStore("post", {
     },
     async getCommentsByPostId(id) {
       try {
-        console.log(+id)
         const token = JSON.parse(localStorage.getItem("Token"));
         const config = {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         };
-        
+
         const response = await axios.get(`${url}/posts/${id}/comments`, config);
-        console.log(response)
-        this.comments = response.data.content;
+        this.postComments = response.data.content;
       } catch (error) {
         console.log(error);
       }
@@ -115,6 +119,27 @@ export const postStore = defineStore("post", {
             unlikedPost.likes -= 1;
           }
           this.userLikes = this.userLikes.filter((like) => like !== id);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async addComment(postId, comment) {
+      try {
+        const token = JSON.parse(localStorage.getItem("Token"));
+        const body = { text: comment };
+        const headersConfig = {
+          Authorization: `Bearer ${token}`,
+        };
+        const response = await axios.post(
+          `${url}/posts/${postId}/comments`,
+          body,
+          {
+            headers: headersConfig,
+          }
+        );
+        if (response.data.status === 201) {
+          this.comments.push(response.data.comment);
         }
       } catch (error) {
         console.log(error);
