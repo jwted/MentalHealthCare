@@ -5,6 +5,24 @@ let token =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzE1OTU0MzU1fQ.NnZdD1wIsA3JRCQpe9UGwM8LWSz_wzMbBnPAs1rp9TI";
 
 describe("Badges", () => {
+  test("Create Badge", async () => {
+    const response = await axios({
+      method: "post",
+      url: `${API_BASE_URL}/badges`,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      data: {
+        name: "Badge",
+        description: "Description",
+        points: 10,
+        type: "type",
+        requirement: 3,
+      },
+    });
+    expect(response.status).toBe(201);
+  });
+
   test("Get Badges", async () => {
     const response = await axios({
       method: "get",
@@ -36,24 +54,6 @@ describe("Badges", () => {
       },
     });
     expect(response.status).toBe(200);
-  });
-
-  test("Create Badge", async () => {
-    const response = await axios({
-      method: "post",
-      url: `${API_BASE_URL}/badges`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      data: {
-        name: "Badge",
-        description: "Description",
-        points: 10,
-        type: "type",
-        requirement: 3,
-      },
-    });
-    expect(response.status).toBe(201);
   });
 });
 

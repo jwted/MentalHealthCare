@@ -145,7 +145,7 @@ describe("User Objectives", () => {
   });
 
   test("Delete Objective from User", async () => {
-    let userId = 1;
+    let userId = 2;
     let objectiveId = 2;
     const response = await axios({
       method: "delete",
@@ -190,7 +190,7 @@ describe("User Objectives", () => {
   });
 
   test("Add Objective to User", async () => {
-    let userId = 1;
+    let userId = 2;
     const response = await axios({
       method: "post",
       url: `${API_BASE_URL}/users/${userId}/objectives`,
@@ -198,7 +198,7 @@ describe("User Objectives", () => {
         Authorization: `Bearer ${token}`,
       },
       data: {
-        objectiveId: 1,
+        objectiveId: 2,
       },
     });
     expect(response.status).toBe(201);
@@ -410,8 +410,8 @@ describe("User Diary", () => {
   });
 
   test("Delete Diary", async () => {
-    let userId = 1;
-    let diaryId = 1;
+    let userId = 2;
+    let diaryId = 22;
     const response = await axios({
       method: "delete",
       url: `${API_BASE_URL}/users/${userId}/diary/${diaryId}`,

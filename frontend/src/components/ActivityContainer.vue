@@ -26,7 +26,7 @@ export default {
     act: Object,
   },
 
-  emits: ["remove-act"],
+  emits: ["remove-act", "show-detail"],
 
   data() {
     return {

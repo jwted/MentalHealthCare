@@ -12,11 +12,15 @@
   </v-container>
   <v-dialog v-model="showDetail" max-width="500px">
     <ActivityDetail
-      :activity-id="userActivities[activityIndex].id"
+      :activityId="userActivities[activityIndex].id"
+
       @remove="showDetail = false"
     ></ActivityDetail>
   </v-dialog>
-  <v-container class="d-flex flex-column mt-3 mb-3 cont" v-if="userActivities.length>0">
+  <v-container
+    class="d-flex flex-column mt-3 mb-3 cont"
+    v-if="userActivities.length > 0"
+  >
     <v-row class="d-flex justify-space-between align-center">
       <v-col>
         <h2>Your Activities</h2>
@@ -27,7 +31,11 @@
     </v-row>
     <v-row class="d-flex flex-column">
       <v-col v-for="act in userActivities" :key="act.id">
-        <ActivityContainer :act="act" @remove-act="removeActivity" @show-detail="showDetail"></ActivityContainer>
+        <ActivityContainer
+          :act="act"
+          @remove-act="removeActivity"
+          @show-detail="show"
+        ></ActivityContainer>
       </v-col>
     </v-row>
     <v-row>
@@ -53,7 +61,11 @@
     </v-row>
   </v-container>
   <v-container v-if="showForm" class="formContainer">
-    <ActivityFormVue @remove="toggleForm" :objectives="userProgress" @addActivity="addActToUser"></ActivityFormVue>
+    <ActivityFormVue
+      @remove="toggleForm"
+      :objectives="userProgress"
+      @addActivity="addActToUser"
+    ></ActivityFormVue>
   </v-container>
   <Footer></Footer>
 </template>
@@ -63,7 +75,7 @@ import Button from "@/components/Button.vue";
 import Footer from "@/components/Footer.vue";
 import ActivityContainer from "@/components/ActivityContainer.vue";
 import Select from "@/components/Select.vue";
-import ActivityFormVue from '@/components/ActivityForm.vue';
+import ActivityFormVue from "@/components/ActivityForm.vue";
 import ActivityDetail from "@/components/ActivityDetail.vue";
 import { activityStore } from "@/store/activityStore";
 import { userStore } from "@/store/userStore";
@@ -75,19 +87,19 @@ export default {
     ActivityContainer,
     Select,
     ActivityFormVue,
-    ActivityDetail
+    ActivityDetail,
   },
   data() {
     return {
-      activityStore:activityStore(),
-      userStore:userStore(),
+      activityStore: activityStore(),
+      userStore: userStore(),
       showForm: false,
       showDetail: false,
-      activityIndex: 0
+      activityIndex: 0,	
     };
   },
 
-  created () {
+  created() {
     this.activityStore.getActivities();
     this.userStore.getUserActivities();
     this.userStore.getObjectiveProgress();
@@ -109,7 +121,7 @@ export default {
       this.userStore.deleteActivityFromUser(activityId);
     },
 
-    showDetail(activityId) {
+    show(activityId) {
       this.activityIndex = this.userActivities.findIndex((act) => act.id === activityId);
       this.showDetail = true;
     },

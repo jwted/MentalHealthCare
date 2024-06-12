@@ -16,7 +16,7 @@ module.exports = {
             model: Category,
             as: "categories",
             through: {
-              attributes: [], // Exclude join table attributes
+              attributes: [],
             },
           },
         ],
