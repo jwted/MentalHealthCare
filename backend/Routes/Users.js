@@ -2,6 +2,7 @@ const express = require("express");
 const {
   getUser,
   getUsers,
+  deleteUser,
   editProfile,
   getUserObjectives,
   deleteObjectiveFromUser,
@@ -24,6 +25,7 @@ router.get("/", offsetLengthValidation, idsValidation, getUsers);
 
 router.get("/:userId", getUser);
 router.put("/:userId", verifyUser, editProfile);
+router.delete("/:userId",verifyAdmin, deleteUser);
 
 router.get("/:userId/objectives", getUserObjectives);
 router.post("/:userId/objectives", verifyUser, addObjectiveToUser);

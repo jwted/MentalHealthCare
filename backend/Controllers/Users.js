@@ -7,7 +7,7 @@ const {
   Category,
   Activity,
   Objective_Activity,
-  User_Activity
+  User_Activity,
 } = require("../Models/index");
 const bcrypt = require("bcrypt");
 
@@ -60,6 +60,21 @@ module.exports = {
       }
     } catch (error) {
       res.status(500).send({ error: err.message });
+    }
+  },
+
+  deleteUser: async (req, res) => {
+    //!DONE AND TESTED
+    try {
+      const user = await User.findByPk(req.params.userId);
+      if (user) {
+        await user.destroy();
+        res.status(204).send({ message: "User successfully deleted" });
+      } else {
+        res.status(404).send({ message: "User not found. Invalid ID." });
+      }
+    } catch (error) {
+      res.status(500).send({ error: error.message });
     }
   },
   editProfile: async (req, res) => {
@@ -184,5 +199,5 @@ module.exports = {
       console.log(error);
       res.status(500).send({ message: "Something went wrong" });
     }
-  }
+  },
 };

@@ -10,7 +10,7 @@
       <td class="cont">0</td>
       <td class="d-flex justify-space-around align-center">
         <Button :text="'Edit'"></Button>
-        <Button :text="'Delete'"></Button>
+        <Button :text="'Delete'" @click="deleteUser(user.id)"></Button>
       </td>
     </tr>
   </template>
@@ -22,7 +22,7 @@
       <td class="cont">0</td>
       <td class="d-flex justify-space-around align-center">
         <Button :text="'Edit'"></Button>
-        <Button :text="'Delete'"></Button>
+        <Button :text="'Delete'" @click="deletePost()"></Button>
       </td>
     </tr>
   </template>
@@ -122,6 +122,10 @@ export default {
 
     formatObjectives(objectives) {
       return objectives.map((objective) => objective.name).join(", ");
+    },
+
+    deleteUser(userId) {
+      this.userStore.deleteUser(userId);
     },
   },
 };

@@ -50,7 +50,6 @@ export const userStore = defineStore("user", {
       try {
         const response = await axios.post(`${url}/login`, user);
         if (response.status == 200) {
-          console.log(response.data)
           localStorage.setItem("Token", JSON.stringify(response.data.token));
           localStorage.setItem("User", JSON.stringify(response.data.user));
           return true;
@@ -78,39 +77,29 @@ export const userStore = defineStore("user", {
         };
         const response = await axios.get(`${url}/users/${user}`, config);
         if (response.status == 200) {
+          console.log(response.data.content);
           this.loggedInUser = response.data.content;
         }
       } catch (error) {
         console.error("Error getting users:", error);
       }
     },
-
-    // async updateUser(user) {
-    //   const response = await fetch(`${url}/users/${user.id}`, {
-    //     method: "PUT",
-    //     body: JSON.stringify(user),
-    //     headers: { "Content-Type": "application/json" },
-    //   });
-    //   const data = await response.json();
-    //   this.users = this.users.map((us) => (us.id === user.id ? data : u));
-    // },
-
-    // async deleteUser(user) {
-    //   try {
-    //     const response = await fetch(`${url}/users/${user.id}`, {
-    //       method: "DELETE",
-    //     });
-
-    //     if (!response.ok) {
-    //       throw new Error(`Error deleting user: ${response.statusText}`);
-    //     }
-
-    //     this.users = this.users.filter((us) => us.id !== user.id);
-    //   } catch (error) {
-    //     console.error("Error deleting user:", error);
-    //   }
-    // },
-
+    async deleteUser(id) {
+      try {
+        const token = JSON.parse(localStorage.getItem("Token"));
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        const response = await axios.delete(`${url}/users/${id}`, config);
+        if (response.status == 204) {
+          this.users = this.users.filter((user) => user.id != id);
+        }
+      } catch (error) {
+        console.error("Error deleting user:", error);
+      }
+    },
     async getObjectiveProgress() {
       try {
         const user = JSON.parse(localStorage.getItem("User"));
