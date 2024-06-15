@@ -61,7 +61,7 @@
       <v-col v-for="obj in filteredObjs" :key="obj.id">
         <ObjectiveContainer
           :obj="obj"
-          @show-detail="handleDetail(obj.objectiveId)"
+          @show-detail="handleDetail(obj.id)"
           @start-obj="handleForm(obj.id)"
         ></ObjectiveContainer>
       </v-col>

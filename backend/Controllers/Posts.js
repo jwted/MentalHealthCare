@@ -95,15 +95,8 @@ exports.postPosts = async (req, res, next) => {
 // DONE
 exports.getPostById = async (req, res, next) => {
   try {
-    const post = await Post.findByPk(req.params.id,{
-      include: [
-        {
-          model: User,
-          as: 'postCreator', // Ensure this alias matches your model definition, if you're using it.
-          attributes: ['id', 'name'], // Specify which fields to return
-        }
-      ]
-    });
+    const {id} = req.params
+    const post = await Post.findByPk(id, {include: [{model: User, as: 'postCreator', attributes: ['id', 'name']}]});
     if (post) {
       res
         .status(200)
@@ -112,6 +105,7 @@ exports.getPostById = async (req, res, next) => {
       res.status(404).send({ message: "Post not found. Invalid ID." });
     }
   } catch (error) {
+    console.log(error)
     res.status(500).send({ error: "Something went wrong. Please try again later", });
   }
 };
@@ -161,9 +155,9 @@ exports.getComments = async (req, res, next) => {
   const { id } = req.params;
 
   try {
-    
     const post  = await Post.findByPk(id)
     if(!post) res.status(404).send({message:'Post not found'})
+
     let query = {
       where: {},
       include: [
@@ -181,7 +175,7 @@ exports.getComments = async (req, res, next) => {
       query.offset = parseInt(offset);
       query.limit = parseInt(length);
     }
-    const data = await Comment.findAll({ where: { postId: id }, ...query });
+    const data = await Comment.findAll({ where: { PostId: id }, ...query });
     return res.status(200).json({
       success: "Successful request",
       content: data,
@@ -323,7 +317,7 @@ exports.updateCommentById = async (req, res, next) => {
 exports.likePost = async (req, res, next) => {
   try {
     const { id } = req.params;
-    console.log(id)
+
     const userLike = await like.findOne({
       where: { userId: res.locals.userId, postId: +id },
     });
@@ -334,7 +328,7 @@ exports.likePost = async (req, res, next) => {
         success: "Successfully unliked",
       });
     } else {
-      console.log(id)
+      
       const create = await like.create({
         userId: res.locals.userId,
         postId: +id,

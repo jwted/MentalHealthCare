@@ -32,8 +32,11 @@
           </optgroup>
         </select>
       </div>
-      <div>
-        <h3>Points:50</h3>
+      <div v-if="selectedActivity == ''">
+        <h3>Points:0</h3>
+      </div>
+      <div v-else>
+        <h3>Points:{{ points }}</h3>
       </div>
       <div class="login">
         <Button :text="'Submit'" class="ma-3" @click="addActivity"></Button>
@@ -68,8 +71,16 @@ export default {
         return obj.id === this.selectedObjective;
       });
     },
+
+    points() {
+      return this.objectives
+        .filter((obj) => obj.id === this.selectedObjective)[0]
+        .Objective.activities.filter(
+          (act) => act.id === this.selectedActivity
+        )[0].points;
+    },
   },
-  
+
   methods: {
     remove() {
       this.$emit("remove");

@@ -22,7 +22,7 @@
       <td class="cont">0</td>
       <td class="d-flex justify-space-around align-center">
         <Button :text="'Edit'"></Button>
-        <Button :text="'Delete'" @click="deletePost()"></Button>
+        <Button :text="'Delete'" @click="deletePost(post.id)"></Button>
       </td>
     </tr>
   </template>
@@ -43,7 +43,7 @@
       <td class="cont">{{ activity.name }}</td>
       <td class="cont">{{ activity.description }}</td>
       <td class="cont">{{ formatCategories(activity.categories)}}</td>
-      <td class="cont">0</td>
+      <td class="cont">{{ activity.points }}</td>
       <td class="cont"></td>
       <td class="d-flex justify-space-around align-center">
         <Button :text="'Edit'"></Button>
@@ -126,6 +126,10 @@ export default {
 
     deleteUser(userId) {
       this.userStore.deleteUser(userId);
+    },
+
+    deletePost(postId) {
+      this.postStore.deletePost(postId);
     },
   },
 };
