@@ -64,7 +64,7 @@ exports.idsValidation = (req, res, next) => {
     let errorMessages = [];
     
     if (content.length === 0) {
-      errorMessages.push('No IDs were provided, but the user query was used');
+      errorMessages.push('No IDs were provided, but the query was used');
     }
     
     content = content.split(',')

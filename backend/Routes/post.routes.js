@@ -1,13 +1,14 @@
 const express = require("express");
 const router = express.Router();
 const postController = require("../Controllers/Posts");
+const badgesController = require("../Controllers/Badges");
 const { verifyUser, verifyAdmin } = require("../Middlewares/jwt");
 const { offsetLengthValidation } = require("../Middlewares/objMid");
 // Get All Posts
 router
   .route("/")
   .get(offsetLengthValidation, postController.getPosts)
-  .post(verifyUser,postController.bodyValidation, postController.postPosts);
+  .post(verifyUser,postController.bodyValidation, postController.postPosts, badgesController.giveBadgesPost);
 
 // Get / Put / Delete - By Id
 router
