@@ -99,7 +99,7 @@ export default {
 
   computed: {
     getComments() {
-      return this.postStore.getPostComments;
+      return this.postStore.getPostComments
     },
 
     getPost() {

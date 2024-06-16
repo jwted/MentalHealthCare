@@ -89,15 +89,15 @@
         >
           <v-row class="bg">
             <h2 class="bg">Activities Done:</h2>
-            <h2 class="bg">7</h2>
+            <h2 class="bg">{{ userActivities.length }}</h2>
           </v-row>
           <v-row class="bg">
             <h2 class="bg">Objectives Done:</h2>
-            <h2 class="bg">2</h2>
+            <h2 class="bg">{{ userObjectivesDone }}</h2>
           </v-row>
           <v-row class="bg">
             <h2 class="bg">Most likes on Post:</h2>
-            <h2 class="bg">100</h2>
+            <h2 class="bg">{{ userPostsLikes }}</h2>
           </v-row>
         </v-col>
         <v-col cols="6" class="bg d-flex flex-column align-center justify-end">
@@ -126,6 +126,7 @@ import Button from "@/components/Button.vue";
 import Footer from "@/components/Footer.vue";
 import { userStore } from "@/store/userStore";
 import { badgeStore } from "@/store/badgesStore";
+import { postStore } from "@/store/postStore";
 export default {
   components: {
     Navbar,
@@ -137,8 +138,10 @@ export default {
     return {
       userStore: userStore(),
       badgeStore: badgeStore(),
+      postStore: postStore(),
       loggedUser: {},
       badges: [],
+      posts: [],
     };
   },
 
@@ -150,6 +153,51 @@ export default {
     this.badgeStore.getBadges().then(() => {
       this.badges = this.badgeStore.getAllBadges;
     });
+
+    this.postStore.getPosts().then(() => {
+      this.posts = this.postStore.getAllPosts;
+    });
+
+    this.userStore.getObjectiveProgress();
+    this.userStore.getUserActivities();
+  },
+
+  computed: {
+    userPostsLikes() {
+      let likes = 0;
+      this.posts.forEach((post) => {
+        if (post.likes > likes) {
+          likes = post.likes;
+        }
+      });
+      return likes;
+    },
+
+    userObjectivesDone() {
+      const objectives = this.userStore.getUserProgress;
+      const activities = this.userStore.getAllUserActivities;
+
+      let done = 0;
+      objectives.forEach((objective) => {
+        const startDate = new Date(objective.beginningDate);
+        const endDate = new Date(objective.endDate);
+        const daysDif =
+          (endDate.getTime() - startDate.getTime()) / (1000 * 3600 * 24);
+
+        const activity = activities.filter(
+          (activity) => activity.progressId === objective.id
+        );
+
+        if (activity.length === daysDif) {
+          done++;
+        }
+      });
+      return done;
+    },
+
+    userActivities() {
+      return this.userStore.getAllUserActivities;
+    },
   },
 };
 </script>

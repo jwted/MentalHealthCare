@@ -89,6 +89,23 @@ export const postStore = defineStore("post", {
       }
     },
 
+    async deletePost(id) {
+      try {
+        const token = JSON.parse(localStorage.getItem("Token"));
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        const response = await axios.delete(`${url}/posts/${id}`, config);
+        if (response.status === 204) {
+          this.posts = this.posts.filter((post) => post.id !== id);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
     async likePost(id) {
       try {
         const token = JSON.parse(localStorage.getItem("Token"));
@@ -104,7 +121,6 @@ export const postStore = defineStore("post", {
 
         const response = await axios.post(
           `${url}/posts/${id}/like`,
-          {},
           headersConfig
         );
         if (response.status === 201) {

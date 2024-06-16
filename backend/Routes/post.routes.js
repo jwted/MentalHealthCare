@@ -15,7 +15,7 @@ router
   .route("/:id")
   .get(verifyUser,offsetLengthValidation, postController.getPostById)
   .put(verifyUser,postController.bodyValidation, postController.updatePostById)
-  .delete(verifyUser,postController.deletePostById);
+  .delete(verifyAdmin,postController.deletePostById);
 
 // Post / Get - Comments of Post Id
 router.route("/:id/comments")

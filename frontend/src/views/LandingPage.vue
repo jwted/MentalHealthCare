@@ -194,7 +194,7 @@ export default {
   },
 
   created () {
-    this.objStore.getObjectives();
+    this.objStore.getObjectives("offset=0&length=3");
     this.postStore.getPosts("offset=0&length=3");
   },
 

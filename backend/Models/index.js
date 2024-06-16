@@ -19,7 +19,6 @@ const Report = require("./Forum/report");
 const User_Badge = require("./Badges/BadgeUtilizador");
 const Category_Activity = require("./Categorias/Category_Activity");
 
-// Configurações de associação com opção onDelete: "CASCADE"
 User.hasMany(Report, { onDelete: "CASCADE" });
 Report.belongsTo(User);
 
@@ -57,7 +56,7 @@ Post.hasMany(Comment, { onDelete: "CASCADE", foreignKey: { allowNull: false } })
 Post.hasMany(Like_Post, { onDelete: "CASCADE", foreignKey: { allowNull: false } });
 
 Like_Post.belongsTo(User, { foreignKey: 'userId', onDelete: "CASCADE"});
-Like_Post.belongsTo(Post, { foreignKey: 'postId' });
+Like_Post.belongsTo(Post, { foreignKey: 'postId' , onDelete: "CASCADE"});
 Post.hasMany(Like_Post, { foreignKey: 'postId', onDelete: "CASCADE", allowNull: false });
 User.hasMany(Like_Post, { foreignKey: 'userId', onDelete: "CASCADE", allowNull: false });
 

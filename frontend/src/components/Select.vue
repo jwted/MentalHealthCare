@@ -1,16 +1,26 @@
 <template>
-  <select class="select">
-          <option disabled selected>Filter by:</option>
-          <option>Date</option>
-          <option>Category</option>
-          <option>A-Z</option>
-          <option>Z-A</option>
+  <select class="select" v-model="option">
+          <option disabled selected value="Filter by">Filter by:</option>
+          <option value="Date desc">Date &darr;</option>
+          <option value="Date asc">Date ↑</option>
+          <option value="A-Z">A-Z</option>
+          <option value="Z-A">Z-A</option>
         </select>
 </template>
 
 <script>
 export default {
+  data() {
+    return {
+      option: "Filter by"
+    }
+  },
 
+  watch: {
+    option: function() {
+      this.$emit('filter', this.option);
+    }
+  }
 }
 </script>
 

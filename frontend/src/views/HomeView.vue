@@ -46,6 +46,16 @@
           </v-col>
         </v-col>
       </v-col>
+      <v-col v-else>
+        <v-col cols="12">
+          <h2>Current Objectives</h2>
+        </v-col>
+        <v-col cols="12">
+          <v-col class="d-flex justify-center">
+            <h3>You don't have any Objective, to start <router-link :to="{ name: 'objectives' }">Click here!</router-link></h3>
+          </v-col>
+        </v-col>
+      </v-col>
     </v-container>
     <v-container class="d-flex align-center flex-column cont mt-3 mb-3">
       <v-col cols="12">
