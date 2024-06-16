@@ -20,7 +20,7 @@
           <h2>Your Objectives</h2>
         </v-col>
         <v-col>
-          <Select></Select>
+          <Select @filter="handleFilter"></Select>
         </v-col>
       </v-col>
     </v-row>
@@ -53,7 +53,7 @@
           <h2>All Objectives</h2>
         </v-col>
         <v-col>
-          <Select></Select>
+          <Select @filter="handleFilter"></Select>
         </v-col>
       </v-col>
     </v-row>
@@ -88,7 +88,7 @@ export default {
     Select,
     ObjectiveContainer,
     ObjectiveForm,
-    ObjectiveDetail
+    ObjectiveDetail,
   },
   data() {
     return {
@@ -97,7 +97,57 @@ export default {
       showForm: false,
       showDetail: false,
       objectiveId: null,
+      option: "Filter by",
     };
+  },
+
+  computed: {
+    getObjs() {
+      return this.objStore.getAllObjectives;
+    },
+
+    userObj() {
+      if (this.option === "Date desc") {
+        return this.userStore.getUserProgress.sort(
+          (a, b) => new Date(b.endDate) - new Date(a.endDate)
+        );
+      } else if (this.option === "Date asc") {
+        return this.userStore.getUserProgress.sort(
+          (a, b) => new Date(a.endDate) - new Date(b.endDate)
+        );
+      } else if (this.option === "A-Z") {
+        return this.userStore.getUserProgress.sort((a, b) =>
+          a.Objective.name.localeCompare(b.Objective.name)
+        );
+      } else if (this.option === "Z-A") {
+        return this.userStore.getUserProgress.sort((a, b) =>
+          b.Objective.name.localeCompare(a.Objective.name)
+        );
+      } else {
+        return this.userStore.getUserProgress;
+      }
+    },
+
+    filteredObjs() {
+      const userObjIds = this.userObj.map((obj) => obj.objectiveId);
+      const objs = this.getObjs.filter((obj) => !userObjIds.includes(obj.id));
+
+      if (this.option === "Date desc") {
+        return objs.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+      } else if (this.option === "Date asc") {
+        return objs.sort(
+          (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+        );
+      } else if (this.option === "A-Z") {
+        return objs.sort((a, b) => a.name.localeCompare(b.name));
+      } else if (this.option === "Z-A") {
+        return objs.sort((a, b) => b.name.localeCompare(a.name));
+      } else {
+        return objs;
+      }
+    },
   },
 
   methods: {
@@ -109,19 +159,23 @@ export default {
     handleDetail(id) {
       this.showDetail = true;
       this.objectiveId = id;
-    }, 
+    },
+
+    handleFilter(option) {
+      this.option = option;
+    },
 
     addObjectiveProgress({ objectiveId, startDate, endDate }) {
-      try{
+      try {
         this.showForm = true;
         this.userStore.addObjectiveToUser(objectiveId, startDate, endDate);
-      }catch (error) {
+      } catch (error) {
         console.log(error);
       }
     },
 
     removeUserObj(id) {
-      try{
+      try {
         this.userStore.deleteObjectiveFromUser(id);
       } catch (error) {
         console.log(error);
@@ -135,21 +189,6 @@ export default {
     });
     this.objStore.getObjectives();
     this.userStore.getObjectiveProgress();
-  },
-
-  computed: {
-    getObjs() {
-      return this.objStore.getAllObjectives;
-    },
-
-    userObj() {
-      return this.userStore.getUserProgress;
-    },
-
-    filteredObjs() {
-      const userObjIds = this.userObj.map((obj) => obj.objectiveId);
-      return this.getObjs.filter((obj) => !userObjIds.includes(obj.id));
-    },
   },
 };
 </script>
