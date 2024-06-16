@@ -2,7 +2,7 @@
   <tr>
     <td :colspan="cols.cols - 1"></td>
     <td>
-      <Button :text="cols.text"></Button>
+      <Button :text="cols.text" @click="handleAdd"></Button>
     </td>
   </tr>
 </template>
@@ -20,6 +20,8 @@ export default {
     Button,
   },
 
+  emits: ["add-user", "add-post", "add-objective", "add-activity"],
+
   computed: {
     cols() {
       if (this.typeString == "users") {
@@ -30,6 +32,20 @@ export default {
         return { cols: 5, text: "Add Objective" };
       } else if (this.typeString == "activities") {
         return { cols: 6, text: "Add Activity" };
+      }
+    },
+  },
+
+  methods: {
+    handleAdd() {
+      if (this.typeString == "users") {
+        this.$emit("add-user");
+      } else if (this.typeString == "posts") {
+        this.$emit("add-post");
+      } else if (this.typeString == "objectives") {
+        this.$emit("add-objective");
+      } else if (this.typeString == "activities") {
+        this.$emit("add-activity");
       }
     },
   },

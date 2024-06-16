@@ -39,5 +39,37 @@ export const activityStore = defineStore("activity", {
         console.error(error);
       }
     },
+
+    async deleteActivity(id) {
+      try {
+        const token = JSON.parse(localStorage.getItem("Token"));
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        await axios.delete(`${url}/activities/${id}`, config);
+        this.activities = this.activities.filter(
+          (activity) => activity.id !== id
+        );
+      } catch (error) {
+        console.error(error);
+      }
+    },
+
+    async createActivity(activity) {
+      try {
+        const token = JSON.parse(localStorage.getItem("Token"));
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        const response = await axios.post(`${url}/activities`, activity, config);
+        this.activities.push(response.data.Activity);
+      } catch (error) {
+        console.error(error);
+      }
+    }
   },
 });

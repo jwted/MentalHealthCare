@@ -3,7 +3,7 @@
     <v-form>
       <div class="login">
         <h2>Register</h2>
-        <Button :text="'Back'" @click="router.go(-1)"></Button>
+        <Button :text="'Back'" @click="remove"></Button>
       </div>
       <div>
         <label for="email">Email:</label>
@@ -17,13 +17,15 @@
         <label for="password">Password:</label>
         <input v-model="password" type="password" id="password" class="cont" />
       </div>
+      <div>
+        <label for="type">Type:</label>
+        <select v-model="type" id="type" class="cont">
+          <option class="cont" value="1">Admin</option>
+          <option class="cont" selected value="0">User</option>
+        </select>
+      </div>
       <div class="login">
         <Button @click="register" :text="'Register'" class="button"></Button>
-      </div>
-      <div>
-        <p>
-          Already have an account? <router-link to="/login">Login</router-link>
-        </p>
       </div>
     </v-form>
   </v-container>
@@ -33,12 +35,12 @@
 import Button from "@/components/Button.vue";
 import { userStore } from "@/store/userStore";
 export default {
-
   data() {
     return {
       name: "",
       email: "",
       password: "",
+      type: 0,
       userStore: userStore(),
     };
   },
@@ -46,11 +48,15 @@ export default {
   methods: {
     async register() {
       try {
-        this.userStore.register(this.name, this.email, this.password);
-        this.$router.push("/login")
+        this.userStore.register(this.name, this.email, this.password,this.type);
+        this.$emit("remove");
       } catch (error) {
         console.log(error);
       }
+    },
+
+    remove() {
+      this.$emit("remove");
     },
   },
 
@@ -63,5 +69,15 @@ export default {
 <style scoped>
 Button {
   width: 30%;
+}
+
+Select {
+  width: 100%;
+  padding: 12px 20px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  box-sizing: border-box;
 }
 </style>

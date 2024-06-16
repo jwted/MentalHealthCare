@@ -2,7 +2,7 @@
   <table class="cont">
     <TableHeaders :typeString="type" />
     <TableBody :typeString="type" />
-    <TableFooter :typeString="type"/>  
+    <TableFooter :typeString="type"  @add-user="addUser" @add-post="addPost" @add-activity="addActivity" @add-objective="addObj"/>  
   </table>
 </template>
 
@@ -22,6 +22,21 @@ export default {
     type: {
       type: String,
       default: "users",
+    },
+  },
+  
+  methods: {
+    addUser() {
+      this.$emit("add-user");
+    },
+    addPost() {
+      this.$emit("add-post");
+    },
+    addActivity() {
+      this.$emit("add-activity");
+    },
+    addObj() {
+      this.$emit("add-objective");
     },
   },
 };

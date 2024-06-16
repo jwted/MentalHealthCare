@@ -46,15 +46,17 @@ User_Activity.afterCreate(async (User_Activity, options) => {
 });
 
 User_Activity.afterDestroy(async (User_Activity, options) => {
-  const activity = await Activity.findByPk(User_Activity.activityId);
   const user = await User.findByPk(User_Activity.userId);
-  if (activity && user) {
+  const activity = await Activity.findByPk(User_Activity.activityId);
+
+  if (user && activity) {
     await user.decrement("points", {
       by: activity.points,
       transaction: options.transaction,
     });
   }
 });
+
 
 User_Activity.sync({ logging: false });
 module.exports = User_Activity;

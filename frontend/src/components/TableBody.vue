@@ -34,7 +34,7 @@
       <td class="cont">{{ formatActivities(objective.activities) }}</td>
       <td class="d-flex justify-space-around align-center">
         <Button :text="'Edit'" class="btn"></Button>
-        <Button :text="'Delete'" class="btn"></Button>
+        <Button :text="'Delete'" class="btn" @click="deleteObjective(objective.id)"></Button>
       </td>
     </tr>
   </template>
@@ -47,7 +47,7 @@
       <td class="cont"></td>
       <td class="d-flex justify-space-around align-center">
         <Button :text="'Edit'"></Button>
-        <Button :text="'Delete'"></Button>
+        <Button :text="'Delete'" @click="deleteActivity(activity.id)"></Button>
       </td>
     </tr>
   </template>
@@ -130,6 +130,14 @@ export default {
 
     deletePost(postId) {
       this.postStore.deletePost(postId);
+    },
+
+    deleteObjective(objectiveId) {
+      this.objectiveStore.deleteObjective(objectiveId);
+    },
+
+    deleteActivity(activityId) {
+      this.activityStore.deleteActivity(activityId);
     },
   },
 };
