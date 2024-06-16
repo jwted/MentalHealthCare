@@ -4,12 +4,11 @@ const { DataTypes } = require("sequelize");
 const Badge = sequelize.define(
   "Badge",
   {
-    /* icon:{
-      type:DataTypes.INTEGER,
+     icon:{
+      type:DataTypes.BLOB,
       allowNull:false,
-      defaultValue:1
     },
-    */
+    
     name: {
       type: DataTypes.STRING,
       allowNull: false,

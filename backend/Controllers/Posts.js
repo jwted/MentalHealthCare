@@ -85,6 +85,7 @@ exports.postPosts = async (req, res, next) => {
       success: "Successfully created",
       Post: data,
     });
+    next()
   } catch (error) {
     res.status(500).send({
       error: "Something went wrong. Please try again later",

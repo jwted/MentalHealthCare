@@ -1,21 +1,23 @@
-const User = require("./Users/Users");
 const Activity = require("./Atividades/Atividade");
+const User = require("./Users/Users");
 const Objective = require("./Objetivos/Objetivos");
-const Category = require("./Categorias/Category");
-const Badge = require("./Badges/Badge");
-const User_Badge = require("./Badges/BadgeUtilizador");
-const Category_Objective = require("./Categorias/Category_Objective");
-const Category_Activity = require("./Categorias/Category_Activity");
-const Diary = require("./Diarios/Diario");
-const Comment = require("./Forum/Comentario");
-const Post = require("./Forum/Posts");
-const Like_Post = require("./Forum/GostosPost");
-const Like_Activity = require("./Gostos/GostosAtividade");
-const Report = require("./Forum/report");
-const Objective_Activity = require("./Atividades/Objective_Activity");
-const User_Activity = require('./Atividades/User_Activity');
-const Resource = require('./Recursos/Recurso');
 const Progress = require("./Progresso/Progresso");
+const User_Activity = require('./Atividades/User_Activity');
+const Category = require("./Categorias/Category");
+const Category_Objective = require("./Categorias/Category_Objective");
+const Objective_Activity = require("./Atividades/Objective_Activity");
+const Like_Activity = require("./Gostos/GostosAtividade");
+const Badge = require("./Badges/Badge");
+const Post = require("./Forum/Posts");
+const Comment = require("./Forum/Comentario");
+const Like_Post = require("./Forum/GostosPost");
+
+
+const Diary = require("./Diarios/Diario");
+const Resource = require('./Recursos/Recurso');
+const Report = require("./Forum/report");
+const User_Badge = require("./Badges/BadgeUtilizador");
+const Category_Activity = require("./Categorias/Category_Activity");
 
 // Configurações de associação com opção onDelete: "CASCADE"
 User.hasMany(Report, { onDelete: "CASCADE" });

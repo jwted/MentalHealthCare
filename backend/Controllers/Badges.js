@@ -1,9 +1,12 @@
+const fs = require('fs')
 const Badges = require("../Models/Badges/Badge.js");
 const User_Badges = require("../Models/Badges/BadgeUtilizador.js");
-const { User } = require("../Models/index.js");
+const { User,Post, Progress, User_Activity} = require("../Models/index.js");
+const {Op} = require('sequelize')
 exports.badgeValidation = (req, res, next) => {
+  
   const { name, description, points, type, requirement } = req.body;
-  if (!name || !description || !points || !type || !requirement) {
+  /* if (!name || !description || !points || !type || !requirement) {
     let missingFields = [];
     if (!name) missingFields.push("name");
     if (!description) missingFields.push("description");
@@ -13,9 +16,97 @@ exports.badgeValidation = (req, res, next) => {
     return res.status(400).json({
       error: "Missing fields: " + missingFields.join(", "),
     });
-  }
+  } */
   next();
 };
+exports.giveBadgesPost = async (req, res, next) => {
+  try {
+    const userId = res.locals.userId;
+    
+    // Count the number of posts by the user
+    const userPosts = await Post.count({ where: { userId } });
+    
+    // Find all badges of type 'posts' where the quantity is less than or equal to the number of user posts
+    const badges = await Badges.findAll({
+      where: {
+        type: 'posts',
+        requirement: {
+          [Op.lte]: userPosts
+        }
+      }
+    });
+    
+    // Find all badges already assigned to the user
+    const userBadges = await User_Badges.findAll({ where: { userId } });
+
+    // Extract BadgeIds from userBadges for easier comparison
+    const userBadgeIds = userBadges.map(userBadge => userBadge.BadgeId);
+    
+    // Assign badges to the user if they do not already have them
+    for (const badge of badges) {
+      if (!userBadgeIds.includes(badge.id)) {
+        await User_Badges.create({
+          badgeId: badge.id,
+          userId: userId,
+        });
+      }
+    }
+
+    // Send a response or proceed to the next middleware
+    res.status(200).send('Badges assigned successfully.');
+  } catch (error) {
+    console.error('Error in giveBadgesPost:', error);
+  }
+};
+
+exports.giveBadgesObjectives = async (req, res, next) => {
+  try {
+    const userId = res.locals.userId;
+    
+    // Count the number of posts by the user
+    const userObjectives = await Progress.findAll({ where: {  userId:userId } });
+    
+    for(const objective of userObjectives){
+        const daysPassed = await User_Activity.count({where:{userId:userId, progressId:objective.id}})
+        objective.beginningDate
+        objective.endDate
+    }
+    // Find all badges of type 'posts' where the quantity is less than or equal to the number of user posts
+    const badges = await Badges.findAll({
+      where: {
+        type: 'posts',
+        requirement: {
+          [Op.lte]: userPosts
+        }
+      }
+    });
+    
+    // Find all badges already assigned to the user
+    const userBadges = await User_Badges.findAll({ where: { userId } });
+
+    // Extract BadgeIds from userBadges for easier comparison
+    const userBadgeIds = userBadges.map(userBadge => userBadge.BadgeId);
+    
+    // Assign badges to the user if they do not already have them
+    for (const badge of badges) {
+      if (!userBadgeIds.includes(badge.id)) {
+        await User_Badges.create({
+          badgeId: badge.id,
+          userId: userId,
+        });
+      }
+    }
+
+    // Send a response or proceed to the next middleware
+    res.status(200).send('Badges assigned successfully.');
+  } catch (error) {
+    console.error('Error in giveBadgesPost:', error);
+  }
+};
+
+
+
+
 
 //DONE
 exports.getBadges = async (req, res) => {
@@ -46,14 +137,22 @@ exports.getBadges = async (req, res) => {
 //DONE
 exports.createBadge = async (req, res, next) => {
   const { name, description, points, type, requirement } = req.body;
+  
   try {
-    const data = await Badges.create({
+    const badgeCreation = {
       name: name,
       description: description,
       points: points,
       type: type,
       requirement: requirement,
-    });
+    }
+    if(req.file){
+      const image  = fs.readFileSync(req.file.path)
+      const encodedImage = Buffer.from(image).toString('base64')
+      badgeCreation.icon=image
+      fs.unlinkSync(req.file.path)
+    }
+    const data = await Badges.create(badgeCreation);
     return res.status(201).json({
       success: "Badge created successfully",
       Badge: data,

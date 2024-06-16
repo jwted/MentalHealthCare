@@ -6,6 +6,24 @@ const Badge = require('./Badge.js');
 
 const User_Badges = sequelize.define('User_Badge',
 {
+    badgeId:{
+        type:DataTypes.INTEGER,
+        primaryKey:true,
+        allowNull:false,
+        references:{
+            model:"Badge",
+            key:'id'
+        }
+    },
+    userId:{
+        type:DataTypes.INTEGER,
+        primaryKey:true,
+        allowNull:false,
+        references:{
+            model:"User",
+            key:'id'
+        }
+    }
 }
 ,{
     tableName:'User_Badge'
