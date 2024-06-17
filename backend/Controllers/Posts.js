@@ -209,6 +209,7 @@ exports.addComments = async (req, res, next) => {
       success: "Successfully created",
       Comment: data,
     });
+    next()
   } catch (error) {
     res.status(500).json({
       error: "Something went wrong. Please try again later",

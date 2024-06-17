@@ -31,6 +31,16 @@ const User_Badges = sequelize.define('User_Badge',
 
 );
 
+User_Badges.afterCreate(async (User_Badges, options) => {
+    const user = await User.findByPk(User_Badges.userId)
+    if (user) {
+      await user.increment("points", {
+        by: activity.points,
+        transaction: options.transaction,
+      });
+    }
+}),  
+
 User_Badges.sync({"logging":false})
 
 module.exports = User_Badges

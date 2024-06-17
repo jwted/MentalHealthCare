@@ -20,6 +20,14 @@ const Progress = sequelize.define(
             key: "id",
         },
     },
+    state:{
+      type:DataTypes.STRING,
+      allowNull:false,
+      defaultValue:'Valid',
+      validate:{
+        isIn:[['Valid','Invalid','Finished']]
+    }
+    },
     endDate: {
         type: DataTypes.DATEONLY,
     allowNull: false,

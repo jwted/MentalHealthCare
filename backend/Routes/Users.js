@@ -27,7 +27,7 @@ router.get("/:userId", getUser);
 router.put("/:userId", verifyUser, editProfile);
 router.delete("/:userId",verifyAdmin, deleteUser);
 
-router.get("/:userId/objectives", getUserObjectives);
+router.get("/:userId/objectives", verifyUser,getUserObjectives);
 router.post("/:userId/objectives", verifyUser, addObjectiveToUser);
 router.get("/:userId/objectives/:objectiveId", verifyUser, getUserObjectives);
 router.delete("/:userId/objectives/:objectiveId", verifyUser, deleteObjectiveFromUser);

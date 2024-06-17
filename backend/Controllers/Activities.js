@@ -220,11 +220,12 @@ module.exports = {
       const progress = await Progress.findOne({
         where: {
           id: progressId,
+          state:'Valid'
         },
       });
 
       if (!progress) {
-        return res.status(404).send({ error: "User Progress not found!" });
+        return res.status(404).send({ error: "User Progress not found! User Progress must exist and be Valid" });
       }
 
       const userActivity = await User_Activity.create({
@@ -238,6 +239,7 @@ module.exports = {
         content: userActivity,
       });
     } catch (error) {
+      console.log(error)
       res.status(500).send({ error: "Something went wrong", error });
     }
   },
