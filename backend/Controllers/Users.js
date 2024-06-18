@@ -147,7 +147,6 @@ module.exports = {
           },
         ],
       });
-      console.log(data);
       if (data) {
         res.status(200).send({
           message: "User objectives retrieved successfully",
@@ -201,3 +200,4 @@ module.exports = {
     }
   },
 };
+

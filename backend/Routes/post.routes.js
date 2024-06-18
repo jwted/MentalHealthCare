@@ -20,7 +20,7 @@ router
 // Post / Get - Comments of Post Id
 router.route("/:id/comments")
   .get(verifyUser,postController.idValidation,offsetLengthValidation,postController.getComments)
-  .post(verifyUser,offsetLengthValidation,postController.bodyValidation,postController.addComments);
+  .post(verifyUser,offsetLengthValidation,postController.bodyValidation,postController.addComments, badgesController.giveBadgesComments);
 
 // Get / Delete / Put / Post- Comments by Id
 router
