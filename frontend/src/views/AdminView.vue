@@ -47,7 +47,7 @@
     </v-container>
   </main>
   <v-dialog v-model="userForm" max-width="500px">
-    <UserForm  />
+    <UserForm @register="createUser" />
   </v-dialog>
   <v-dialog v-model="actForm" max-width="500px">
     <ActForm :objectives="objectives" :categories="categories" />
@@ -122,6 +122,11 @@ export default {
 
     addPost() {
       this.$router.push("/posts");
+    },
+
+    createUser(user) {
+      this.userStore.register(user);
+      this.userForm = false;
     },
   },
 };

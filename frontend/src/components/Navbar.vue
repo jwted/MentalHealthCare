@@ -42,7 +42,7 @@
       <li v-if="isAdmin">
         <router-link
           to="/admin"
-          :class="{ activeLink: $route.path === '/settings' }"
+          :class="{ activeLink: $route.path === '/admin' }"
           >Admin</router-link
         >
       </li>

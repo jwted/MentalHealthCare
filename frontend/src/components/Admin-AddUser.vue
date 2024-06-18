@@ -48,7 +48,12 @@ export default {
   methods: {
     async register() {
       try {
-        this.userStore.register(this.name, this.email, this.password,this.type);
+        this.$emit("register", {
+          name: this.name,
+          email: this.email,
+          password: this.password,
+          type: this.type,
+        });
         this.$emit("remove");
       } catch (error) {
         console.log(error);

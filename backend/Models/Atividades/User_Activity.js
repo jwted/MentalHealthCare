@@ -45,7 +45,7 @@ User_Activity.afterCreate(async (User_Activity, options) => {
   }
 });
 
-User_Activity.afterDestroy(async (User_Activity, options) => {
+User_Activity.beforeDestroy(async (User_Activity, options) => {
   const user = await User.findByPk(User_Activity.userId);
   const activity = await Activity.findByPk(User_Activity.activityId);
 
@@ -56,6 +56,7 @@ User_Activity.afterDestroy(async (User_Activity, options) => {
     });
   }
 });
+
 
 
 User_Activity.sync({ logging: false });

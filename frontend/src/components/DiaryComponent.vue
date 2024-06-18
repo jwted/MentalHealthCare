@@ -1,46 +1,74 @@
 <template>
   <template
     v-if="
-      diary.pensamentos ||
+      (diary.pensamentos ||
       diary.sentimentos ||
       diary.conquistas ||
-      diary.outrasObservacoes
+      diary.outrasObservacoes) && !edit
     "
   >
     <v-container>
       <v-row>
         <h2>Thoughts</h2>
-        <textarea class="cont bg" v-model="diary.pensamentos" disabled></textarea>
+        <textarea
+          class="cont bg"
+          v-model="diary.pensamentos"
+          disabled
+        ></textarea>
       </v-row>
     </v-container>
     <v-container>
       <v-row>
         <h2>Feelings</h2>
-        <textarea class="cont bg" v-model="diary.sentimentos" disabled></textarea>
+        <textarea
+          class="cont bg"
+          v-model="diary.sentimentos"
+          disabled
+        ></textarea>
       </v-row>
     </v-container>
     <v-container>
       <v-row>
         <h2>Achievements</h2>
-        <textarea class="cont bg" v-model="diary.conquistas" disabled></textarea>
+        <textarea
+          class="cont bg"
+          v-model="diary.conquistas"
+          disabled
+        ></textarea>
       </v-row>
     </v-container>
     <v-container>
       <v-row>
         <h2>Notes</h2>
-        <textarea class="cont bg" v-model="diary.outrasObservacoes" disabled></textarea>
+        <textarea
+          class="cont bg"
+          v-model="diary.outrasObservacoes"
+          disabled
+        ></textarea>
       </v-row>
     </v-container>
     <v-container class="d-flex justify-end">
       <v-col cols="1">
-        <Button :text="'Edit'" @click="saveDiary" class="save"></Button>
+        <Button :text="'Edit'" @click="editDiary" class="save"></Button>
       </v-col>
       <v-col cols="1">
-        <Button :text="'Save'" @click="saveDiary" class="save"></Button>
+        <Button
+          :text="'Save'"
+          @click="saveDiary"
+          class="save"
+          disabled
+        ></Button>
       </v-col>
     </v-container>
   </template>
-  <template v-else>
+  <template
+    v-else-if="
+      !diary.pensamentos &&
+      !diary.sentimentos &&
+      !diary.conquistas &&
+      !diary.outrasObservacoes
+    "
+  >
     <v-container>
       <v-row>
         <h2>Thoughts</h2>
@@ -74,6 +102,56 @@
       </v-col>
     </v-container>
   </template>
+  <template v-else-if="edit">
+    <v-container>
+      <v-row>
+        <h2>Thoughts</h2>
+        <textarea
+          class="cont bg"
+          v-model="diary.pensamentos"
+        ></textarea>
+      </v-row>
+    </v-container>
+    <v-container>
+      <v-row>
+        <h2>Feelings</h2>
+        <textarea
+          class="cont bg"
+          v-model="diary.sentimentos"
+        ></textarea>
+      </v-row>
+    </v-container>
+    <v-container>
+      <v-row>
+        <h2>Achievements</h2>
+        <textarea
+          class="cont bg"
+          v-model="diary.conquistas"
+        ></textarea>
+      </v-row>
+    </v-container>
+    <v-container>
+      <v-row>
+        <h2>Notes</h2>
+        <textarea
+          class="cont bg"
+          v-model="diary.outrasObservacoes"
+        ></textarea>
+      </v-row>
+    </v-container>
+    <v-container class="d-flex justify-end">
+      <v-col cols="1">
+        <Button :text="'Edit'" @click="saveDiary" class="save" disabled></Button>
+      </v-col>
+      <v-col cols="1">
+        <Button
+          :text="'Save'"
+          @click="saveDiary"
+          class="save"
+        ></Button>
+      </v-col>
+    </v-container>
+  </template>
 </template>
 
 <script>
@@ -96,7 +174,7 @@ export default {
     },
   },
 
-  emits: ["addDiary"],
+  emits: ["addDiary", "updateDiary"],
 
   data() {
     return {
@@ -104,19 +182,27 @@ export default {
       feelings: "",
       achievements: "",
       notes: "",
+      edit: false,
     };
   },
 
   methods: {
+    editDiary() {
+      this.edit = true;
+    },
+
     saveDiary() {
-      this.$emit("addDiary", {
-        pensamentos: this.thoughts,
-        sentimentos: this.feelings,
-        conquistas: this.achievements,
-        outrasObservacoes: this.notes,
-        createdAt: this.diary.createdAt,
-        updatedAt: new Date().toISOString(),
-      });
+      if (this.edit) {
+        this.$emit("updateDiary", {
+          id: this.diary.id,
+          pensamentos: this.diary.pensamentos,
+          sentimentos: this.diary.sentimentos,
+          conquistas: this.diary.conquistas,
+          outrasObservacoes: this.diary.outrasObservacoes,
+          updatedAt: new Date().toISOString(),
+        });
+        this.edit = false;
+      }
     },
   },
 };
@@ -134,6 +220,13 @@ textarea {
 }
 
 .edit:disabled {
+  background-color: #2e4242;
+  color: #addfad;
+  cursor: not-allowed;
+  width: 100%;
+}
+
+.save:disabled {
   background-color: #2e4242;
   color: #addfad;
   cursor: not-allowed;

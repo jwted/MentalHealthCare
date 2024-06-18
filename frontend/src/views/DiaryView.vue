@@ -38,7 +38,7 @@
         </v-col>
       </v-row>
       <v-row>
-        <DiaryEntry @addDiary="addDiarytoUser" :diary="currentDiary"></DiaryEntry>
+        <DiaryEntry @addDiary="addDiarytoUser" @updateDiary="updateDiary" :diary="currentDiary"></DiaryEntry>
       </v-row>
     </v-container>
   </main>
@@ -107,6 +107,10 @@ export default {
   methods: {
     addDiarytoUser(diary) {
       this.diaryStore.addDiary(diary);
+    },
+
+    updateDiary(diary) {
+      this.diaryStore.updateDiary(diary);
     },
 
     nextDiary() {

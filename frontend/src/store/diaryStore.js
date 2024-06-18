@@ -10,7 +10,7 @@ export const diaryStore = defineStore("diary", {
     getDiary: (state) => state.diary,
   },
   actions: {
-    async getUserDiaries(){
+    async getUserDiaries() {
       try {
         const token = JSON.parse(localStorage.getItem("Token"));
         const user = JSON.parse(localStorage.getItem("User"));
@@ -20,8 +20,8 @@ export const diaryStore = defineStore("diary", {
             Authorization: `Bearer ${token}`,
           },
         };
-        const response= await axios.get(`${url}/users/${user}/diary`, config);
-        this.userDiaries=response.data.content;
+        const response = await axios.get(`${url}/users/${user}/diary`, config);
+        this.userDiaries = response.data.content;
       } catch (error) {
         console.log(error);
       }
@@ -46,6 +46,29 @@ export const diaryStore = defineStore("diary", {
       } catch (error) {
         console.log(error);
       }
-    } 
-  }
+    },
+
+    async updateDiary(diary) {
+      try {
+        const token = JSON.parse(localStorage.getItem("Token"));
+        const user = JSON.parse(localStorage.getItem("User"));
+
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        const response = await axios.put(
+          `${url}/users/${user}/diary/${diary.id}`,
+          diary,
+          config
+        );
+        this.userDiaries = this.userDiaries.map((d) =>
+          d.id === response.data.content.id ? response.data.content : d
+        );
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  },
 });
