@@ -88,7 +88,7 @@ describe ("Post by ID", () => {
     test("Update Post by ID", async () => {
         const response = await axios({
             method: "put",
-            url: `${API_BASE_URL}/posts/8`,
+            url: `${API_BASE_URL}/posts/2`,
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -136,7 +136,7 @@ describe ("Post by ID", () => {
     test("Delete Post by ID", async () => {
         const response = await axios({
             method: "delete",
-            url: `${API_BASE_URL}/posts/8`,
+            url: `${API_BASE_URL}/posts/3`,
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -148,7 +148,7 @@ describe ("Post by ID", () => {
         try {
             const response = await axios({
                 method: "delete",
-                url: `${API_BASE_URL}/posts/1000`,
+                url: `${API_BASE_URL}/posts/12`,
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -257,7 +257,7 @@ describe("Comment by ID", () => {
     test("Update Comment by ID", async () => {
         const response = await axios({
             method: "put",
-            url: `${API_BASE_URL}/posts/2/comments/6`,
+            url: `${API_BASE_URL}/posts/2/comments/1`,
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -288,7 +288,7 @@ describe("Comment by ID", () => {
     test("Delete Comment by ID", async () => {
         const response = await axios({
             method: "delete",
-            url: `${API_BASE_URL}/posts/2/comments/6`,
+            url: `${API_BASE_URL}/posts/2/comments/3`,
             headers: {
                 Authorization: `Bearer ${token}`,
             },

@@ -44,6 +44,10 @@
           </option>
         </select>
       </div>
+      <div>
+        <label for="points">Points:</label>
+        <input v-model="points" type="number" id="points" class="cont" />
+      </div>
       <div class="login">
         <Button @click="addAct" :text="'Submit'" class="button"></Button>
       </div>
@@ -63,6 +67,7 @@ export default {
       description: "",
       objective: "",
       category: "",
+      points: 0,
       userStore: userStore(),
       activityStore: activityStore(),
       objectiveStore: objectiveStore(),
@@ -87,6 +92,7 @@ export default {
           name: this.name,
           description: this.description,
           category: this.category,
+          points: this.points,
         };
         this.activityStore.createActivity(activity);
 

@@ -4,37 +4,43 @@ import axios from "axios";
 
 const url = "http://localhost:3000";
 export const badgeStore = defineStore("badge", {
-  state: () => ({ badges: [], userBadges: {}}),
+  state: () => ({ badges: [], userBadges: [] }),
   getters: {
     getAllBadges: (state) => state.badges,
-    getUserBadges: (state) => state.userBadges,
+    getAllUserBadges: (state) => state.userBadges,
   },
   actions: {
     async getBadges() {
       try {
-        const token=JSON.parse(localStorage.getItem("Token"))
-        const headersConfig = {
-          Authorization: `Bearer ${token}`,
+        const token = JSON.parse(localStorage.getItem("Token"));
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         };
-        const response = await axios.get(`${url}/badges`,headersConfig);
-        this.badges = response.data.content;
+        const response = await axios.get(`${url}/badges`, config);
+        this.badges = response.data.Badges;
       } catch (error) {
         console.error(error);
       }
     },
-  },
 
-  async getUserBadges() {
-    try {
-      const token=JSON.parse(localStorage.getItem("Token"))
-      const user=JSON.parse(localStorage.getItem("User"))
-      const headersConfig = {
-        Authorization: `Bearer ${token}`,
-      };
-      const response = await axios.get(`${url}/users/${user}/badges`,headersConfig);
-      this.userBadges = response.data.content;
-    } catch (error) {
-      console.error(error);
+    async getUserBadges() {
+      try {
+        const token = JSON.parse(localStorage.getItem("Token"));
+        const user = JSON.parse(localStorage.getItem("User"));
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+        const response = await axios.get(`${url}/users/${user}/badges`, config);
+        
+        this.userBadges = response.data.content
+      } catch (error) {
+        console.error(error);
+      }
     }
-  }
+    
+  },
 });

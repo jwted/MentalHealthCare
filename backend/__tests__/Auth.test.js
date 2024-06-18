@@ -2,18 +2,31 @@ const axios = require("axios");
 const API_BASE_URL = "http://localhost:3000";
 
 describe("Register", () => {
-  test("Correct Credentials", async () => {
+  test("Correct Credentials-User", async () => {
     const response = await axios({
       method: "post",
       url: `${API_BASE_URL}/register`,
       data: {
-        email: "user@gmail.com",
+        email: "user123@gmail.com",
         password: "123",
         name: "User",
       },
     });
     expect(response.status).toBe(200);
   }),
+    test("Correct Credentials-Admin Registers", async () => {
+      const response = await axios({
+        method: "post",
+        url: `${API_BASE_URL}/register`,
+        data: {
+          email: "admin@gmail.com",
+          password: "123",
+          name: "Admin",
+          type:1
+        },
+      });
+      expect(response.status).toBe(200);
+    }),
     test("Missing Credentials", async () => {
       try {
         const response = await axios({

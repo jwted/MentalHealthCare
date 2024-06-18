@@ -7,7 +7,7 @@
           <h2>Diary</h2>
         </v-col>
         <v-col cols="5" class="d-flex justify-end">
-          <Button :text="'Back'" @click="router.go(-1)"></Button>
+          <Button :text="'Back'" @click="back"></Button>
         </v-col>
       </v-row>
     </v-container>
@@ -123,6 +123,10 @@ export default {
 
     formatDate(date) {
       return new Date(date).toLocaleDateString();
+    },
+
+    back() {
+      this.$router.go(-1);
     },
   },
 };

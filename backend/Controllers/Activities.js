@@ -75,12 +75,13 @@ module.exports = {
   createActivity: async (req, res, next) => {
     //!DONE AND TESTED
     try {
-      const { name, description, categoryId } = req.body;
-      if (!name || !description || !categoryId) {
+      const { name, description, categoryId,points } = req.body;
+      if (!name || !description || !categoryId,points) {
         const missingFields = [];
         if (!name) missingFields.push("name");
         if (!description) missingFields.push("description");
         if (!categoryId) missingFields.push("categoryId");
+        if (!points) missingFields.push("points");
 
         return res.status(400).json({
           error: `Missing fields: ${missingFields.join(", ")}`,
@@ -88,7 +89,7 @@ module.exports = {
       }
 
       const categoriesArr = categoryId.split(",");
-      const activity = await Activity.create({ name, description });
+      const activity = await Activity.create({ name, description,points });
 
       if (categoriesArr && categoriesArr.length > 0) {
         const categories = await Category.findAll({

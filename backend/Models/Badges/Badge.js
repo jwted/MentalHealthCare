@@ -1,5 +1,6 @@
 const sequelize = require("../../sequelizeconnection");
 const { DataTypes } = require("sequelize");
+const User_Badge=require("./BadgeUtilizador")
 
 const Badge = sequelize.define(
   "Badge",
@@ -37,7 +38,6 @@ const Badge = sequelize.define(
     tableName:'Badge'
   }
 );
-
 Badge.sync({"logging":false})
 
 module.exports = Badge;

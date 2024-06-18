@@ -38,7 +38,7 @@ User.hasMany(Progress, { foreignKey: 'userId', onDelete: "CASCADE" });
 Progress.belongsTo(User, { foreignKey: 'userId' });
 
 Badge.belongsToMany(User, { through: User_Badge, onDelete: "CASCADE" });
-User.belongsToMany(Badge, { through: User_Badge });
+User.belongsToMany(Badge, { through: User_Badge, onDelete:"CASCADE"});
 
 Activity.belongsToMany(Category, { through: Category_Activity, as: 'categories', foreignKey: 'activityId', onDelete: "CASCADE" });
 Category.belongsToMany(Activity, { through: Category_Activity, as: 'activities', foreignKey: 'categoryId', onDelete: "CASCADE" });

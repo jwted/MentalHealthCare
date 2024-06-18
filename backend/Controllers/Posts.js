@@ -285,7 +285,7 @@ exports.updateCommentById = async (req, res, next) => {
     const { text } = req.body;
     const post = await Post.findByPk(id);
     const comment = await Comment.findOne({
-      where: { postId: id, id: commentId },
+      where: { PostId: id, id: commentId },
     });
     if (comment) {
       const data = await Comment.update(

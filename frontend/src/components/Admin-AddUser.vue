@@ -20,8 +20,8 @@
       <div>
         <label for="type">Type:</label>
         <select v-model="type" id="type" class="cont">
-          <option class="cont" value="1">Admin</option>
-          <option class="cont" selected value="0">User</option>
+          <option class="cont" value=1>Admin</option>
+          <option class="cont" selected value=0>User</option>
         </select>
       </div>
       <div class="login">

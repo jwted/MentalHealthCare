@@ -1,10 +1,15 @@
-const fs = require('fs')
+const fs = require("fs");
 const Badges = require("../Models/Badges/Badge.js");
 const User_Badges = require("../Models/Badges/BadgeUtilizador.js");
-const { User,Post, Progress, User_Activity, Comment} = require("../Models/index.js");
-const {Op} = require('sequelize')
+const {
+  User,
+  Post,
+  Progress,
+  User_Activity,
+  Comment,
+} = require("../Models/index.js");
+const { Op } = require("sequelize");
 exports.badgeValidation = (req, res, next) => {
-  
   const { name, description, points, type, requirement } = req.body;
   /* if (!name || !description || !points || !type || !requirement) {
     let missingFields = [];
@@ -22,159 +27,157 @@ exports.badgeValidation = (req, res, next) => {
 exports.giveBadgesPost = async (req, res, next) => {
   try {
     const userId = res.locals.userId;
-    
+
     // Count the number of posts by the user
-    const userPosts = await Post.count({ where: { userId:userId } });
-    
+    const userPosts = await Post.count({ where: { userId: userId } });
+
     // Find all badges of type 'posts' where the quantity is less than or equal to the number of user posts
     const badges = await Badges.findAll({
       where: {
-        type: 'posts',
+        type: "posts",
         requirement: {
-          [Op.lte]: userPosts
+          [Op.lte]: userPosts,
+        },
+      },
+    });
+    if (badges) {
+      // Find all badges already assigned to the user
+      const userBadges = await User_Badges.findAll({
+        where: { userId: userId },
+      });
+
+      // Extract BadgeIds from userBadges for easier comparison
+      const userBadgeIds = userBadges.map((userBadge) => userBadge.badgeId);
+
+      // Assign badges to the user if they do not already have them
+      for (const badge of badges) {
+        if (!userBadgeIds.includes(badge.id)) {
+          await User_Badges.create({
+            badgeId: badge.id,
+            userId: userId,
+          });
         }
       }
-    });
-    if(badges){
 
-      // Find all badges already assigned to the user
-      const userBadges = await User_Badges.findAll({ where: { userId:userId } });
-      
-      // Extract BadgeIds from userBadges for easier comparison
-      const userBadgeIds = userBadges.map(userBadge => userBadge.badgeId);
-      
-    // Assign badges to the user if they do not already have them
-    for (const badge of badges) {
-      if (!userBadgeIds.includes(badge.id)) {
-        await User_Badges.create({
-          badgeId: badge.id,
-          userId: userId,
-        });
-      }
+      // Send a response or proceed to the next middleware
     }
-    
-    // Send a response or proceed to the next middleware
-  }
   } catch (error) {
-    res.status(400).send({message:'Error giving badge to user'})
+    res.status(400).send({ message: "Error giving badge to user" });
   }
 };
 exports.giveBadgesComments = async (req, res, next) => {
   try {
     const userId = res.locals.userId;
-    
+
     // Count the number of posts by the user
-    const userComments = await Comment.count({ where: { userId:userId} });
-    
+    const userComments = await Comment.count({ where: { userId: userId } });
+
     // Find all badges of type 'posts' where the quantity is less than or equal to the number of user posts
     const badges = await Badges.findAll({
       where: {
-        type: 'comments',
+        type: "comments",
         requirement: {
-          [Op.lte]: +userComments
+          [Op.lte]: +userComments,
+        },
+      },
+    });
+    if (badges) {
+      // Find all badges already assigned to the user
+      const userBadges = await User_Badges.findAll({
+        where: { userId: userId },
+      });
+
+      // Extract BadgeIds from userBadges for easier comparison
+      const userBadgeIds = userBadges.map((userBadge) => userBadge.badgeId);
+
+      // Assign badges to the user if they do not already have them
+      for (const badge of badges) {
+        if (!userBadgeIds.includes(badge.id)) {
+          await User_Badges.create({
+            badgeId: badge.id,
+            userId: userId,
+          });
         }
       }
-    });
-    if(badges){
 
-      // Find all badges already assigned to the user
-      const userBadges = await User_Badges.findAll({ where: { userId:userId } });
-      
-      // Extract BadgeIds from userBadges for easier comparison
-      const userBadgeIds = userBadges.map(userBadge => userBadge.badgeId);
-      
-    // Assign badges to the user if they do not already have them
-    for (const badge of badges) {
-      if (!userBadgeIds.includes(badge.id)) {
-        await User_Badges.create({
-          badgeId: badge.id,
-          userId: userId,
-        });
-      }
+      // Send a response or proceed to the next middleware
     }
-    
-    // Send a response or proceed to the next middleware
-  }
   } catch (error) {
-   console.log(error)
+    console.log(error);
   }
 };
 
 exports.giveBadgesPoints = async (req, res, next) => {
   try {
     const userId = res.locals.userId;
-    
-    const user = await User.findByPk(userId)
-    const userBadges= await User_Badges.findAll({where:{userId:userId}})
 
-    const badges = await Badges.findAll({where:{
-      type:'points',
-      requirement:{
-        [Op.lte]:user.points
-      }
-    }})
-    if(badges){
+    const user = await User.findByPk(userId);
+    const userBadges = await User_Badges.findAll({ where: { userId: userId } });
 
-      const userBadgeIds = userBadges.map(userBadge => userBadge.badgeId);
-      
-      // Assign badges to the user if they do not already have them
+    const badges = await Badges.findAll({
+      where: {
+        type: "points",
+        requirement: {
+          [Op.lte]: user.points,
+        },
+      },
+    });
+    if (badges) {
+      const userBadgeIds = userBadges.map((userBadge) => userBadge.badgeId);
+
       for (const badge of badges) {
         if (!userBadgeIds.includes(badge.id)) {
           await User_Badges.create({
-          badgeId: badge.id,
-          userId: userId,
-        });
+            badgeId: badge.id,
+            userId: userId,
+          });
+        }
       }
     }
-  }
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
 };
 
 exports.giveBadgesObjectives = async (req, res, next) => {
   try {
     const userId = res.locals.userId;
-    
+
     // Count the number of posts by the user
-    const userObjectives = await Progress.count({ where: {  userId:userId, state:'Finished'} });
-  
+    const userObjectives = await Progress.count({
+      where: { userId: userId, state: "Finished" },
+    });
+
     // Find all badges of type 'posts' where the quantity is less than or equal to the number of user posts
     const badges = await Badges.findAll({
       where: {
-        type: 'objectives',
+        type: "objectives",
         requirement: {
-          [Op.lte]: +userObjectives
-        }
-      }
+          [Op.lte]: +userObjectives,
+        },
+      },
     });
-    if(badges){
-
+    if (badges) {
       // Find all badges already assigned to the user
       const userBadges = await User_Badges.findAll({ where: { userId } });
-      
+
       // Extract BadgeIds from userBadges for easier comparison
-      const userBadgeIds = userBadges.map(userBadge => userBadge.BadgeId);
-      
+      const userBadgeIds = userBadges.map((userBadge) => userBadge.BadgeId);
+
       // Assign badges to the user if they do not already have them
       for (const badge of badges) {
         if (!userBadgeIds.includes(badge.id)) {
           await User_Badges.create({
-          badgeId: badge.id,
-          userId: userId,
-        });
+            badgeId: badge.id,
+            userId: userId,
+          });
+        }
       }
     }
-    
-  }
   } catch (error) {
-    console.log(error)
+    console.log(error);
   }
-}; 
-
-
-
-
+};
 
 //DONE
 exports.getBadges = async (req, res) => {
@@ -205,7 +208,7 @@ exports.getBadges = async (req, res) => {
 //DONE
 exports.createBadge = async (req, res, next) => {
   const { name, description, points, type, requirement } = req.body;
-  
+
   try {
     const badgeCreation = {
       name: name,
@@ -213,12 +216,13 @@ exports.createBadge = async (req, res, next) => {
       points: points,
       type: type,
       requirement: requirement,
-    }
-    if(req.file){
-      const image  = fs.readFileSync(req.file.path)
-      const encodedImage = Buffer.from(image).toString('base64')
-      badgeCreation.icon=image
-      fs.unlinkSync(req.file.path)
+      icon:""
+    };
+    if (req.file) {
+      const image = fs.readFileSync(req.file.path);
+      const encodedImage = Buffer.from(image).toString("base64");
+      badgeCreation.icon = image;
+      fs.unlinkSync(req.file.path);
     }
     const data = await Badges.create(badgeCreation);
     return res.status(201).json({
@@ -292,11 +296,13 @@ exports.deleteBadge = async (req, res) => {
         error: "Badge not found",
       });
     }
+
     await data.destroy();
-    return res.status(200).json({
+    return res.status(204).json({
       success: "Badge deleted successfully",
     });
-  } catch {
+  } catch(error) {
+    console.log(error)
     return res.status(500).json({
       error: "Something went wrong. Please try again later",
     });
@@ -306,9 +312,9 @@ exports.deleteBadge = async (req, res) => {
 //DONE
 exports.getUserBadges = async (req, res) => {
   try {
-    const {userId} = req.params
-    const userBadges=await User_Badges.findAll({
-      where: { userId: userId},
+    const { userId } = req.params;
+    const userBadges = await User_Badges.findAll({
+      where: { userId: userId },
     });
 
     res.status(200).json({
@@ -320,11 +326,10 @@ exports.getUserBadges = async (req, res) => {
       error: "Something went wrong. Please try again later",
     });
   }
-}
+};
 
 //DONE
 exports.addBadgeToUser = async (req, res) => {
-  console.log("Body", req.body)
   const { badgeId } = req.body;
   try {
     const badge = await Badges.findByPk(badgeId);
@@ -334,7 +339,7 @@ exports.addBadgeToUser = async (req, res) => {
       });
     }
 
-    const findUserBadge=await User_Badges.findOne({
+    const findUserBadge = await User_Badges.findOne({
       where: { userId: res.locals.userId, badgeId: badgeId },
     });
 
@@ -353,7 +358,7 @@ exports.addBadgeToUser = async (req, res) => {
       content: userBadge,
     });
   } catch (error) {
-    console.log(error)
+    console.log(error);
     return res.status(500).json({
       error: "Something went wrong. Please try again later",
     });

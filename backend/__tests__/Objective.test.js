@@ -12,9 +12,10 @@ describe("Objective", () => {
         Authorization: `Bearer ${token}`,
       },
       data: {
-        name: "Objective",
-        description: "Description",
-        categoryId: 1,
+        name:"Reduce Stress",
+        description:"The 'Reduce Stress' course is designed to equip participants with effective strategies and techniques to manage stress effectively. This comprehensive course delves into the root causes of stress, exploring various factors that contribute to its onset and the significant impact it can have on daily life",
+        categoryId:"1",
+        activityId:"2"
       },
     });
     expect(response.status).toBe(201);
@@ -101,7 +102,7 @@ describe("Objective by Id", () => {
   test("Get Objective by Id", async () => {
     const response = await axios({
       method: "get",
-      url: `${API_BASE_URL}/objectives/2`,
+      url: `${API_BASE_URL}/objectives/4`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -124,7 +125,7 @@ describe("Objective by Id", () => {
     test("Update Objective", async () => {
       const response = await axios({
         method: "patch",
-        url: `${API_BASE_URL}/objectives/2`,
+        url: `${API_BASE_URL}/objectives/14`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -157,7 +158,7 @@ describe("Objective by Id", () => {
     test("Delete Objective", async () => {
       const response = await axios({
         method: "delete",
-        url: `${API_BASE_URL}/objectives/2`,
+        url: `${API_BASE_URL}/objectives/32`,
         headers: {
           Authorization: `Bearer ${token}`,
         },

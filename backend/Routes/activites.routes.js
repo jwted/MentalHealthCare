@@ -6,7 +6,7 @@ const { verifyUser, verifyAdmin } = require("../Middlewares/jwt");
 // Get Activites
 router
   .get("/",verifyUser,offsetLengthValidation,idsValidation,getActivities )
-  .post("/",createActivity);
+  .post("/",verifyAdmin,createActivity);
 
 // Get / Put / Delete - By Id
 router

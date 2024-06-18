@@ -25,7 +25,7 @@ export default {
   computed: {
     cols() {
       if (this.typeString == "users") {
-        return { cols: 6, text: "Add User" };
+        return { cols: 6, text: "Add User"};
       } else if (this.typeString == "posts") {
         return { cols: 5, text: "Add Post" };
       } else if (this.typeString == "objectives") {
@@ -39,7 +39,7 @@ export default {
   methods: {
     handleAdd() {
       if (this.typeString == "users") {
-        this.$emit("add-user");
+        this.$emit("add-user",);
       } else if (this.typeString == "posts") {
         this.$emit("add-post");
       } else if (this.typeString == "objectives") {

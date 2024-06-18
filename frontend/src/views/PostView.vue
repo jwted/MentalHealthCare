@@ -1,5 +1,15 @@
 <template>
   <Navbar />
+  <v-container>
+    <v-row cols="10" class="d-flex align-center justify-space-between">
+      <v-col cols="5" class="d-flex justify-start">
+        <h2>Post</h2>
+      </v-col>
+      <v-col cols="5" class="d-flex justify-end">
+        <Button :text="'Back'" @click="back" class="w-25"></Button>
+      </v-col>
+    </v-row>
+  </v-container>
   <v-container class="container bg">
     <v-row class="d-flex align-center bg pa-3">
       <img src="../assets/profile.svg" alt="Profile Image" class="bg profile" />
@@ -94,6 +104,10 @@ export default {
     addComm() {
       this.postStore.addComment(this.getPost.id,this.textComment);
       this.textComment = "";
+    },
+
+    back() {
+      this.$router.go(-1);
     },
   },
 

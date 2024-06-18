@@ -118,7 +118,7 @@ describe("User by ID", () => {
 
 describe("User Objectives", () => {
   test("Get User Objectives", async () => {
-    let userId = 3;
+    let userId = 2;
     const response = await axios({
       method: "get",
       url: `${API_BASE_URL}/users/${userId}/objectives`,
@@ -146,7 +146,7 @@ describe("User Objectives", () => {
 
   test("Delete Objective from User", async () => {
     let userId = 2;
-    let objectiveId = 2;
+    let objectiveId = 1;
     const response = await axios({
       method: "delete",
       url: `${API_BASE_URL}/users/${userId}/objectives/${objectiveId}`,
@@ -198,7 +198,9 @@ describe("User Objectives", () => {
         Authorization: `Bearer ${token}`,
       },
       data: {
-        objectiveId: 2,
+        objectiveId: 1,
+        endDate:"05/06/2024",
+        beginningDate:"02/06/2024"
       },
     });
     expect(response.status).toBe(201);
@@ -243,7 +245,7 @@ describe("User Objectives", () => {
 
 describe("User Badges", () => {
   test("Get User Badges", async () => {
-    let userId = 1;
+    let userId = 2;
     const response = await axios({
       method: "get",
       url: `${API_BASE_URL}/users/${userId}/badges`,
@@ -254,23 +256,8 @@ describe("User Badges", () => {
     expect(response.status).toBe(200);
   });
 
-  test("Get User Badges - User not found", async () => {
-    try {
-      let userId = 90;
-      const response = await axios({
-        method: "get",
-        url: `${API_BASE_URL}/users/${userId}/badges`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-    } catch (error) {
-      expect(error.response.status).toBe(404);
-    }
-  });
-
   test("Add Badge to User", async () => {
-    let userId = 1;
+    let userId = 2;
     const response = await axios({
       method: "post",
       url: `${API_BASE_URL}/users/badges`,
@@ -278,15 +265,31 @@ describe("User Badges", () => {
         Authorization: `Bearer ${token}`,
       },
       data: {
-        badgeId: 1,
+        badgeId: 3,
       },
     });
     expect(response.status).toBe(201);
   });
 
-  test("Add Badge to User - User not found", async () => {
+  test("Add Badge to User - Badge not found", async () => {
     try {
-      let userId = 90;
+      const response = await axios({
+        method: "post",
+        url: `${API_BASE_URL}/users/badges`,
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+        data: {
+          badgeId: 10000,
+        },
+      });
+    } catch (error) {
+      expect(error.response.status).toBe(404);
+    }
+  });
+
+  test("Add Badge to User - Badge already Get", async () => {
+    try {
       const response = await axios({
         method: "post",
         url: `${API_BASE_URL}/users/badges`,
@@ -295,24 +298,6 @@ describe("User Badges", () => {
         },
         data: {
           badgeId: 1,
-        },
-      });
-    } catch (error) {
-      expect(error.response.status).toBe(400);
-    }
-  });
-
-  test("Add Badge to User - Invalid Data", async () => {
-    try {
-      let userId = 1;
-      const response = await axios({
-        method: "post",
-        url: `${API_BASE_URL}/users/badges`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        data: {
-          badgeId: 90,
         },
       });
     } catch (error) {
@@ -411,7 +396,7 @@ describe("User Diary", () => {
 
   test("Delete Diary", async () => {
     let userId = 2;
-    let diaryId = 22;
+    let diaryId = 32;
     const response = await axios({
       method: "delete",
       url: `${API_BASE_URL}/users/${userId}/diary/${diaryId}`,

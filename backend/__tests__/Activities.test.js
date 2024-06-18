@@ -15,6 +15,7 @@ describe("Activities", () => {
         name: "Activity",
         description: "Description",
         categoryId: 1,
+        points:100
       },
     });
     expect(response.status).toBe(201);
@@ -79,7 +80,7 @@ describe("Activity by Id", () => {
   test("Update Activity", async () => {
     const response = await axios({
       method: "patch",
-      url: `${API_BASE_URL}/activities/2`,
+      url: `${API_BASE_URL}/activities/14`,
       headers: {
         Authorization: `Bearer ${token}`,
       },

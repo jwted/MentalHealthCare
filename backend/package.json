@@ -6,7 +6,7 @@
   "scripts": {
     "start": "nodemon app.js",
     "build": "node app.js",
-    "test": "jest --runInBand"
+    "test": "jest --runInBand --coverage"
   },
   "keywords": [
     "Api",

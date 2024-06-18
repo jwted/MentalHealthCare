@@ -36,7 +36,7 @@ module.exports = {
   },
   register: async (req, res) => {
     try {
-      if (req.body.password && req.body.name && req.body.email) {
+      if (req.body.password && req.body.name && req.body.email && !req.body.type) {
         if (await User.findOne({ where: { email: req.body.email } })) {
           res.status(409).send({ message: "Account already exists" });
         } else {

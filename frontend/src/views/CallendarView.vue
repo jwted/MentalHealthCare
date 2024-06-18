@@ -6,7 +6,7 @@
         <h2>Calendar</h2>
       </v-col>
       <v-col cols="5" class="d-flex justify-end">
-        <Button :text="'Back'" @click="router.go(-1)" class="w-25"></Button>
+        <Button :text="'Back'" @click="back" class="w-25"></Button>
       </v-col>
     </v-row>
   </v-container>
@@ -169,6 +169,10 @@ export default {
 
     handleFilter(option) {
       this.option = option;
+    },
+    
+    back() {
+      this.$router.go(-1);
     },
   },
 

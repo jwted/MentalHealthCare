@@ -7,7 +7,7 @@
           <h2>Profile</h2>
         </v-col>
         <v-col cols="5" class="d-flex justify-end">
-          <Button :text="'Back'" @click="router.go(-1)" class="btn"></Button>
+          <Button :text="'Back'" @click="back" class="btn"></Button>
         </v-col>
       </v-row>
     </v-container>
@@ -49,28 +49,20 @@
       cols="12"
       class="d-flex align-center justify-space-between bg border"
     >
-      <v-col class="bg">
-        <v-row class="bg d-flex justify-center align-center">
-          <v-col class="bg d-flex flex-column justify-center align-center">
-            <img src="../assets/fitness.svg" alt="" width="100" height="100" />
-            <h3 class="bg">Do some Fitness activity</h3>
-          </v-col>
-          <v-col class="bg d-flex flex-column justify-center align-center">
-            <img
-              src="../assets/5 activities.svg"
-              alt=""
-              width="100"
-              height="100"
-            />
-            <h3 class="bg">Do 5 activities</h3>
-          </v-col>
-          <v-col class="bg d-flex flex-column justify-center align-center">
-            <img src="../assets/fitness.svg" alt="" width="100" height="100" />
-            <h3 class="bg">Do some Fitness activity</h3>
-          </v-col>
-        </v-row>
-      </v-col>
+      <v-row class="bg d-flex flex-wrap justify-center align-center">
+        <v-col
+          v-for="(badge, index) in [...userBadges, ...filteredBadges]"
+          :key="index"
+          cols="4"
+          class="bg d-flex flex-column justify-center align-center"
+        >
+          <img :src="badge.icon" alt="" width="100" height="100" />
+          <h3 class="bg" v-if="userBadges.includes(badge)">{{ badge.name }}</h3>
+          <h3 class="bg notDone" v-else>{{ badge.name }}</h3>
+        </v-col>
+      </v-row>
     </v-container>
+
     <v-container>
       <v-row cols="10" class="d-flex align-center justify-space-between">
         <v-col cols="5" class="d-flex justify-start">
@@ -118,6 +110,7 @@
     </v-container>
   </main>
   <Footer></Footer>
+  {{ userBadges }}
 </template>
 
 <script>
@@ -139,6 +132,7 @@ export default {
       userStore: userStore(),
       badgeStore: badgeStore(),
       postStore: postStore(),
+      badgeStore: badgeStore(),
       loggedUser: {},
       badges: [],
       posts: [],
@@ -157,6 +151,12 @@ export default {
     this.postStore.getPosts().then(() => {
       this.posts = this.postStore.getAllPosts;
     });
+
+    this.badgeStore.getBadges().then(() => {
+      this.badges = this.badgeStore.getAllBadges;
+    });
+
+    this.badgeStore.getUserBadges();
 
     this.userStore.getObjectiveProgress();
     this.userStore.getUserActivities();
@@ -198,6 +198,21 @@ export default {
     userActivities() {
       return this.userStore.getAllUserActivities;
     },
+
+    userBadges() {
+      console.log(this.badgeStore.getAllUserBadges)
+      return this.badgeStore.getAllUserBadges;
+    },
+
+    filteredBadges() {
+      return this.badges.filter((badge) => !this.userBadges.includes(badge.id));
+    },
+  },
+
+  methods: {
+    back() {
+      this.$router.go(-1);
+    },
   },
 };
 </script>
@@ -213,5 +228,9 @@ export default {
 
 .btn {
   width: 20%;
+}
+
+.notDone {
+  color: grey;
 }
 </style>
