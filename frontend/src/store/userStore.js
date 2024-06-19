@@ -27,18 +27,18 @@ export const userStore = defineStore("user", {
         console.error("Error getting users:", error);
       }
     },
-    async register(name, email, password,type) {
+    async register(user) {
       const data = {
-        name: name,
-        email: email,
-        password: password,
+        name: user.name,
+        email: user.email,
+        password: user.password,
       };
 
       const admindata = {
-        name: name,
-        email: email,
-        password: password,
-        type: type,
+        name: user.name,
+        email: user.email,
+        password: user.password,
+        type: +user.type
       };
 
       try {

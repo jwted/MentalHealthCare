@@ -20,7 +20,7 @@
       </div>
       <div>
         <label for="objective">Objective:</label>
-        <select v-model="objective" id="objective" class="cont">
+        <select v-model="objective" id="objective" class="cont bd">
           <option
             class="cont"
             :value="obj.id"
@@ -33,9 +33,8 @@
       </div>
       <div>
         <label for="category">Category:</label>
-        <select v-model="category" id="category" class="cont">
+        <select v-model="category" id="category" multiple class="cont bd">
           <option
-            class="cont"
             :value="cat.id"
             v-for="cat in categories"
             :key="cat.id"
@@ -66,7 +65,7 @@ export default {
       name: "",
       description: "",
       objective: "",
-      category: "",
+      category: [],
       points: 0,
       userStore: userStore(),
       activityStore: activityStore(),
@@ -88,19 +87,23 @@ export default {
   methods: {
     async addAct() {
       try {
+        const category = this.category.map((cat) => {
+          return { id: cat };
+        });
+
+        const categoryString =category.map((cat) => cat.id).join(",")
         const activity = {
           name: this.name,
           description: this.description,
-          category: this.category,
+          category: categoryString,
           points: this.points,
         };
-        this.activityStore.createActivity(activity);
+        const add=this.activityStore.createActivity(activity);
 
-        if(this.activityStore.createActivity(activity)){
-          this.objectiveStore.addActivity(this.objective, this.activityStore.createActivity(activity));
+        if(add){
+          //this.objectiveStore.addActivityToObjective(this.objective, add.id);
           this.$emit("remove");
         }
-        this.$emit("remove");
       } catch (error) {
         console.log(error);
       }
@@ -127,7 +130,7 @@ Select {
   padding: 12px 20px;
   margin: 8px 0;
   display: inline-block;
-  border: 1px solid #ccc;
+  border: 2px solid black;
   border-radius: 12px;
   box-sizing: border-box;
 }

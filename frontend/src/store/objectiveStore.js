@@ -72,15 +72,44 @@ export const objectiveStore = defineStore("objective", {
             Authorization: `Bearer ${token}`,
           },
         };
+
+        const data = {
+          activityId: +activityId,
+        };
         const response = await axios.post(
-          `${url}/objectives/${objectiveId}/activities/${activityId}`,
-          {},
-          config
+          `${url}/objectives/${objectiveId}/activities`,
+          config,
+          data
         );
-        this.objective = response.data.content;
+        const index = this.objectives.findIndex(
+          (objective) => objective.id === objectiveId
+        );
+        this.objectives[index].activities.push(response.data.content);
       } catch (error) {
         console.log(error);
       }
-    }
+    },
+
+    async createObjective(objective) {
+      try {
+        const token = JSON.parse(localStorage.getItem("Token"));
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        };
+
+        const data = {
+          name: objective.name,
+          description: objective.description,
+          categoryId: "1",
+          activityId: "1",
+        };
+        const response = await axios.post(`${url}/objectives`, data, config);
+        this.objectives.push(response.data.content);
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
 });

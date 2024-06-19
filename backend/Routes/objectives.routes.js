@@ -17,4 +17,6 @@ router
   .patch("/:id",verifyAdmin,objectiveController.updateObjective)
   .delete("/:id",verifyUser,objectiveController.deleteObjective);
 
+router.post("/:id/activities",verifyAdmin,objectiveController.addActivityToObjective);
+
 module.exports = router;

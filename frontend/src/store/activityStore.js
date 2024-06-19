@@ -65,7 +65,14 @@ export const activityStore = defineStore("activity", {
             Authorization: `Bearer ${token}`,
           },
         };
-        const response = await axios.post(`${url}/activities`, activity, config);
+
+        const data={
+          name:activity.name,
+          description:activity.description,
+          categoryId:activity.category,
+          points:activity.points,
+        }
+        const response = await axios.post(`${url}/activities`, data, config);
         this.activities.push(response.data.Activity);
       } catch (error) {
         console.error(error);

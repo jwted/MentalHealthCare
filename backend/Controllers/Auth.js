@@ -72,6 +72,7 @@ module.exports = {
         });
       }
     } catch (error) {
+      console.log("Error: ", error)
       res.status(500).send({ message: "Something went wrong", details: error });
     }
   },

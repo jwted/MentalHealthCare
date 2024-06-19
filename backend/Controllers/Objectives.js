@@ -3,7 +3,7 @@ const Progress = require("../Models/Progresso/Progresso.js");
 const Category = require("../Models/Categorias/Category.js");
 const Activity = require("../Models/Atividades/Atividade.js");
 const User = require("../Models/Users/Users.js");
-const categoria_objetivo = require("../Models/Categorias/Category_Objective.js");
+const Objective_Activity = require("../Models/Atividades/Objective_Activity.js");
 const { Op } = require("sequelize");
 
 //DONE
@@ -296,5 +296,54 @@ exports.deleteObjective = async (req, res, next) => {
     res
       .status(500)
       .json({ error: "Something went wrong. Please try again later" });
+  }
+};
+
+//DONE
+exports.addActivityToObjective = async (req, res, next) => {
+  //!DONE AND TESTED
+  const { id } = req.params;
+  const { activityId } = req.body;
+  try {
+    const objective = await Objective.findByPk(id);
+    if (!objective) {
+      return res.status(404).json({
+        error: "Objective not found",
+      });
+    }
+
+    const activity = await Activity.findByPk(activityId);
+    if (!activity) {
+      return res.status(404).json({
+        error: "Activity not found",
+      });
+    }
+
+    const objectiveActivities = await Objective_Activity.findOne({
+      where: {
+        objectiveId: id,
+        activityId: activityId,
+      },
+    });
+
+    if (objectiveActivities) {
+      return res.status(400).json({
+        error: "Activity already added to objective",
+      });
+    }
+
+    const result= await Objective_Activity.create({
+      objectiveId: id,
+      activityId: activityId,
+    });
+
+    res.status(200).json({
+      success: "Activity added to objective successfully",
+      content: result,
+    });
+  } catch (error) {
+    return res.status(500).json({
+      error: "Something went wrong. Please try again later",
+    });
   }
 };

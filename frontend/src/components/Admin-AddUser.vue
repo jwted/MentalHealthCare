@@ -52,7 +52,7 @@ export default {
           name: this.name,
           email: this.email,
           password: this.password,
-          type: this.type,
+          type: +this.type,
         });
         this.$emit("remove");
       } catch (error) {

@@ -20,19 +20,13 @@ export const postStore = defineStore("post", {
   },
   actions: {
     async getPosts(query) {
-      try {
-        const token = JSON.parse(localStorage.getItem("Token"));
-        const config = {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        };
+      try {   
         if (query) {
-          const response = await axios.get(`${url}/posts?${query}`, config);
+          const response = await axios.get(`${url}/posts?${query}`);
           this.posts = response.data.content;
           return;
         }
-        const response = await axios.get(`${url}/posts`, config);
+        const response = await axios.get(`${url}/posts`);
         this.posts = response.data.content;
       } catch (error) {
         console.log(error);
