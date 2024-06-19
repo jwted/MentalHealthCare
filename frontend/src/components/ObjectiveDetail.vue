@@ -17,8 +17,14 @@
       <div>
         <label for="activities"><b>Activities:</b></label>
         <ul v-for="activity in objective.activities" :key="activity.id">
-          <li>{{ activity.name }}</li>
+          <li>{{ activity.name }} - {{ activity.points }} Points</li>
         </ul>
+      </div>
+      <div v-if="objective in progress" :key="objective.id">
+        <label for="state"><b>State:</b> {{ objective.state }}</label>
+      </div>
+      <div v-else>
+        <label for="state"><b>State:</b> Not Started</label>
       </div>
     </form>
   </v-container>
@@ -44,6 +50,7 @@ export default {
 
   props: {
     objectiveId: Number,
+    progress: Object,
   },
 
   created() {

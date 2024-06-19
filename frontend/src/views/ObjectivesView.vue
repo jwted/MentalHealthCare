@@ -43,6 +43,7 @@
   <v-dialog v-model="showDetail" max-width="500px">
     <ObjectiveDetail
       :objective-id="objectiveId"
+      :progress="userObj"
       @remove="showDetail = false"
     ></ObjectiveDetail>
   </v-dialog>
@@ -122,6 +123,14 @@ export default {
       } else if (this.option === "Z-A") {
         return this.userStore.getUserProgress.sort((a, b) =>
           b.Objective.name.localeCompare(a.Objective.name)
+        );
+      } else if (this.option == "Valid asc") {
+        return this.userStore.getUserProgress.sort((a, b) =>
+          a.state.localeCompare(b.state)
+        );
+      } else if (this.option == "Valid desc") {
+        return this.userStore.getUserProgress.sort((a, b) =>
+          b.state.localeCompare(a.state)
         );
       } else {
         return this.userStore.getUserProgress;

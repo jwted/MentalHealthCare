@@ -9,7 +9,7 @@
         <label for="objective"><b>Objective:</b></label>
         <select class="select" v-model="selectedObjective">
           <option value="#" disabled selected>Select your Objective</option>
-          <option :value="obj.id" v-for="obj in objectives" :key="obj.id">
+          <option :value="obj.id" v-for="obj in filteredObjs" :key="obj.id">
             {{ obj.Objective.name }}
           </option>
         </select>
@@ -71,6 +71,13 @@ export default {
         return obj.id === this.selectedObjective;
       });
     },
+
+    filteredObjs(){
+      return this.objectives.filter((obj) => {
+        return obj.state === "Valid";
+      });
+    },
+    
 
     points() {
       return this.objectives

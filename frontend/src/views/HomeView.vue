@@ -11,29 +11,8 @@
         <h2>Hello!</h2>
       </v-row>
     </v-container>
-    <v-container class="d-flex align-center cont mt-3 mb-3">
-      <v-col v-if="userActivities.length > 0">
-        <v-col>
-          <h2>Your Activities</h2>
-        </v-col>
-        <v-col v-for="act in userActivities" :key="act.id">
-          <ActivityContainer
-            :act="act"
-            @remove-act="removeActivity"
-          ></ActivityContainer>
-        </v-col>
-      </v-col>
-      <v-col v-else>
-        <v-col>
-          <h2>Your Activities</h2>
-        </v-col>
-        <v-col class="d-flex justify-center">
-          <h3>You don't have any activity, to start <router-link :to="{ name: 'callendar' }">Click here!</router-link></h3>
-        </v-col>
-      </v-col>
-    </v-container>
     <v-container class="d-flex align-center flex-column cont mt-3 mb-3">
-      <v-col v-if="userObj.length>0">
+      <v-col v-if="userObj.length > 0">
         <v-col cols="12">
           <h2>Current Objectives</h2>
         </v-col>
@@ -52,11 +31,46 @@
         </v-col>
         <v-col cols="12">
           <v-col class="d-flex justify-center">
-            <h3>You don't have any Objective, to start <router-link :to="{ name: 'objectives' }">Click here!</router-link></h3>
+            <h3>
+              You don't have any Objective, to start
+              <router-link :to="{ name: 'objectives' }"
+                >Click here!</router-link
+              >
+            </h3>
           </v-col>
         </v-col>
       </v-col>
     </v-container>
+    <v-container class="d-flex align-center cont mt-3 mb-3">
+      <v-col v-if="userActivities.length > 0">
+        <v-col>
+          <h2>Your Activities</h2>
+        </v-col>
+        <v-col v-for="act in userActivities" :key="act.id">
+          <ActivityContainer
+            :act="act"
+            @remove-act="removeActivity"
+          ></ActivityContainer>
+        </v-col>
+      </v-col>
+      <v-col v-else>
+        <v-col>
+          <h2>Your Activities</h2>
+        </v-col>
+        <v-col class="d-flex justify-center">
+          <h3>
+            You don't have any activity, to start
+            <router-link :to="{ name: 'callendar' }">Click here!</router-link>
+          </h3>
+        </v-col>
+      </v-col>
+    </v-container>
+    <v-dialog v-model="showDetail" max-width="500px" class="formContainer">
+      <ActivityDetail
+        :activityId="activityId"
+        @remove="showDetail = false"
+      ></ActivityDetail>
+    </v-dialog>
     <v-container class="d-flex align-center flex-column cont mt-3 mb-3">
       <v-col cols="12">
         <h2>Last Posts</h2>
@@ -77,6 +91,7 @@ import Button from "@/components/Button.vue";
 import ActivityContainer from "@/components/ActivityContainer.vue";
 import ObjectiveContainer from "@/components/ObjectiveContainer.vue";
 import PostContainer from "@/components/PostContainer.vue";
+import ActivityDetail from "@/components/ActivityDetail.vue";
 import { postStore } from "@/store/postStore";
 import { userStore } from "@/store/userStore";
 import { objectiveStore } from "@/store/objectiveStore";
@@ -90,6 +105,7 @@ export default {
     ActivityContainer,
     ObjectiveContainer,
     PostContainer,
+    ActivityDetail,
   },
   data() {
     return {
@@ -97,6 +113,8 @@ export default {
       userStore: userStore(),
       objStore: objectiveStore(),
       activityStore: activityStore(),
+      showDetail: false,
+      activityId: null,
     };
   },
 
@@ -107,13 +125,32 @@ export default {
     this.userStore.getObjectiveProgress();
   },
 
+  methods: {
+    removeActivity(activityId) {
+      this.userStore.deleteActivityFromUser(activityId);
+    },
+
+    removeUserObj(id) {
+      try {
+        this.userStore.deleteObjectiveFromUser(id);
+      } catch (error) {
+        alert(error);
+      }
+    },
+
+    show(actId) {
+      this.activityId = actId;
+      this.showDetail = true;
+    },
+  },
+
   computed: {
     user() {
       return this.userStore.getLoggedUser;
     },
 
     getPosts() {
-      const posts=this.postStore.getAllPosts;
+      const posts = this.postStore.getAllPosts;
       posts.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
       return posts.slice(0, 3);
     },

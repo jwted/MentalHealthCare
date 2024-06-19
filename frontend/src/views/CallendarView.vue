@@ -10,12 +10,6 @@
       </v-col>
     </v-row>
   </v-container>
-  <v-dialog v-model="showDetail" max-width="500px">
-    <ActivityDetail
-      :activityId="userActivities[activityIndex].id"
-      @remove="showDetail = false"
-    ></ActivityDetail>
-  </v-dialog>
   <v-container
     class="d-flex flex-column mt-3 mb-3 cont"
     v-if="todayActivities.length > 0"
@@ -59,6 +53,13 @@
       <Button :text="'Add Activity'" @click="toggleForm"></Button>
     </v-row>
   </v-container>
+
+  <v-dialog v-model="showDetail" max-width="500px" class="formContainer">
+    <ActivityDetail
+      :activityId="activityId"
+      @remove="showDetail = false"
+    ></ActivityDetail>
+  </v-dialog>
 
   <v-container v-if="showForm" class="formContainer">
     <ActivityFormVue
@@ -133,7 +134,7 @@ export default {
       userStore: userStore(),
       showForm: false,
       showDetail: false,
-      activityIndex: 0,
+      activityId: null,
       option: "Filter by",
     };
   },
@@ -160,17 +161,15 @@ export default {
       this.userStore.deleteActivityFromUser(activityId);
     },
 
-    show(activityId) {
-      this.activityIndex = this.userActivities.findIndex(
-        (act) => act.id === activityId
-      );
+    show(actId) {
+      this.activityId = actId;
       this.showDetail = true;
     },
 
     handleFilter(option) {
       this.option = option;
     },
-    
+
     back() {
       this.$router.go(-1);
     },
@@ -178,19 +177,24 @@ export default {
 
   computed: {
     userActivities() {
-      const today = new Date().toISOString().split("T")[0]; // Obtém a data atual no formato YYYY-MM-DD
+      const today = new Date().toISOString().split("T")[0];
       const userActivities = this.userStore.getAllUserActivities.filter(
-        (act) =>
-          new Date(act.createdAt).toISOString().split("T")[0] !== today
+        (act) => new Date(act.createdAt).toISOString().split("T")[0] !== today
       );
 
-      if(this.option === "Date desc") {
-        return userActivities.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-      } else if(this.option === "Date asc") {
-        return userActivities.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-      } else if(this.option === "A-Z") {
-        return userActivities.sort((a, b) => a.Activity.name.localeCompare(b.Activity));
-      } else if(this.option === "Z-A") {
+      if (this.option === "Date desc") {
+        return userActivities.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+      } else if (this.option === "Date asc") {
+        return userActivities.sort(
+          (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+        );
+      } else if (this.option === "A-Z") {
+        return userActivities.sort((a, b) =>
+          a.Activity.name.localeCompare(b.Activity)
+        );
+      } else if (this.option === "Z-A") {
         return userActivities.sort((a, b) => b.name.localeCompare(a.name));
       } else {
         return userActivities;
@@ -200,17 +204,22 @@ export default {
     todayActivities() {
       const today = new Date().toISOString().split("T")[0];
       const todayActivities = this.userStore.getAllUserActivities.filter(
-        (act) =>
-          new Date(act.createdAt).toISOString().split("T")[0] === today
+        (act) => new Date(act.createdAt).toISOString().split("T")[0] === today
       );
 
-      if(this.option === "Date desc") {
-        return todayActivities.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-      } else if(this.option === "Date asc") {
-        return todayActivities.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt));
-      } else if(this.option === "A-Z") {
-        return todayActivities.sort((a, b) => a.Activity.name.localeCompare(b.Activity));
-      } else if(this.option === "Z-A") {
+      if (this.option === "Date desc") {
+        return todayActivities.sort(
+          (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+        );
+      } else if (this.option === "Date asc") {
+        return todayActivities.sort(
+          (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+        );
+      } else if (this.option === "A-Z") {
+        return todayActivities.sort((a, b) =>
+          a.Activity.name.localeCompare(b.Activity)
+        );
+      } else if (this.option === "Z-A") {
         return todayActivities.sort((a, b) => b.name.localeCompare(a.name));
       } else {
         return todayActivities;

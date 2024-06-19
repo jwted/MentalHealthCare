@@ -254,11 +254,24 @@ module.exports = {
       if (!userActivity) {
         return res.status(404).send({ error: "Activity not found" });
       }
+
+      const activity=await Activity.findByPk(activityId)
+
+      const decrementPoints = await User.findByPk(res.locals.userId);
+
       await User_Activity.destroy({
         where: { userId: res.locals.userId, activityId: activityId },
       });
+
+      await User.update(
+        { points: decrementPoints.points - activity.points },
+        {
+          where: { id: res.locals.userId },
+        }
+      );
       res.status(204).send({ success: "Activity deleted from user" });
     } catch (error) {
+      console.log(error);
       res.status(500).send({ error: "Something went wrong", error });
     }
   },

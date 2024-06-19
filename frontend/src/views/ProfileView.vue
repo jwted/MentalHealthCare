@@ -57,7 +57,7 @@
           class="bg d-flex flex-column justify-center align-center"
         >
           <img :src="badge.icon" alt="" width="100" height="100" />
-          <h3 class="bg" v-if="userBadges.includes(badge)">{{ badge.name }}</h3>
+          <h3 class="bg" v-if="userBadges.includes(badge)">DONE{{ badge.name }}</h3>
           <h3 class="bg notDone" v-else>{{ badge.name }}</h3>
         </v-col>
       </v-row>
@@ -110,7 +110,6 @@
     </v-container>
   </main>
   <Footer></Footer>
-  {{ userBadges }}
 </template>
 
 <script>

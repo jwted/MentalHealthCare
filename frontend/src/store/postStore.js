@@ -121,6 +121,7 @@ export const postStore = defineStore("post", {
 
         const response = await axios.post(
           `${url}/posts/${id}/like`,
+          {},
           headersConfig
         );
         if (response.status === 201) {

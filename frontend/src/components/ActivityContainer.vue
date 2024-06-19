@@ -5,7 +5,7 @@
       <h2 class="bg"></h2>
     </v-col>
     <v-col class="d-flex flex-column justify-center align-center bg">
-      <Button :text="'Detail'" class="dark" @click="showDetail(act.id)"></Button>
+      <Button :text="'Detail'" class="dark  mt-4 mb-4" @click="showDetail(act.id)"></Button>
       <Button
         :text="'Remove'"
         class="dark"

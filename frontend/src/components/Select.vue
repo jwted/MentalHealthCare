@@ -1,10 +1,12 @@
 <template>
   <select class="select" v-model="option">
           <option disabled selected value="Filter by">Filter by:</option>
-          <option value="Date desc">Date &darr;</option>
           <option value="Date asc">Date ↑</option>
+          <option value="Date desc">Date &darr;</option>
           <option value="A-Z">A-Z</option>
           <option value="Z-A">Z-A</option>
+          <option value="Valid asc">Valid  ↑</option>
+          <option value="Valid desc">Valid  &darr;</option>
         </select>
 </template>
 

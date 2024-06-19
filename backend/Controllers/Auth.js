@@ -61,10 +61,10 @@ module.exports = {
             name: req.body.name,
             email: req.body.email,
             password: req.body.password,
-            type: req.body.role,
+            type: req.body.type,
           });
           await user.save();
-          res.send({ message: "successuful Register" }).status(201);
+          res.send({ message: "successuful Register Admin" }).status(201);
         }
       } else {
         res.status(400).send({

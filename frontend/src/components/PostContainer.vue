@@ -1,5 +1,5 @@
 <template>
-  <router-link :to="`/posts/${post.id}`">
+  <router-link :to="`/posts/${post.id}`" class="removeUnderline">
   <v-container class="container bg">
       <v-row class="d-flex align-center bg pa-3">
         <img src="../assets/profile.svg" alt="Profile Image" class="bg profile" />
@@ -78,5 +78,9 @@ export default {
 h2,h3{
   text-decoration: none;
   color: black;
+}
+
+.removeUnderline {
+  text-decoration: none;
 }
 </style>
