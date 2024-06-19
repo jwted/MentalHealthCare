@@ -119,6 +119,7 @@ import Footer from "@/components/Footer.vue";
 import { userStore } from "@/store/userStore";
 import { badgeStore } from "@/store/badgesStore";
 import { postStore } from "@/store/postStore";
+import {Buffer} from "buffer"
 export default {
   components: {
     Navbar,
@@ -145,17 +146,31 @@ export default {
 
     this.badgeStore.getBadges().then(() => {
       this.badges = this.badgeStore.getAllBadges;
+      const convertBlobToBase64Sync = (blob) => {
+        const base64String = Buffer.from(blob.data, 'binary').toString('base64');
+        return `data:image/webp;jpg;png;jpeg;base64,${base64String}`;
+      };
+      
+      
+      this.badges.forEach(badge => {
+        if(badge.icon){
+          const base64String = convertBlobToBase64Sync(badge.icon);
+          badge.icon = base64String
+        }
+      });
+
+  
     });
 
     this.postStore.getPosts().then(() => {
       this.posts = this.postStore.getAllPosts;
     });
 
-    this.badgeStore.getBadges().then(() => {
+/*     this.badgeStore.getBadges().then(() => {
       this.badges = this.badgeStore.getAllBadges;
     });
 
-    this.badgeStore.getUserBadges();
+    this.badgeStore.getUserBadges(); */
 
     this.userStore.getObjectiveProgress();
     this.userStore.getUserActivities();
