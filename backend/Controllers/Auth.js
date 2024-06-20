@@ -46,7 +46,7 @@ module.exports = {
             password: req.body.password,
           });
           await user.save();
-          res.send({ message: "successuful Register" }).status(201);
+          res.send({ message: "successuful Register"}).status(201);
         }
       } else if (
         req.body.password &&

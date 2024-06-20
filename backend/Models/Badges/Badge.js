@@ -26,7 +26,7 @@ const Badge = sequelize.define(
       type:DataTypes.STRING,
       allowNull:false,
       validate:{
-          isIn:[['objective','posts','comments','points']]
+          isIn:[['objective','posts','comments','points','activity','likes']]
       }
     },
     requirement:{

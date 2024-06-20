@@ -8,7 +8,7 @@ const { offsetLengthValidation } = require("../Middlewares/objMid");
 router
   .route("/")
   .get(offsetLengthValidation, postController.getPosts)
-  .post(verifyUser,postController.bodyValidation, postController.postPosts, badgesController.giveBadgesPost);
+  .post(verifyUser,postController.bodyValidation, postController.postPosts), //badgesController.giveBadgesPost);
 
 // Get / Put / Delete - By Id
 router
@@ -32,6 +32,6 @@ router
 // Post / Delete - Likes
 router
   .route("/:id/like")
-  .post(verifyUser,postController.likePost)
+  .post(verifyUser,postController.likePost,badgesController.giveBadgesLikes)
 
 module.exports = router;

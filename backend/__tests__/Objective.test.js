@@ -1,7 +1,34 @@
 const axios = require("axios");
+
 const API_BASE_URL = "http://localhost:3000";
-let token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzE1OTU0MzU1fQ.NnZdD1wIsA3JRCQpe9UGwM8LWSz_wzMbBnPAs1rp9TI";
+let token, userId,diaryId;
+let objectiveId = 1;
+let categoryId = 1;
+let activityId = 1;
+
+beforeAll(async () => { 
+  const responseLog = await axios({
+    method: "post",
+    url: `${API_BASE_URL}/login`,
+    data: {
+      email: "teste@gmail.com",
+      password:"teste",
+    },
+  });
+  token = responseLog.data.token;
+  userId = responseLog.data.user;
+
+  const adminResponse = await axios({
+    method: "post",
+    url: `${API_BASE_URL}/login`,
+    data: {
+      email: "testeAdmin@gmail.com",
+      password: "teste",
+    },
+  });
+  adminToken = adminResponse.data.token;
+  userAdminId = adminResponse.data.user;
+});
 
 describe("Objective", () => {
   test("Create Objective", async () => {
@@ -14,8 +41,8 @@ describe("Objective", () => {
       data: {
         name:"Reduce Stress",
         description:"The 'Reduce Stress' course is designed to equip participants with effective strategies and techniques to manage stress effectively. This comprehensive course delves into the root causes of stress, exploring various factors that contribute to its onset and the significant impact it can have on daily life",
-        categoryId:"1",
-        activityId:"2"
+        categoryId:`${categoryId}`,
+        activityId:`${activityId}`,
       },
     });
     expect(response.status).toBe(201);
@@ -28,7 +55,7 @@ describe("Objective", () => {
           data: {
             name: "Objective",
             description: "Description",
-            categoryId: 1,
+            categoryId: categoryId,
           },
         });
       } catch (error) {
@@ -75,7 +102,7 @@ describe("Objective", () => {
     test("Filter by ids", async () => {
       const response = await axios({
         method: "get",
-        url: `${API_BASE_URL}/objectives?objective=2`,
+        url: `${API_BASE_URL}/objectives?objective=${objectiveId}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -102,7 +129,7 @@ describe("Objective by Id", () => {
   test("Get Objective by Id", async () => {
     const response = await axios({
       method: "get",
-      url: `${API_BASE_URL}/objectives/4`,
+      url: `${API_BASE_URL}/objectives/${objectiveId}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -125,9 +152,9 @@ describe("Objective by Id", () => {
     test("Update Objective", async () => {
       const response = await axios({
         method: "patch",
-        url: `${API_BASE_URL}/objectives/14`,
+        url: `${API_BASE_URL}/objectives/${objectiveId}`,
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${adminToken}`,
         },
         data: {
           name: "Objective",
@@ -143,7 +170,7 @@ describe("Objective by Id", () => {
           method: "patch",
           url: `${API_BASE_URL}/objectives/1000`,
           headers: {
-            Authorization: `Bearer ${token}`,
+            Authorization: `Bearer ${adminToken}`,
           },
           data: {
             name: "Objective",
@@ -158,7 +185,7 @@ describe("Objective by Id", () => {
     test("Delete Objective", async () => {
       const response = await axios({
         method: "delete",
-        url: `${API_BASE_URL}/objectives/32`,
+        url: `${API_BASE_URL}/objectives/${objectiveId}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },

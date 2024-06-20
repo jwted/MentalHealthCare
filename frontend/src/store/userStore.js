@@ -28,21 +28,13 @@ export const userStore = defineStore("user", {
       }
     },
     async register(user) {
-      const data = {
-        name: user.name,
-        email: user.email,
-        password: user.password,
-      };
-
-      const admindata = {
-        name: user.name,
-        email: user.email,
-        password: user.password,
-        type: +user.type
-      };
-
       try {
-        if(!type){
+        if(!user.type){
+          const data = {
+            name: user.name,
+            email: user.email,
+            password: user.password,
+          }
           const response = await axios.post(`${url}/register`, data);
           if (response.status === 201) {
             this.users.push(response.data);
@@ -50,6 +42,12 @@ export const userStore = defineStore("user", {
             console.error("Erro na requisição:", response.status);
           }
         }else{
+          const admindata = {
+            name: user.name,
+            email: user.email,
+            password: user.password,
+            type: +user.type
+          };
           const response = await axios.post(`${url}/register`, admindata);
           if (response.status === 201) {
             this.users.push(response.data);

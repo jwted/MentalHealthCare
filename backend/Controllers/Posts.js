@@ -355,9 +355,9 @@ exports.likePost = async (req, res, next) => {
         success: "Successfully liked",
         content: create,
       });
+      next()
     }
   } catch (error) {
-    console.log(error);
     res.status(500).json({
       error: "Something went wrong. Please try again later",
     });

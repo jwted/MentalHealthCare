@@ -59,10 +59,10 @@ exports.giveBadgesPost = async (req, res, next) => {
         }
       }
 
-      // Send a response or proceed to the next middleware
+      return res.status(200).send({ message: "Badge given to user" });
     }
   } catch (error) {
-    res.status(400).send({ message: "Error giving badge to user" });
+    return res.status(400).send({ message: "Error giving badge to user" });
   }
 };
 exports.giveBadgesComments = async (req, res, next) => {
@@ -172,6 +172,41 @@ exports.giveBadgesObjectives = async (req, res, next) => {
             userId: userId,
           });
         }
+      }
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+exports.giveBadgesLikes = async (req, res, next) => {
+  try {
+    const userId = res.locals.userId;
+    console.log("USER:" + userId);
+    // Count the number of posts by the user
+    const userLikes = await Like_Post.count({ where: { userId: userId } });
+    console.log("USER LIKES:" + userLikes);
+    // Find all badges of type 'posts' where the quantity is less than or equal to the number of user posts
+    const badge = await Badges.findOne({
+      where: {
+        type: "posts",
+        requirement:  +userLikes,
+      },
+    });
+    console.log("BADGE:" + badge);
+    if (badge) {
+      // Find all badges already assigned to the user
+      const userBadges = await User_Badges.findAll({ where: { userId } });
+
+      // Extract BadgeIds from userBadges for easier comparison
+      const userBadgeIds = userBadges.map((userBadge) => userBadge.BadgeId);
+
+      // Assign badges to the user if they do not already have them
+      if (!userBadgeIds.includes(badge.id)) {
+        await User_Badges.create({
+          badgeId: badge.id,
+          userId: userId,
+        });
       }
     }
   } catch (error) {
@@ -315,6 +350,9 @@ exports.getUserBadges = async (req, res) => {
     const { userId } = req.params;
     const userBadges = await User_Badges.findAll({
       where: { userId: userId },
+      include:{
+        model:Badges
+      }
     });
 
     res.status(200).json({

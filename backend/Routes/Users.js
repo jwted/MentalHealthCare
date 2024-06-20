@@ -33,7 +33,7 @@ router.get("/:userId/objectives/:objectiveId", verifyUser, getUserObjectives);
 router.delete("/:userId/objectives/:objectiveId", verifyUser, deleteObjectiveFromUser);
 
 router.get("/:userId/badges", verifyUser,verifySameUser, getUserBadges);
-router.post("/badges", verifyUser, addBadgeToUser);
+router.post("/:userId/badges", verifyUser, addBadgeToUser);
 
 router.get("/:userId/diary", verifyUser, diaryController.getUserDiaries);
 router.post("/:userId/diary", verifyUser, diaryController.createDiary);

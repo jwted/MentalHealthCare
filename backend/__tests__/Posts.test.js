@@ -1,8 +1,29 @@
 const axios = require("axios");
 
 const API_BASE_URL = "http://localhost:3000";
-let token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzE1OTU0MzU1fQ.NnZdD1wIsA3JRCQpe9UGwM8LWSz_wzMbBnPAs1rp9TI";
+let token, userId, adminToken, userAdminId,postId,commentId;
+
+
+beforeAll(async () => {
+  const response = await axios({
+    method: "post",
+    url: `${API_BASE_URL}/login`,
+    data: {
+      email: "teste@gmail.com",
+      password: "teste",
+    },
+  });
+
+  const adminResponse = await axios({
+    method: "post",
+    url: `${API_BASE_URL}/login`,
+    data: {
+        email: "testeAdmin@gmail.com",
+        password: "teste",
+    },
+    });
+  adminToken = adminResponse.data.token;
+});
 
 describe("Posts", () => {
     test("Get All Posts", async () => {
@@ -38,6 +59,7 @@ describe("Posts", () => {
                 text: "Test Post",
             },
         });
+        postId = response.data.Post.id;
         expect(response.status).toBe(201);
     })
 
@@ -63,7 +85,7 @@ describe ("Post by ID", () => {
     test("Get Post by ID", async () => {
         const response = await axios({
             method: "get",
-            url: `${API_BASE_URL}/posts/2`,
+            url: `${API_BASE_URL}/posts/${postId}`,
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -88,7 +110,7 @@ describe ("Post by ID", () => {
     test("Update Post by ID", async () => {
         const response = await axios({
             method: "put",
-            url: `${API_BASE_URL}/posts/2`,
+            url: `${API_BASE_URL}/posts/${postId}`,
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -103,7 +125,7 @@ describe ("Post by ID", () => {
         try {
             const response = await axios({
                 method: "put",
-                url: `${API_BASE_URL}/posts/8`,
+                url: `${API_BASE_URL}/posts/${postId}`,
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -133,24 +155,13 @@ describe ("Post by ID", () => {
         }
     })
 
-    test("Delete Post by ID", async () => {
-        const response = await axios({
-            method: "delete",
-            url: `${API_BASE_URL}/posts/3`,
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        expect(response.status).toBe(204);
-    })
-
     test("Delete Post by ID - Post not found", async () => {
         try {
             const response = await axios({
                 method: "delete",
-                url: `${API_BASE_URL}/posts/12`,
+                url: `${API_BASE_URL}/posts/1000`,
                 headers: {
-                    Authorization: `Bearer ${token}`,
+                    Authorization: `Bearer ${adminToken}`,
                 },
             });
         } catch (error) {
@@ -163,7 +174,7 @@ describe("Comments", () => {
     test("Get Comments by Post ID", async () => {
         const response = await axios({
             method: "get",
-            url: `${API_BASE_URL}/posts/2/comments`,
+            url: `${API_BASE_URL}/posts/${postId}/comments`,
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -188,7 +199,7 @@ describe("Comments", () => {
     test("Pagination - offset and length", async () => {
         const response = await axios({
             method: "get",
-            url: `${API_BASE_URL}/posts/2/comments?offset=0&length=2`,
+            url: `${API_BASE_URL}/posts/${postId}/comments?offset=0&length=2`,
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -199,7 +210,7 @@ describe("Comments", () => {
     test("Add Comment", async () => {
         const response = await axios({
             method: "post",
-            url: `${API_BASE_URL}/posts/2/comments`,
+            url: `${API_BASE_URL}/posts/${postId}/comments`,
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -207,6 +218,7 @@ describe("Comments", () => {
                 text: "Test Comment",
             },
         });
+        commentId=response.data.Comment.id;
         expect(response.status).toBe(201);
     })
 
@@ -232,7 +244,7 @@ describe("Comment by ID", () => {
     test("Get Comment by ID", async () => {
         const response = await axios({
             method: "get",
-            url: `${API_BASE_URL}/posts/2/comments/1`,
+            url: `${API_BASE_URL}/posts/${postId}/comments/${commentId}`,
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -257,7 +269,7 @@ describe("Comment by ID", () => {
     test("Update Comment by ID", async () => {
         const response = await axios({
             method: "put",
-            url: `${API_BASE_URL}/posts/2/comments/1`,
+            url: `${API_BASE_URL}/posts/${postId}/comments/${commentId}`,
             headers: {
                 Authorization: `Bearer ${token}`,
             },
@@ -272,7 +284,7 @@ describe("Comment by ID", () => {
         try {
             const response = await axios({
                 method: "put",
-                url: `${API_BASE_URL}/posts/6/comments/1000`,
+                url: `${API_BASE_URL}/posts/${postId}/comments/1000`,
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -283,24 +295,13 @@ describe("Comment by ID", () => {
         } catch (error) {
             expect(error.response.status).toBe(404);
         }
-    })
-
-    test("Delete Comment by ID", async () => {
-        const response = await axios({
-            method: "delete",
-            url: `${API_BASE_URL}/posts/2/comments/3`,
-            headers: {
-                Authorization: `Bearer ${token}`,
-            },
-        });
-        expect(response.status).toBe(204);
-    })
+    }),
 
     test("Delete Comment by ID - Comment not found", async () => {
         try {
             const response = await axios({
                 method: "delete",
-                url: `${API_BASE_URL}/posts/6/comments/1000`,
+                url: `${API_BASE_URL}/posts/${postId}/comments/1000`,
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -308,5 +309,29 @@ describe("Comment by ID", () => {
         } catch (error) {
             expect(error.response.status).toBe(404);
         }
+    })
+})
+
+describe("Deletes", () => {
+    test("Delete Post by ID", async () => {
+        const response = await axios({
+            method: "delete",
+            url: `${API_BASE_URL}/posts/${postId}`,
+            headers: {
+                Authorization: `Bearer ${adminToken}`,
+            },
+        });
+        expect(response.status).toBe(204);
+    }),
+
+    test("Delete Comment by ID", async () => {
+        const response = await axios({
+            method: "delete",
+            url: `${API_BASE_URL}/posts/${postId}/comments/${commentId}`,
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        expect(response.status).toBe(204);
     })
 })

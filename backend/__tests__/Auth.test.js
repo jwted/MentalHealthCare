@@ -1,15 +1,17 @@
 const axios = require("axios");
 const API_BASE_URL = "http://localhost:3000";
 
+let userId, tokenAdmin, adminId;
+
 describe("Register", () => {
   test("Correct Credentials-User", async () => {
     const response = await axios({
       method: "post",
       url: `${API_BASE_URL}/register`,
       data: {
-        email: "user123@gmail.com",
-        password: "123",
-        name: "User",
+        email: "teste@gmail.com",
+        password: "teste",
+        name: "User Test",
       },
     });
     expect(response.status).toBe(200);
@@ -19,10 +21,10 @@ describe("Register", () => {
         method: "post",
         url: `${API_BASE_URL}/register`,
         data: {
-          email: "admin@gmail.com",
-          password: "123",
-          name: "Admin",
-          type:1
+          email: "testeadmin@gmail.com",
+          password: "teste",
+          name: "Admin Test",
+          type: 1,
         },
       });
       expect(response.status).toBe(200);
@@ -64,10 +66,25 @@ describe("Login", () => {
       method: "post",
       url: `${API_BASE_URL}/login`,
       data: {
-        email: "johndoe@gmail.com",
-        password: "123",
+        email: "teste@gmail.com",
+        password: "teste",
       },
     });
+    userId = response.data.user;
+    expect(response.status).toBe(200);
+  });
+
+  test("Correct Credentials-Admin", async () => {
+    const response = await axios({
+      method: "post",
+      url: `${API_BASE_URL}/login`,
+      data: {
+        email: "testeAdmin@gmail.com",
+        password: "teste",
+      },
+    });
+    tokenAdmin = response.data.token;
+    adminId = response.data.user;
     expect(response.status).toBe(200);
   });
   test("Invalid Credentials", async () => {

@@ -1,7 +1,30 @@
 const axios = require("axios");
 const API_BASE_URL = "http://localhost:3000";
-let token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzE1OTU0MzU1fQ.NnZdD1wIsA3JRCQpe9UGwM8LWSz_wzMbBnPAs1rp9TI";
+let token, userId, adminToken, activityId;
+
+beforeAll(async () => { 
+    const responseLog = await axios({
+      method: "post",
+      url: `${API_BASE_URL}/login`,
+      data: {
+        email: "teste@gmail.com",
+        password:"teste",
+      },
+    });
+    token = responseLog.data.token;
+    userId = responseLog.data.user;
+  
+    const adminResponse = await axios({
+      method: "post",
+      url: `${API_BASE_URL}/login`,
+      data: {
+        email: "testeAdmin@gmail.com",
+        password: "teste",
+      },
+    });
+    adminToken = adminResponse.data.token;
+    userAdminId = adminResponse.data.user;
+  });
 
 describe("Activities", () => {
   test("Create Activity", async () => {
@@ -15,9 +38,10 @@ describe("Activities", () => {
         name: "Activity",
         description: "Description",
         categoryId: 1,
-        points:100
+        points: 100,
       },
     });
+    activityId = response.data.Activity.id;
     expect(response.status).toBe(201);
   }),
     test("Get All Activities", async () => {
@@ -43,7 +67,7 @@ describe("Activities", () => {
     test("Filter by ids", async () => {
       const response = await axios({
         method: "get",
-        url: `${API_BASE_URL}/activities?activity=1`,
+        url: `${API_BASE_URL}/activities?activity=${activityId}`,
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -56,7 +80,7 @@ describe("Activity by Id", () => {
   test("Get Activity by Id", async () => {
     const response = await axios({
       method: "get",
-      url: `${API_BASE_URL}/activities/1`,
+      url: `${API_BASE_URL}/activities/${activityId}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -80,7 +104,7 @@ describe("Activity by Id", () => {
   test("Update Activity", async () => {
     const response = await axios({
       method: "patch",
-      url: `${API_BASE_URL}/activities/14`,
+      url: `${API_BASE_URL}/activities/${activityId}`,
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -95,9 +119,9 @@ describe("Activity by Id", () => {
     test("Delete Activity", async () => {
       const response = await axios({
         method: "delete",
-        url: `${API_BASE_URL}/activities/2`,
+        url: `${API_BASE_URL}/activities/${activityId}`,
         headers: {
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${adminToken}`,
         },
       });
       expect(response.status).toBe(204);

@@ -1,8 +1,31 @@
 const axios = require("axios");
 
 const API_BASE_URL = "http://localhost:3000";
-let token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzE1OTU0MzU1fQ.NnZdD1wIsA3JRCQpe9UGwM8LWSz_wzMbBnPAs1rp9TI";
+let token,adminToken;
+
+beforeAll(async () => { 
+    const responseLog = await axios({
+      method: "post",
+      url: `${API_BASE_URL}/login`,
+      data: {
+        email: "teste@gmail.com",
+        password:"teste",
+      },
+    });
+    token = responseLog.data.token;
+    userId = responseLog.data.user;
+  
+    const adminResponse = await axios({
+      method: "post",
+      url: `${API_BASE_URL}/login`,
+      data: {
+        email: "testeAdmin@gmail.com",
+        password: "teste",
+      },
+    });
+    adminToken = adminResponse.data.token;
+    userAdminId = adminResponse.data.user;
+  });
 
 describe("Badges", () => {
   test("Create Badge", async () => {
@@ -20,6 +43,7 @@ describe("Badges", () => {
         requirement: 3,
       },
     });
+
     expect(response.status).toBe(201);
   });
 

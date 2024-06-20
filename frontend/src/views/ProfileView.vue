@@ -51,14 +51,23 @@
     >
       <v-row class="bg d-flex flex-wrap justify-center align-center">
         <v-col
-          v-for="(badge, index) in [...userBadges, ...filteredBadges]"
+          v-for="(badge, index) in sortedBadges"
           :key="index"
           cols="4"
           class="bg d-flex flex-column justify-center align-center"
         >
-          <img :src="badge.icon" alt="" width="100" height="100" />
-          <h3 class="bg" v-if="userBadges.includes(badge)">DONE{{ badge.name }}</h3>
-          <h3 class="bg notDone" v-else>{{ badge.name }}</h3>
+        <v-col v-if="userBadges.includes(badge)"  class="bg d-flex flex-column justify-center align-center">
+          <img :src="badge.Badge.icon" alt="" width="100" height="100" class="bg" />
+          <h3 class="bg">
+            {{ badge.Badge.name }}
+          </h3>
+        </v-col>
+        <v-col v-else  class="bg d-flex flex-column justify-center align-center">
+          <img :src="badge.icon" alt="" width="100" height="100" class="bg" />
+          <h3 class="bg notDone">
+            {{ badge.name }}
+          </h3>
+        </v-col>
         </v-col>
       </v-row>
     </v-container>
@@ -119,7 +128,7 @@ import Footer from "@/components/Footer.vue";
 import { userStore } from "@/store/userStore";
 import { badgeStore } from "@/store/badgesStore";
 import { postStore } from "@/store/postStore";
-import {Buffer} from "buffer"
+import { Buffer } from "buffer";
 export default {
   components: {
     Navbar,
@@ -135,6 +144,7 @@ export default {
       badgeStore: badgeStore(),
       loggedUser: {},
       badges: [],
+      userBadges: [],
       posts: [],
     };
   },
@@ -147,30 +157,33 @@ export default {
     this.badgeStore.getBadges().then(() => {
       this.badges = this.badgeStore.getAllBadges;
       const convertBlobToBase64Sync = (blob) => {
-        const base64String = Buffer.from(blob.data, 'binary').toString('base64');
+        const base64String = Buffer.from(blob.data, "binary").toString(
+          "base64"
+        );
         return `data:image/webp;jpg;png;jpeg;base64,${base64String}`;
       };
-      
-      
-      this.badges.forEach(badge => {
-        if(badge.icon){
+
+      this.badges.forEach((badge) => {
+        if (badge.icon) {
           const base64String = convertBlobToBase64Sync(badge.icon);
-          badge.icon = base64String
+          badge.icon = base64String;
         }
       });
 
-  
+      this.badgeStore.getUserBadges().then(() => {
+      this.userBadges = this.badgeStore.getAllUserBadges;
+      this.userBadges.forEach((badge) => {
+        if (badge.Badge.icon) {
+          const base64String = convertBlobToBase64Sync(badge.Badge.icon);
+          badge.Badge.icon = base64String;
+        }
+      });
+    });
     });
 
     this.postStore.getPosts().then(() => {
       this.posts = this.postStore.getAllPosts;
     });
-
-/*     this.badgeStore.getBadges().then(() => {
-      this.badges = this.badgeStore.getAllBadges;
-    });
-
-    this.badgeStore.getUserBadges(); */
 
     this.userStore.getObjectiveProgress();
     this.userStore.getUserActivities();
@@ -213,13 +226,17 @@ export default {
       return this.userStore.getAllUserActivities;
     },
 
-    userBadges() {
-      console.log(this.badgeStore.getAllUserBadges)
-      return this.badgeStore.getAllUserBadges;
-    },
+    sortedBadges() {
+      const userBadges = this.userBadges;
+      let allBadges=this.badges;
 
-    filteredBadges() {
-      return this.badges.filter((badge) => !this.userBadges.includes(badge.id));
+      userBadges.forEach((badge) => {
+        allBadges = allBadges.filter((b) => b.id !== badge.badgeId);
+      })
+      
+      const sortedBadges =  userBadges.concat(allBadges);
+
+      return sortedBadges;
     },
   },
 
