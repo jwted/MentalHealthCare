@@ -3,6 +3,7 @@ import { defineStore } from "pinia";
 import axios from "axios";
 
 const url = "https://mentalhealthcare-xbt7.onrender.com";
+
 export const diaryStore = defineStore("diary", {
   state: () => ({ userDiaries: [], diary: {} }),
   getters: {

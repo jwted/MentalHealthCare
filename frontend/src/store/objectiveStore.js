@@ -2,7 +2,8 @@ import { ref, computed } from "vue";
 import { defineStore } from "pinia";
 import axios from "axios";
 
-const url = "https://mentalhealthcare-xbt7.onrender.com";
+//const url = "https://mentalhealthcare-xbt7.onrender.com";
+const url="http://localhost:3000"
 export const objectiveStore = defineStore("objective", {
   state: () => ({ objectives: [], objective: {} }),
   getters: {

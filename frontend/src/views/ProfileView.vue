@@ -83,7 +83,7 @@
       cols="12"
       class="d-flex align-center justify-space-between bg border"
     >
-      <v-row class="d-flex justify-center align-center">
+      <v-row class="d-flex justify-center align-center bg">
         <v-col
           cols="6"
           class="bg d-flex flex-column align-center justify-start"
@@ -96,23 +96,15 @@
             <h2 class="bg">Objectives Done:</h2>
             <h2 class="bg">{{ userObjectivesDone }}</h2>
           </v-row>
+        </v-col>
+        <v-col cols="6" class="bg d-flex flex-column align-center justify-end">
+          <v-row class="bg" cols="3">
+            <h2 class="bg">Badges:</h2>
+            <h2 class="bg">{{ userBadges.length }} of {{ this.badges.length }}</h2>
+          </v-row>
           <v-row class="bg">
             <h2 class="bg">Most likes on Post:</h2>
             <h2 class="bg">{{ userPostsLikes }}</h2>
-          </v-row>
-        </v-col>
-        <v-col cols="6" class="bg d-flex flex-column align-center justify-end">
-          <v-row class="bg">
-            <h2 class="bg">Favorite Category:</h2>
-            <h2 class="bg">Fitness</h2>
-          </v-row>
-          <v-row class="bg">
-            <h2 class="bg">Badges:</h2>
-            <h2 class="bg">3 of 3</h2>
-          </v-row>
-          <v-row class="bg">
-            <h2 class="bg">Badges:</h2>
-            <h2 class="bg">3 of 3</h2>
           </v-row>
         </v-col>
       </v-row>

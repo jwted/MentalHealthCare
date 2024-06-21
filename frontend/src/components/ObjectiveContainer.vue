@@ -10,7 +10,7 @@
     <v-col class="d-flex flex-column justify-center align-center bg">
       <Button
         :text="'Detail'"
-        class="dark"
+        class="dark mt-4 mb-4"
         @click="showDetail(obj.id)"
       ></Button>
       <Button
@@ -25,11 +25,8 @@
     v-else-if="!obj && startedObj"
   >
     <v-col class="d-flex flex-column align-center justify-start bg">
-      <h2 class="bg mb-4" v-if="startedObj.state != 'Invalid'">
+      <h2 class="bg mb-4">
         {{ startedObj.Objective.name }}
-      </h2>
-      <h2 class="bg" v-else>
-        <s class="bg">{{ startedObj.Objective.name }}</s>
       </h2>
       <h2 class="bg">
         {{ formatCategories(startedObj.Objective.categories) }}
@@ -49,7 +46,6 @@
     </v-col>
     <v-col class="d-flex flex-column justify-center align-center bg" v-else>
       <h2>Completed</h2>
-      <h2>Total points: </h2>
     </v-col>
   </v-container>
 </template>

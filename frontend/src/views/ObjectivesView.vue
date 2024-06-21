@@ -37,7 +37,7 @@
   <v-dialog v-model="showForm" max-width="500px">
     <ObjectiveForm
       :objective-id="objectiveId"
-      @addProgress="addObjectiveProgress"
+      
     ></ObjectiveForm>
   </v-dialog>
   <v-dialog v-model="showDetail" max-width="500px">
@@ -174,14 +174,25 @@ export default {
       this.option = option;
     },
 
-    addObjectiveProgress({ objectiveId, startDate, endDate }) {
-      try {
-        this.showForm = true;
-        this.userStore.addObjectiveToUser(objectiveId, startDate, endDate);
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    // addObjectiveProgress({objectiveId, startDate, endDate}) {
+    //   try {
+    //     this.showForm = true;
+    //     const formatStart=startDate.split("-")
+        
+    //     const start=`${formatStart[1]}/${formatStart[2]}/${formatStart[0]}`
+
+    //     const formatEnd=endDate.split("-")
+    //     const end=`${formatEnd[1]}/${formatEnd[2]}/${formatEnd[0]}`
+
+    //     this.userStore.addObjectiveToUser(
+    //       objectiveId,
+    //       start,
+    //       end
+    //     );
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    
 
     removeUserObj(id) {
       try {
@@ -193,7 +204,7 @@ export default {
 
     back() {
       this.$router.go(-1);
-    },
+    }
   },
 
   created() {

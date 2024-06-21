@@ -30,7 +30,7 @@
 </template>
 
 <script>
-import { postStore } from "@/store/postStore"; // Import your store instance
+import { postStore } from "@/store/postStore";
 
 export default {
   props: {

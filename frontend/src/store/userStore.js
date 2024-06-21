@@ -140,6 +140,7 @@ export const userStore = defineStore("user", {
       try {
         const user = JSON.parse(localStorage.getItem("User"));
         const token = JSON.parse(localStorage.getItem("Token"));
+        console.log(user)
         const body = {
           objectiveId: id,
           beginningDate: startDate,

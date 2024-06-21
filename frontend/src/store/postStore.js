@@ -20,7 +20,7 @@ export const postStore = defineStore("post", {
   },
   actions: {
     async getPosts(query) {
-      try {   
+      try {
         if (query) {
           const response = await axios.get(`${url}/posts?${query}`);
           this.posts = response.data.content;
@@ -107,17 +107,13 @@ export const postStore = defineStore("post", {
           throw new Error("No token found");
         }
 
-        const headersConfig = {
+        const config = {
           headers: {
             Authorization: `Bearer ${token}`,
           },
         };
 
-        const response = await axios.post(
-          `${url}/posts/${id}/like`,
-          {},
-          headersConfig
-        );
+        const response = await axios.post(`${url}/posts/${id}/like`, {}, config);
         if (response.status === 201) {
           const likedPost = this.posts.find((post) => post.id === id);
           if (likedPost) {
