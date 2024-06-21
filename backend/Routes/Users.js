@@ -6,6 +6,7 @@ const {
   editProfile,
   getUserObjectives,
   deleteObjectiveFromUser,
+  reportUser
 } = require("../Controllers/Users");
 const { addObjectiveToUser } = require("../Controllers/Objectives");
 const { getUserBadges, addBadgeToUser } = require("../Controllers/Badges");
@@ -23,6 +24,7 @@ const router = express.Router();
 
 router.get("/", offsetLengthValidation, idsValidation, getUsers);
 
+router.get("/:userId/report",reportUser );
 router.get("/:userId", getUser);
 router.put("/:userId", verifyUser, editProfile);
 router.delete("/:userId",verifyAdmin, deleteUser);

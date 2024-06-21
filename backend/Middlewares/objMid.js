@@ -54,6 +54,9 @@ exports.idsValidation = (req, res, next) => {
       case 'category':
         content = req.query.category
         break;
+      case 'category':
+        content = req.query.comments
+        break;
           
       default:
         res.status(400).send({message:'Incorrect query use. Please consult the api documentation.'})

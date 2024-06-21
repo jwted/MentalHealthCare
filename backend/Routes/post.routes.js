@@ -8,7 +8,7 @@ const { offsetLengthValidation } = require("../Middlewares/objMid");
 router
   .route("/")
   .get(offsetLengthValidation, postController.getPosts)
-  .post(verifyUser,postController.bodyValidation, postController.postPosts), //badgesController.giveBadgesPost);
+  .post(verifyUser,postController.bodyValidation, postController.postPosts, badgesController.giveBadgesPost)
 
 // Get / Put / Delete - By Id
 router
@@ -17,7 +17,15 @@ router
   .put(verifyUser,postController.bodyValidation, postController.updatePostById)
   .delete(verifyAdmin,postController.deletePostById);
 
-// Post / Get - Comments of Post Id
+
+
+router.route('/:id/report')
+  .post(verifyUser,postController.idValidation,postController.reportPost) 
+router.route('/:id/comments/:commentId/report')
+  .post(verifyUser,postController.idValidation,postController.reportComment) 
+
+
+    // Post / Get - Comments of Post Id
 router.route("/:id/comments")
   .get(verifyUser,postController.idValidation,offsetLengthValidation,postController.getComments)
   .post(verifyUser,offsetLengthValidation,postController.bodyValidation,postController.addComments, badgesController.giveBadgesComments);

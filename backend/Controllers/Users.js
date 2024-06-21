@@ -2,6 +2,7 @@ const {
   User,
   User_Badges,
   Post,
+  Report,
   Progress,
   Objective,
   Category,
@@ -160,6 +161,34 @@ module.exports = {
     }
   },
 
+  reportUser: async (req,res,next) =>{
+    try{
+      const {userId} = req.params
+      const creatorId = res.locals.userId
+      const {reason}=req.body
+      
+      const user = await User.findByPk(id)
+  
+      if(!user){
+        return res.status(404).send({message:'User not found.'})
+      }    
+  
+  
+      const data = await Report.create({
+        creatorId:creatorId,
+        reason:reason,
+        userReportedId:+userId
+      })
+      if(data){
+        return res.status(201).send({message:'Report created successfully', data:data})
+      }
+    }catch(error){
+      return res.status(500).send({message:'Something went wrong'})
+    }
+  },
+  
+  
+
   //DONE
   deleteObjectiveFromUser: async (req, res) => {
     try {
@@ -199,5 +228,6 @@ module.exports = {
       res.status(500).send({ message: "Something went wrong" });
     }
   },
+  
 };
 

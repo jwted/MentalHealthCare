@@ -51,12 +51,17 @@ User_Activity.afterCreate(async (User_Activityobj, options) => {
   for (const objective of userProgress) {
     if(objective.state='Valid'){
 
-      const daysPassed = calculateDaysBetweenCurrentAndDate(objective.beginningDate)
-      const daysDone = await User_Activity.count({where:{userId:user.id, progressId:objective.id}})
-      if(+daysPassed - +daysDone >=2){
+      /* const curDate = new Date('06/22/2024') */
+      const endDate = objective.endDate
+      /* if(new Date(endDate) <curDate ){
         objective.state='Invalid'
-        await objective.save()
-      }else if(+daysPassed - +daysDone == 0){
+      } */
+      
+      const daysPassed = calculateDaysBetweenCurrentAndDate(objective.beginningDate,objective.endDate)
+      console.log(daysPassed)
+      const daysDone = await User_Activity.count({where:{userId:user.id, progressId:objective.id}})
+      
+      if(+daysPassed +1 == daysDone){
         objective.state='Finished'
         await objective.save()
         
@@ -141,15 +146,15 @@ User_Activity.afterDestroy(async (User_Activity, options) => {
   
 });
 
-function calculateDaysBetweenCurrentAndDate(dateString) {
-  const currentDate = new Date();
+function calculateDaysBetweenCurrentAndDate(dateString, endDate) {
+  const currentDate = new Date(endDate);
   const comparisonDate = new Date(dateString);
 
   const timeDifference = comparisonDate - currentDate;
   const daysDifference = timeDifference / (1000 * 60 * 60 * 24);
-  const inclusiveDaysDifference = Math.abs(daysDifference);
+  const inclusiveDaysDifference = (Math.abs(daysDifference));
 
-  return inclusiveDaysDifference;
+  return parseInt(inclusiveDaysDifference);
 }
 User_Activity.sync({ logging: false });
 module.exports = User_Activity;

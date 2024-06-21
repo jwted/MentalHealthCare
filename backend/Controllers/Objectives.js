@@ -63,6 +63,14 @@ exports.getObjectives = async (req, res, next) => {
 //DONE
 exports.addObjectiveToUser = async (req, res, next) => {
   try {
+    function parseDate(dateString) {
+      const parts = dateString.split('/');
+      // month is 0-indexed in JavaScript Date object, so subtract 1 from month
+      const month = parseInt(parts[0], 10) - 1;
+      const day = parseInt(parts[1], 10);
+      const year = parseInt(parts[2], 10);
+      return new Date(year, month, day);
+    }
     const { userId } = req.params;
     const { objectiveId } = req.body;
     const user = await User.findByPk(userId);
@@ -78,6 +86,12 @@ exports.addObjectiveToUser = async (req, res, next) => {
     let endDate = req.body.endDate;
     let beginningDate = req.body.beginningDate;
 
+    let endDateVerify = parseDate(req.body.endDate)
+    let begVerify = parseDate(req.body.beginningDate)
+    if(begVerify >= endDateVerify){
+      return res.status(400).send({message:'Beginnig date must be smaller than end date '})
+    }
+    
     endDate = endDate.replace(/\//g, "-");
     beginningDate = beginningDate.replace(/\//g, "-");
 
