@@ -103,7 +103,7 @@ module.exports = {
             model: Category,
             as: "categories",
             through: {
-              attributes: [], // Exclude join table attributes
+              attributes: [], 
             },
           },
         ],
@@ -246,7 +246,7 @@ module.exports = {
     }
   },
 
-  deleteActivityFromUser: async (req, res) => {
+    deleteActivityFromUser: async (req, res) => {
     try {
       const { activityId } = req.params;
       const userActivity = await User_Activity.findOne({

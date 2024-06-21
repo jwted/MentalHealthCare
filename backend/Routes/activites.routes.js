@@ -10,8 +10,8 @@ router
 
 // Get / Put / Delete - By Id
 router
-  .patch("/:id", updateActivity)
-  .delete("/:id",deleteActivity)
-  .get("/:id",getActivity);
+  .patch("/:id",verifyAdmin,updateActivity)
+  .delete("/:id",verifyAdmin,deleteActivity)
+  .get("/:id",verifyUser,getActivity);
 
 module.exports = router;

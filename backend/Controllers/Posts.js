@@ -179,13 +179,17 @@ exports.updatePostById = async (req, res, next) => {
   const post = await Post.findByPk(id);
   try {
     if (post) {
-      const data = await post.update(
-        {
-          text: req.body.text,
-        },
-        { returning: true }
-      );
-      res.status(200).send({ message: "Post successfully updated" });
+
+      
+
+        const data = await post.update(
+          {
+            text: req.body.text,
+          },
+          { returning: true }
+        );
+        res.status(200).send({ message: "Post successfully updated" });
+      
     } else {
       res.status(404).send({ message: "Post not found" });
     }
@@ -202,8 +206,10 @@ exports.deletePostById = async (req, res, next) => {
   const post = await Post.findByPk(id);
   try {
     if (post) {
-      await post.destroy();
-      res.status(204).send();
+      
+        await post.destroy();
+        res.status(204).send();
+      
     } else {
       res.status(404).send({ message: "Post not found" });
     }
@@ -391,7 +397,7 @@ exports.updateCommentById = async (req, res, next) => {
 exports.likePost = async (req, res, next) => {
   try {
     const { id } = req.params;
-    console.log('aqui')
+
 
     const userLike = await like.findOne({
       where: { userId: res.locals.userId, postId: +id },
