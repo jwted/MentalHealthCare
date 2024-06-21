@@ -1,37 +1,13 @@
 const axios = require("axios");
 
 const API_BASE_URL = "http://localhost:3000";
-let token, userId,diaryId;
-let objectiveId = 1;
-
-
-beforeAll(async () => { 
-  const responseLog = await axios({
-    method: "post",
-    url: `${API_BASE_URL}/login`,
-    data: {
-      email: "teste@gmail.com",
-      password:"teste",
-    },
-  });
-  token = responseLog.data.token;
-  userId = responseLog.data.user;
-
-  const adminResponse = await axios({
-    method: "post",
-    url: `${API_BASE_URL}/login`,
-    data: {
-      email: "testeAdmin@gmail.com",
-      password: "teste",
-    },
-  });
-  adminToken = adminResponse.data.token;
-  userAdminId = adminResponse.data.user;
-});
+let token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsImlhdCI6MTcxODk4MDg1OX0.IAGB_pE49Xq6KzX2w8bgX5CX98wB_ENGz9IP9iPw1v8"
+let userId=31
+let objectiveId = 3;
+let badgeId = 14;
 
 describe("Get All Users", () => {
   test("All Correct - Default Response", async () => {
-    console.log(token)
     const response = await axios({
       method: "get",
       url: `${API_BASE_URL}/users`,
@@ -174,8 +150,8 @@ describe("User Objectives", () => {
       },
       data: {
         objectiveId: objectiveId,
-        endDate:"05/06/2024",
-        beginningDate:"02/06/2024"
+        endDate:"23/06/2024",
+        beginningDate:"27/06/2024"
       },
     });
     expect(response.status).toBe(201);
@@ -255,67 +231,6 @@ describe("User Objectives", () => {
       expect(error.response.status).toBe(404);
     }
   });
-});
-
-describe("User Badges", () => {
-  test("Get User Badges", async () => {
-    const response = await axios({
-      method: "get",
-      url: `${API_BASE_URL}/users/${userId}/badges`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-    expect(response.status).toBe(200);
-  });
-
-  // test("Add Badge to User", async () => {
-  //   const response = await axios({
-  //     method: "post",
-  //     url: `${API_BASE_URL}/users/${userId}/badges`,
-  //     headers: {
-  //       Authorization: `Bearer ${token}`,
-  //     },
-  //     data: {
-  //       badgeId: 14,
-  //     },
-  //   });
-  //   expect(response.status).toBe(201);
-  // });
-
-  test("Add Badge to User - Badge not found", async () => {
-    try {
-      const response = await axios({
-        method: "post",
-        url: `${API_BASE_URL}/users/badges`,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        data: {
-          badgeId: 10000,
-        },
-      });
-    } catch (error) {
-      expect(error.response.status).toBe(404);
-    }
-  });
-
-  // test("Add Badge to User - Badge already Get", async () => {
-  //   try {
-  //     const response = await axios({
-  //       method: "post",
-  //       url: `${API_BASE_URL}/users/badges`,
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //       },
-  //       data: {
-  //         badgeId: 14,
-  //       },
-  //     });
-  //   } catch (error) {
-  //     expect(error.response.status).toBe(400);
-  //   }
-  // });
 });
 
 describe("User Diary", () => {

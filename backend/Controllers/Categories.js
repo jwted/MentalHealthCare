@@ -181,7 +181,7 @@ exports.deleteCategory = async (req, res) => {
       });
     }
     await data.destroy();
-    return res.status(200).json({
+    return res.status(204).json({
       success: "Category deleted successfully",
     });
   } catch {

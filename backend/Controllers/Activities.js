@@ -76,7 +76,7 @@ module.exports = {
     //!DONE AND TESTED
     try {
       const { name, description, categoryId,points } = req.body;
-      if (!name || !description || !categoryId,points) {
+      if (!name || !description || !categoryId || !points) {
         const missingFields = [];
         if (!name) missingFields.push("name");
         if (!description) missingFields.push("description");

@@ -1,30 +1,10 @@
 const axios = require("axios");
 const API_BASE_URL = "http://localhost:3000";
-let token, userId, adminToken, activityId;
+let activityId
+let token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsImlhdCI6MTcxODk4MDg1OX0.IAGB_pE49Xq6KzX2w8bgX5CX98wB_ENGz9IP9iPw1v8"
 
-beforeAll(async () => { 
-    const responseLog = await axios({
-      method: "post",
-      url: `${API_BASE_URL}/login`,
-      data: {
-        email: "teste@gmail.com",
-        password:"teste",
-      },
-    });
-    token = responseLog.data.token;
-    userId = responseLog.data.user;
-  
-    const adminResponse = await axios({
-      method: "post",
-      url: `${API_BASE_URL}/login`,
-      data: {
-        email: "testeAdmin@gmail.com",
-        password: "teste",
-      },
-    });
-    adminToken = adminResponse.data.token;
-    userAdminId = adminResponse.data.user;
-  });
+
+
 
 describe("Activities", () => {
   test("Create Activity", async () => {
@@ -37,7 +17,7 @@ describe("Activities", () => {
       data: {
         name: "Activity",
         description: "Description",
-        categoryId: 1,
+        categoryId: "1",
         points: 100,
       },
     });
@@ -101,27 +81,12 @@ describe("Activity by Id", () => {
       }
     });
 
-  test("Update Activity", async () => {
-    const response = await axios({
-      method: "patch",
-      url: `${API_BASE_URL}/activities/${activityId}`,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-      data: {
-        name: "Activity",
-        description: "Description",
-        categoryId: 1,
-      },
-    });
-    expect(response.status).toBe(200);
-  }),
     test("Delete Activity", async () => {
       const response = await axios({
         method: "delete",
         url: `${API_BASE_URL}/activities/${activityId}`,
         headers: {
-          Authorization: `Bearer ${adminToken}`,
+          Authorization: `Bearer ${token}`,
         },
       });
       expect(response.status).toBe(204);

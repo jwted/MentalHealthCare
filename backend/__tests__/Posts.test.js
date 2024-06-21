@@ -1,29 +1,10 @@
 const axios = require("axios");
 
 const API_BASE_URL = "http://localhost:3000";
-let token, userId, adminToken, userAdminId,postId,commentId;
 
-
-beforeAll(async () => {
-  const response = await axios({
-    method: "post",
-    url: `${API_BASE_URL}/login`,
-    data: {
-      email: "teste@gmail.com",
-      password: "teste",
-    },
-  });
-
-  const adminResponse = await axios({
-    method: "post",
-    url: `${API_BASE_URL}/login`,
-    data: {
-        email: "testeAdmin@gmail.com",
-        password: "teste",
-    },
-    });
-  adminToken = adminResponse.data.token;
-});
+let token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsImlhdCI6MTcxODk4MDg1OX0.IAGB_pE49Xq6KzX2w8bgX5CX98wB_ENGz9IP9iPw1v8"
+let userId=31
+let postId, commentId;
 
 describe("Posts", () => {
     test("Get All Posts", async () => {
@@ -161,7 +142,7 @@ describe ("Post by ID", () => {
                 method: "delete",
                 url: `${API_BASE_URL}/posts/1000`,
                 headers: {
-                    Authorization: `Bearer ${adminToken}`,
+                    Authorization: `Bearer ${token}`,
                 },
             });
         } catch (error) {
@@ -313,21 +294,21 @@ describe("Comment by ID", () => {
 })
 
 describe("Deletes", () => {
-    test("Delete Post by ID", async () => {
-        const response = await axios({
-            method: "delete",
-            url: `${API_BASE_URL}/posts/${postId}`,
-            headers: {
-                Authorization: `Bearer ${adminToken}`,
-            },
-        });
-        expect(response.status).toBe(204);
-    }),
-
     test("Delete Comment by ID", async () => {
         const response = await axios({
             method: "delete",
             url: `${API_BASE_URL}/posts/${postId}/comments/${commentId}`,
+            headers: {
+                Authorization: `Bearer ${token}`,
+            },
+        });
+        expect(response.status).toBe(204);
+    })
+
+    test("Delete Post by ID", async () => {
+        const response = await axios({
+            method: "delete",
+            url: `${API_BASE_URL}/posts/${postId}`,
             headers: {
                 Authorization: `Bearer ${token}`,
             },

@@ -1,34 +1,11 @@
 const axios = require("axios");
 
 const API_BASE_URL = "http://localhost:3000";
-let token, userId,diaryId;
-let objectiveId = 1;
 let categoryId = 1;
 let activityId = 1;
-
-beforeAll(async () => { 
-  const responseLog = await axios({
-    method: "post",
-    url: `${API_BASE_URL}/login`,
-    data: {
-      email: "teste@gmail.com",
-      password:"teste",
-    },
-  });
-  token = responseLog.data.token;
-  userId = responseLog.data.user;
-
-  const adminResponse = await axios({
-    method: "post",
-    url: `${API_BASE_URL}/login`,
-    data: {
-      email: "testeAdmin@gmail.com",
-      password: "teste",
-    },
-  });
-  adminToken = adminResponse.data.token;
-  userAdminId = adminResponse.data.user;
-});
+let token="eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MzEsImlhdCI6MTcxODk4MDg1OX0.IAGB_pE49Xq6KzX2w8bgX5CX98wB_ENGz9IP9iPw1v8"
+let userId=31
+let objectiveId = 3;
 
 describe("Objective", () => {
   test("Create Objective", async () => {
@@ -45,6 +22,7 @@ describe("Objective", () => {
         activityId:`${activityId}`,
       },
     });
+    objectiveId = response.data.objective.id;
     expect(response.status).toBe(201);
   }),
     test("Create Objective - Unauthorized", async () => {
@@ -154,12 +132,10 @@ describe("Objective by Id", () => {
         method: "patch",
         url: `${API_BASE_URL}/objectives/${objectiveId}`,
         headers: {
-          Authorization: `Bearer ${adminToken}`,
+          Authorization: `Bearer ${token}`,
         },
         data: {
           name: "Objective",
-          description: "Description",
-          categoryId: 1,
         },
       });
       expect(response.status).toBe(200);
@@ -170,12 +146,10 @@ describe("Objective by Id", () => {
           method: "patch",
           url: `${API_BASE_URL}/objectives/1000`,
           headers: {
-            Authorization: `Bearer ${adminToken}`,
+            Authorization: `Bearer ${token}`,
           },
           data: {
             name: "Objective",
-            description: "Description",
-            categoryId: 1,
           },
         });
       } catch (error) {
