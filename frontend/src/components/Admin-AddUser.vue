@@ -1,34 +1,42 @@
 <template>
-  <v-container class="log">
-    <v-form>
-      <div class="login">
-        <h2>Register</h2>
-        <Button :text="'Back'" @click="remove"></Button>
-      </div>
-      <div>
-        <label for="email">Email:</label>
-        <input v-model="email" type="email" id="email" class="cont" />
-      </div>
-      <div>
-        <label for="name">Name:</label>
-        <input v-model="name" id="name" class="cont" />
-      </div>
-      <div>
-        <label for="password">Password:</label>
-        <input v-model="password" type="password" id="password" class="cont" />
-      </div>
-      <div>
-        <label for="type">Type:</label>
-        <select v-model="type" id="type" class="cont">
-          <option class="cont" value=1>Admin</option>
-          <option class="cont" selected value=0>User</option>
-        </select>
-      </div>
-      <div class="login">
-        <Button @click="register" :text="'Register'" class="button"></Button>
-      </div>
-    </v-form>
-  </v-container>
+  <v-sheet
+    class="pa-4 text-center mx-auto"
+    elevation="12"
+    max-width="600"
+    rounded="lg"
+    width="100%"
+  >
+    <v-icon
+      class="mb-5"
+      color="success"
+      icon="mdi-check-circle"
+      size="112"
+    ></v-icon>
+
+    <h2 class="text-h5 mb-6">You reconciled this account</h2>
+
+    <p class="mb-4 text-medium-emphasis text-body-2">
+      To see a report on this reconciliation, click <a class="text-decoration-none text-info" href="#">View reconciliation report.</a>
+
+      <br>
+
+      Otherwise, you're done!
+    </p>
+
+    <v-divider class="mb-4"></v-divider>
+
+    <div class="text-end">
+      <v-btn
+        class="text-none"
+        color="success"
+        variant="flat"
+        width="90"
+        rounded
+      >
+        Done
+      </v-btn>
+    </div>
+  </v-sheet>
 </template>
 
 <script>

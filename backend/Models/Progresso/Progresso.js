@@ -59,11 +59,6 @@ const Progress = sequelize.define(
       },
     },
     },
-    /* estado: {
-        type: DataTypes.STRING,
-        allowNull: false,
-    }, */
-    
   },
   {
     tableName: "Progress",

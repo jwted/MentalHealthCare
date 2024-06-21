@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 
-const url = "http://localhost:3000";
+const url = "https://mentalhealthcare-xbt7.onrender.com";
 export const userStore = defineStore("user", {
   state: () => ({
     users: [],
