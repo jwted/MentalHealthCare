@@ -5,7 +5,7 @@ require("dotenv").config();
 
 const app = express();
 
-//PARSE BODY TO JAVASCRIPT OBJECTS
+
 app.use(cors())
 app.use(express.json());
 

@@ -6,20 +6,20 @@ const objMid = require("../Middlewares/objMid");
 
 //Get Categories
 router
-  .get("/", objMid.offsetLengthValidation, categoryController.getCategories)
+  .get("/", verifyUser,objMid.offsetLengthValidation, categoryController.getCategories)
   .post(
     "/",
-    categoryController.categoryValidation,
+    verifyAdmin,categoryController.categoryValidation,
     categoryController.createCategory
   );
 
 //Get / Put / Delete - By Id
 router
-  .get("/:id", categoryController.getCategory)
+  .get("/:id",verifyUser,categoryController.getCategory)
   .put(
-    "/:id",
+    "/:id",verifyAdmin,
     categoryController.categoryValidation,
     categoryController.updateCategory
   )
-  .delete("/:id", categoryController.deleteCategory);
+  .delete("/:id",verifyAdmin, categoryController.deleteCategory);
 module.exports = router;

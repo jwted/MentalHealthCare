@@ -18,21 +18,21 @@ exports.getObjectives = async (req, res, next) => {
           model: Category,
           as: "categories",
           through: {
-            attributes: [], // Exclude join table attributes
+            attributes: [], 
           },
         },
         {
           model: Activity,
           as: "activities",
           through: {
-            attributes: [], // Exclude join table attributes
+            attributes: [], 
           },
           include: [
             {
               model: Category,
               as: "categories",
               through: {
-                attributes: [], // Exclude join table attributes for the nested include
+                attributes: [], 
               },
             },
           ],
@@ -65,7 +65,7 @@ exports.addObjectiveToUser = async (req, res, next) => {
   try {
     function parseDate(dateString) {
       const parts = dateString.split('/');
-      // month is 0-indexed in JavaScript Date object, so subtract 1 from month
+      
       const month = parseInt(parts[0], 10) - 1;
       const day = parseInt(parts[1], 10);
       const year = parseInt(parts[2], 10);
@@ -145,10 +145,10 @@ exports.createObjective = async (req, res) => {
     const categoriesArr = categoryId.split(",");
     const activitiesArr = activityId.split(",");
 
-    // Create the objective
+    
     const objective = await Objective.create({ name, description });
 
-    // Associate activities with the objective
+   
     if (categoriesArr.length > 0) {
       const categories = await Category.findAll({
         where: { id: categoriesArr },
@@ -169,21 +169,21 @@ exports.createObjective = async (req, res) => {
           model: Category,
           as: "categories",
           through: {
-            attributes: [], // Exclude join table attributes
+            attributes: [],
           },
         },
         {
           model: Activity,
           as: "activities",
           through: {
-            attributes: [], // Exclude join table attributes
+            attributes: [], 
           },
           include: [
             {
               model: Category,
               as: "categories",
               through: {
-                attributes: [], // Exclude join table attributes for the nested include
+                attributes: [], 
               },
             },
           ],

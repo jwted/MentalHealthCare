@@ -18,7 +18,7 @@ module.exports = {
     try {
       const payload = jwt.decode(bearer, secret);
 
-      console.log(payload);
+      
 
       const user = await User.findByPk(payload.id);
 
@@ -48,10 +48,10 @@ module.exports = {
     try {
       const payload = jwt.decode(bearer, secret);
 
-      console.log(payload);
+      
 
       const user = await User.findByPk(payload.id);
-      console.log(req.params.userId)
+      
       if (req.params.userId && payload.id == req.params.userId) {
         res.locals.userId = payload.id;
         next();
@@ -81,7 +81,7 @@ module.exports = {
     try {
       const payload = jwt.decode(bearer, secret);
 
-      console.log(payload);
+     
 
       const user = await User.findByPk(payload.id);
 
