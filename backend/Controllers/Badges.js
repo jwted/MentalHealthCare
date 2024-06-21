@@ -6,11 +6,12 @@ const {
   Post,
   Progress,
   User_Activity,
+  Like_Post,  
   Comment,
 } = require("../Models/index.js");
 const { Op } = require("sequelize");
 exports.badgeValidation = (req, res, next) => {
-  const { name, description, points, type, requirement } = req.body;
+  const { name, description, type, requirement } = req.body;
   /* if (!name || !description || !points || !type || !requirement) {
     let missingFields = [];
     if (!name) missingFields.push("name");
@@ -59,9 +60,10 @@ exports.giveBadgesPost = async (req, res, next) => {
         }
       }
 
-      return res.status(200).send({ message: "Badge given to user" });
+      
     }
   } catch (error) {
+    console.log(error)
     return res.status(400).send({ message: "Error giving badge to user" });
   }
 };
@@ -147,20 +149,21 @@ exports.giveBadgesObjectives = async (req, res, next) => {
     const userObjectives = await Progress.count({
       where: { userId: userId, state: "Finished" },
     });
-
+    console.log(userObjectives,'userobjectives')
     // Find all badges of type 'posts' where the quantity is less than or equal to the number of user posts
     const badges = await Badges.findAll({
       where: {
-        type: "objectives",
+        type: "objective",
         requirement: {
           [Op.lte]: +userObjectives,
         },
       },
     });
+    console.log(badges,'badges')
     if (badges) {
       // Find all badges already assigned to the user
       const userBadges = await User_Badges.findAll({ where: { userId } });
-
+      console.log(userBadges,'userbadges')
       // Extract BadgeIds from userBadges for easier comparison
       const userBadgeIds = userBadges.map((userBadge) => userBadge.BadgeId);
 
@@ -182,18 +185,18 @@ exports.giveBadgesObjectives = async (req, res, next) => {
 exports.giveBadgesLikes = async (req, res, next) => {
   try {
     const userId = res.locals.userId;
-    console.log("USER:" + userId);
+    
     // Count the number of posts by the user
     const userLikes = await Like_Post.count({ where: { userId: userId } });
-    console.log("USER LIKES:" + userLikes);
+    
     // Find all badges of type 'posts' where the quantity is less than or equal to the number of user posts
     const badge = await Badges.findOne({
       where: {
-        type: "posts",
+        type: "likes",
         requirement:  +userLikes,
       },
     });
-    console.log("BADGE:" + badge);
+    
     if (badge) {
       // Find all badges already assigned to the user
       const userBadges = await User_Badges.findAll({ where: { userId } });
@@ -242,13 +245,12 @@ exports.getBadges = async (req, res) => {
 
 //DONE
 exports.createBadge = async (req, res, next) => {
-  const { name, description, points, type, requirement } = req.body;
+  const { name, description, type, requirement } = req.body;
 
   try {
     const badgeCreation = {
       name: name,
       description: description,
-      points: points,
       type: type,
       requirement: requirement,
       icon:""
@@ -306,7 +308,6 @@ exports.updateBadge = async (req, res) => {
     const updatedData = await data.update({
       name: name,
       description: description,
-      points: points,
       type: type,
       requirement: requirement,
     });
@@ -369,6 +370,7 @@ exports.getUserBadges = async (req, res) => {
 //DONE
 exports.addBadgeToUser = async (req, res) => {
   const { badgeId } = req.body;
+  const {userId} = req.params
   try {
     const badge = await Badges.findByPk(badgeId);
     if (!badge) {
@@ -378,7 +380,7 @@ exports.addBadgeToUser = async (req, res) => {
     }
 
     const findUserBadge = await User_Badges.findOne({
-      where: { userId: res.locals.userId, badgeId: badgeId },
+      where: { userId: userId, badgeId: badgeId },
     });
 
     if (findUserBadge) {
@@ -388,8 +390,8 @@ exports.addBadgeToUser = async (req, res) => {
     }
 
     const userBadge = await User_Badges.create({
-      BadgeId: badgeId,
-      UserId: res.locals.userId,
+      badgeId: badgeId,
+      userId: res.locals.userId,
     });
     return res.status(201).json({
       success: "Badge added to user successfully",

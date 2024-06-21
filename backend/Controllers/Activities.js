@@ -209,7 +209,7 @@ module.exports = {
   },
 
   //DONE
-  addActivityToUser: async (req, res) => {
+  addActivityToUser: async (req, res, next) => {
     try {
       const { activityId, progressId } = req.body;
       const activity = await Activity.findByPk(activityId);
@@ -239,6 +239,7 @@ module.exports = {
         success: "Activity added to user successfully",
         content: userActivity,
       });
+      next()
     } catch (error) {
       console.log(error)
       res.status(500).send({ error: "Something went wrong", error });

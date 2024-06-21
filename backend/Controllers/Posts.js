@@ -2,6 +2,7 @@ const Post = require("../Models/Forum/Posts");
 const Comment = require("../Models/Forum/Comentario");
 const like = require("../Models/Forum/GostosPost");
 const User = require("../Models/Users/Users");
+const Report = require('../Models/Forum/report')
 const { Op } = require("sequelize");
 
 exports.bodyValidation = (req, res, next) => {
@@ -32,6 +33,59 @@ exports.idValidation = async (req, res, next) => {
     }
   }
 };
+
+exports.reportPost = async (req,res,next) =>{
+  try{
+    const {id} = req.params
+    const creatorId = res.locals.userId
+    const {reason}=req.body
+    const post = await Post.findByPk(id) 
+    
+    if(!post){
+      return res.status(404).send({message:'Post not found'})
+    }
+
+    const data = await Report.create({
+      creatorId:creatorId,
+      reason:reason,
+      postId:+id
+    })
+    if(data){
+      return res.status(201).send({message:'Report created successfully', data:data})
+    }
+  }catch(error){
+    return res.status(500).send({message:'Something went wrong'})
+  }
+}
+
+exports.reportComment = async (req,res,next) =>{
+  try{
+    const {id, commentId} = req.params
+    const creatorId = res.locals.userId
+    const {reason}=req.body
+    const post = await Post.findByPk(id) 
+    const comment = await Comment.findByPk(commentId) 
+    
+    if(!post){
+      return res.status(404).send({message:'Post not found'})
+    }
+    
+    if(!comment){
+      return res.status(404).send({message:'Comment not found'})
+    }
+
+    const data = await Report.create({
+      creatorId:creatorId,
+      reason:reason,
+      commentId:+commentId
+    })
+    if(data){
+      return res.status(201).send({message:'Report created successfully', data:data})
+    }
+  }catch(error){
+    return res.status(500).send({message:'Something went wrong'})
+  }
+}
 
 // DONE
 exports.getPosts = async (req, res, next) => {
@@ -170,7 +224,7 @@ exports.getComments = async (req, res, next) => {
     if (!post) return res.status(404).send({ message: "Post not found" });
 
     let baseQuery = {
-      where: { PostId: id },
+      where: { postId: id },
       include: [
         {
           model: User,
@@ -228,6 +282,7 @@ exports.addComments = async (req, res, next) => {
     });
     next();
   } catch (error) {
+    console.log(error)
     res.status(500).json({
       error: "Something went wrong. Please try again later",
     });
@@ -302,7 +357,7 @@ exports.updateCommentById = async (req, res, next) => {
     const { text } = req.body;
     const post = await Post.findByPk(id);
     const comment = await Comment.findOne({
-      where: { PostId: id, id: commentId },
+      where: { postId: id, id: commentId },
     });
     if (comment) {
       const data = await Comment.update(
@@ -336,11 +391,11 @@ exports.updateCommentById = async (req, res, next) => {
 exports.likePost = async (req, res, next) => {
   try {
     const { id } = req.params;
+    console.log('aqui')
 
     const userLike = await like.findOne({
       where: { userId: res.locals.userId, postId: +id },
     });
-
     if (userLike) {
       await userLike.destroy();
       res.status(204).json({
@@ -349,7 +404,7 @@ exports.likePost = async (req, res, next) => {
     } else {
       const create = await like.create({
         userId: res.locals.userId,
-        PostId: +id,
+        postId: +id,
       });
       res.status(201).json({
         success: "Successfully liked",
@@ -358,6 +413,7 @@ exports.likePost = async (req, res, next) => {
       next()
     }
   } catch (error) {
+    console.log(error)
     res.status(500).json({
       error: "Something went wrong. Please try again later",
     });

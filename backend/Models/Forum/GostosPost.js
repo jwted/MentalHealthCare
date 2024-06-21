@@ -7,22 +7,14 @@ const Like_Post = sequelize.define(
   {
     userId: {
       type: DataTypes.INTEGER,
-      allowNull: false,
       primaryKey:true,
-      references: {
-        model: "User",
-        key: "id",
-      },
+      
     },
-    // postId: {
-    //   type: DataTypes.INTEGER,
-    //   allowNull: false,
-    //   primaryKey:true,
-    //   references: {
-    //     model: "Post",
-    //     key: "id",
-    //   },
-    // },
+      postId: {
+       type: DataTypes.INTEGER,
+       primaryKey:true,
+       
+     },
   },
   {
     tableName: "Like_Post",

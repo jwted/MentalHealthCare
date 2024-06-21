@@ -55,12 +55,12 @@ Progress.hasMany(User_Activity, { onDelete: "CASCADE", foreignKey: 'progressId' 
 User_Activity.belongsTo(Progress, { foreignKey: 'progressId' });
 
 Post.hasMany(Comment, { onDelete: "CASCADE", foreignKey: { allowNull: false } });
-Post.hasMany(Like_Post, { onDelete: "CASCADE", foreignKey: { allowNull: false } });
 
-Like_Post.belongsTo(User, { foreignKey: 'userId', onDelete: "CASCADE"});
-Like_Post.belongsTo(Post, { foreignKey: 'postId' , onDelete: "CASCADE"});
-Post.hasMany(Like_Post, { foreignKey: 'postId', onDelete: "CASCADE", allowNull: false });
-User.hasMany(Like_Post, { foreignKey: 'userId', onDelete: "CASCADE", allowNull: false });
+
+Like_Post.belongsTo(User, { onDelete: "CASCADE"});
+Like_Post.belongsTo(Post, { onDelete: "CASCADE"});
+Post.hasMany(Like_Post, {  onDelete: "CASCADE", allowNull: false });
+User.hasMany(Like_Post, {  onDelete: "CASCADE", allowNull: false });
 
 Post.belongsTo(User, { foreignKey: 'userId', as: 'postCreator', onDelete: "CASCADE" });
 User.hasMany(Post, { foreignKey: 'userId', onDelete: "CASCADE" });
