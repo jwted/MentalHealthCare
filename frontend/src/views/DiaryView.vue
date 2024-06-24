@@ -106,6 +106,7 @@ export default {
 
   methods: {
     addDiarytoUser(diary) {
+      console.log(diary);
       this.diaryStore.addDiary(diary);
     },
 

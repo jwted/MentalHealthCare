@@ -39,7 +39,7 @@
         <h3>Points:{{ points }}</h3>
       </div>
       <div class="login">
-        <Button :text="'Submit'" class="ma-3" @click="addActivity"></Button>
+        <Button :text="'Submit'" class="ma-3" @click.prevent="addActivity"></Button>
       </div>
     </form>
   </v-container>
@@ -97,9 +97,7 @@ export default {
       this.$emit("addActivity", {
         progressId: this.selectedObjective,
         activityId: this.selectedActivity,
-      }).then(() => {
-        this.remove();
-      });
+      })
     },
   },
 };

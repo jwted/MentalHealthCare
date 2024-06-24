@@ -1,7 +1,8 @@
 import { defineStore } from "pinia";
 import axios from "axios";
 
-const url = "https://mentalhealthcare-xbt7.onrender.com";
+// const url = "https://mentalhealthcare-xbt7.onrender.com";
+const url = "http://localhost:3000";
 export const userStore = defineStore("user", {
   state: () => ({
     users: [],
@@ -164,7 +165,6 @@ export const userStore = defineStore("user", {
       }
     },
     async deleteObjectiveFromUser(id) {
-      console.log("CHEGUEI AQUI");
       try {
         const user = JSON.parse(localStorage.getItem("User"));
         const token = JSON.parse(localStorage.getItem("Token"));

@@ -101,7 +101,7 @@ export default {
         const add=this.activityStore.createActivity(activity);
 
         if(add){
-          //this.objectiveStore.addActivityToObjective(this.objective, add.id);
+          this.objectiveStore.addActivityToObjective(this.objective, add.id);
           this.$emit("remove");
         }
       } catch (error) {

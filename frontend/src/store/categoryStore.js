@@ -12,11 +12,13 @@ export const categoryStore = defineStore("category", {
   actions: {
     async getCategories() {
       try {
-        const token=JSON.parse(localStorage.getItem("Token"))
-        const headersConfig = {
-          Authorization: `Bearer ${token}`,
+        const token = JSON.parse(localStorage.getItem("Token"));
+        const config = {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
         };
-        const response = await axios.get(`${url}/categories`,headersConfig);
+        const response = await axios.get(`${url}/categories`,config);
         this.categories = response.data.Categories;
       } catch (error) {
         console.error(error);

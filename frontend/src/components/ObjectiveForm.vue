@@ -23,7 +23,7 @@
         <input type="date" id="end" class="cont" v-model="endDate" />
       </div>
       <div class="login">
-        <Button :text="'Start'" class="ma-3" @click="startProgress"></Button>
+        <Button :text="'Start'" class="ma-3" @click.prevent="startProgress"></Button>
       </div>
     </form>
   </v-container>
@@ -48,6 +48,8 @@ export default {
     };
   },
 
+  emits: ["remove", "start-obj"],
+
   props: {
     objectiveId: Number,
   },
@@ -62,14 +64,7 @@ export default {
     },
 
     startProgress() {
-      const formatStart = this.startDate.split("-");
-
-      const start = `${formatStart[1]}/${formatStart[2]}/${formatStart[0]}`;
-
-      const formatEnd = this.endDate.split("-");
-      const end = `${formatEnd[1]}/${formatEnd[2]}/${formatEnd[0]}`;
-
-      this.userStore.addObjectiveToUser(objectiveId, start, end);
+      this.$emit("start-obj", this.objectiveId, this.startDate, this.endDate);
     },
   },
 

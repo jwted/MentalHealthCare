@@ -41,7 +41,13 @@
       </v-row>
       <v-row>
         <v-col cols="12">
-          <Table :type="selectedTab" @add-user="addUser" @add-post="addPost" @add-activity="addAct" @add-objective="addObj"/>
+          <Table
+            :type="selectedTab"
+            @add-user="addUser"
+            @add-post="addPost"
+            @add-activity="addAct"
+            @add-objective="addObj"
+          />
         </v-col>
       </v-row>
     </v-container>
@@ -53,7 +59,7 @@
     <ActForm :objectives="objectives" :categories="categories" />
   </v-dialog>
   <v-dialog v-model="objForm" max-width="500px">
-    <ObjForm  />
+    <ObjForm />
   </v-dialog>
   <Footer />
 </template>
@@ -77,7 +83,7 @@ export default {
     Footer,
     UserForm,
     ActForm,
-    ObjForm
+    ObjForm,
   },
 
   data() {
@@ -86,13 +92,13 @@ export default {
       objectiveStore: objectiveStore(),
       categoryStore: categoryStore(),
       selectedTab: "users",
-      userForm:false,
-      actForm:false,
-      objForm:false,
+      userForm: false,
+      actForm: false,
+      objForm: false,
     };
   },
 
-  created () {
+  created() {
     this.objectiveStore.getObjectives();
     this.categoryStore.getCategories();
   },

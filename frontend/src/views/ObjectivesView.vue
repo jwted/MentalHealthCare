@@ -35,10 +35,7 @@
     </v-row>
   </v-container>
   <v-dialog v-model="showForm" max-width="500px">
-    <ObjectiveForm
-      :objective-id="objectiveId"
-      
-    ></ObjectiveForm>
+    <ObjectiveForm :objective-id="objectiveId" @start-obj="addObjectiveProgress"></ObjectiveForm>
   </v-dialog>
   <v-dialog v-model="showDetail" max-width="500px">
     <ObjectiveDetail
@@ -174,25 +171,20 @@ export default {
       this.option = option;
     },
 
-    // addObjectiveProgress({objectiveId, startDate, endDate}) {
-    //   try {
-    //     this.showForm = true;
-    //     const formatStart=startDate.split("-")
-        
-    //     const start=`${formatStart[1]}/${formatStart[2]}/${formatStart[0]}`
+    addObjectiveProgress(objectiveId, startDate, endDate) {
+      try {
+        this.showForm = true;
 
-    //     const formatEnd=endDate.split("-")
-    //     const end=`${formatEnd[1]}/${formatEnd[2]}/${formatEnd[0]}`
+        const formatStart=startDate.split('-');
+        const start=`${formatStart[1]}/${formatStart[0]}/${formatStart[2]}`;
+        const formatEnd=endDate.split('-');
+        const end=`${formatEnd[1]}/${formatEnd[0]}/${formatEnd[2]}`;
 
-    //     this.userStore.addObjectiveToUser(
-    //       objectiveId,
-    //       start,
-    //       end
-    //     );
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    
+        this.userStore.addObjectiveToUser(objectiveId, start, end);
+      } catch (error) {
+        console.log(error);
+      }
+    },
 
     removeUserObj(id) {
       try {
@@ -204,7 +196,7 @@ export default {
 
     back() {
       this.$router.go(-1);
-    }
+    },
   },
 
   created() {

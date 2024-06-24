@@ -202,6 +202,13 @@ export default {
           updatedAt: new Date().toISOString(),
         });
         this.edit = false;
+      }else{
+        this.$emit("addDiary", {
+          pensamentos: this.thoughts,
+          sentimentos: this.feelings,
+          conquistas: this.achievements,
+          outrasObservacoes: this.notes,
+        });
       }
     },
   },
