@@ -23,7 +23,7 @@
         <input type="date" id="end" class="cont" v-model="endDate" />
       </div>
       <div class="login">
-        <Button :text="'Start'" class="ma-3" @click.prevent="startProgress"></Button>
+        <Button :text="'Start'" class="ma-3" @click="startProgress"></Button>
       </div>
     </form>
   </v-container>

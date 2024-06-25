@@ -17,7 +17,7 @@
         <v-col class="bg d-flex flex-row">
           <v-col cols="6" sm="4" class="bg d-flex flex-row">
             <h2 class="bg pa-3">{{ post.likes }}</h2>
-            <img src="../assets/heart.svg" alt="Favourite Image" class="bg" @click.prevent="like(post.id)" />
+            <img src="../assets/heart.svg" alt="Favourite Image" class="bg" @click="like(post.id)" />
           </v-col>
           <v-col cols="6" sm="4" class="bg d-flex flex-row justify-end">
             <h2 class="bg pa-3">{{ comments.length }}</h2>
